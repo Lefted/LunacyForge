@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "me.lefted.lunacyforge.injection.mixins",
+	"refmap": "mixins.lunacyforge.refmap.json",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"MixinMinecraft",
+		"MixinGuiScreen",
+		"MixinGuiIngame"
+	]
+}
