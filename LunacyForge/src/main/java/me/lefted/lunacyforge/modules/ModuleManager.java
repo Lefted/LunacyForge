@@ -98,7 +98,7 @@ public final class ModuleManager {
 
     // registering modules goes here
     public void registerAllModules() {
-	this.registerModule(new Jump());
+	this.registerModule(new Reach());
     }
 
     private void registerModule(Module module) {

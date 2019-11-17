@@ -6,6 +6,7 @@
 	"mixins": [
 		"MixinMinecraft",
 		"MixinGuiScreen",
-		"MixinGuiIngame"
+		"MixinGuiIngame",
+		"MixinEntityRenderer"
 	]
 }
