@@ -1,0 +1,6 @@
+b1:
+-started from LiquidBase
+-added ClientConfig
+-added .config command responding to ClientConfig
+-added Reach
+-added FriendManager
