@@ -12,9 +12,9 @@ public class Value<T> {
     private String valueName;
     private T valueObject;
 
-    public Value(String valueName, T valueObject) {
+    public Value(String valueName, T defaultValueObject) {
         this.valueName = valueName;
-        this.valueObject = valueObject;
+        this.valueObject = defaultValueObject;
     }
 
     public String getValueName() {
