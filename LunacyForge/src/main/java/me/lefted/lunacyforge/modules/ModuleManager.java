@@ -30,6 +30,12 @@ public final class ModuleManager {
 	EventManager.register(this);
     }
 
+    // registering modules goes here
+    public void registerAllModules() {
+	this.registerModule(new Reach());
+	this.registerModule(new AimAssist());
+    }
+    
     // listens for key inputs
     @EventTarget
     public void onKeyPress(KeyPressEvent event) {
@@ -96,10 +102,6 @@ public final class ModuleManager {
 	display.clear();
     }
 
-    // registering modules goes here
-    public void registerAllModules() {
-	this.registerModule(new Reach());
-    }
 
     private void registerModule(Module module) {
 	if (!this.modules.contains(module)) {

@@ -1,3 +1,7 @@
+b2:
+-added AimAssist
+-added AimAssist timer
+
 b1:
 -started from LiquidBase
 -added ClientConfig

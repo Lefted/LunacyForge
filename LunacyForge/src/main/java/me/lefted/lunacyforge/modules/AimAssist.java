@@ -1,11 +1,14 @@
 package me.lefted.lunacyforge.modules;
 
+import java.util.function.Consumer;
+
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
-import me.lefted.lunacyforge.events.SmoothEvent;
-import me.lefted.lunacyforge.injection.mixins.dummies.BoundingBoxer;
+import me.lefted.lunacyforge.dummies.ILunacyTimer;
+import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.valuesystem.Value;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -17,7 +20,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.MathHelper;
 
-public class SmoothAimbot extends Module {
+public class AimAssist extends Module {
 
     // VALUES
     private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5.0F));
@@ -30,12 +33,19 @@ public class SmoothAimbot extends Module {
     private static float minimumRotation = 1.0E-4F;
     private static float aimFov = 90.0F;
 
-    public SmoothAimbot() {
-	super("SmoothAimbot", Category.COMBAT);
+    public AimAssist() {
+	super("AimAssist", Category.COMBAT);
+	this.intensityValue.setConsumer(new Consumer<Float>() {
+	    
+	    @Override
+	    public void accept(Float t) {
+		((ILunacyTimer) Minecraft.getMinecraft()).getAimAssistTimer().timerSpeed = t.floatValue();
+	    }
+	});
     }
 
     @EventTarget
-    public void onSmooth(SmoothEvent e) {
+    public void onTimer(AimAssistTimerEvent e) {
 	if (this.isEnabled()) {
 
 	    try {
@@ -46,7 +56,6 @@ public class SmoothAimbot extends Module {
 			Entity entity = (Entity) ob;
 			if (validate(entity) && canBeHit(entity)) {
 			    final double distance = entity.getDistanceToEntity(mc.thePlayer);
-
 			    this.faceEntity(entity, maximumRotation / 10.0F, minimumRotation);
 			    return;
 			}
@@ -119,8 +128,6 @@ public class SmoothAimbot extends Module {
     }
 
     private float[] getRotationsNeeded(Entity entity) {
-	final BoundingBoxer boundingBoxer = (BoundingBoxer) entity;
-	
 	double diffY;
 	if (entity == null) {
 	    return null;
@@ -134,7 +141,7 @@ public class SmoothAimbot extends Module {
 	    diffY = entityLivingBase.posY + entityLivingBase.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
 	} else {
 
-	    diffY = (boundingBoxer.getBoundingBox().minY + boundingBoxer.getBoundingBox().maxY) / 2.0D - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
+	    diffY = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0D - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
 	}
 	double dist = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
 	float yaw = (float) (Math.atan2(diffZ, diffX) * 180.0D / Math.PI) - 90.0F;
@@ -144,7 +151,6 @@ public class SmoothAimbot extends Module {
     }
 
     private void faceEntity(Entity entity, float yaw, float pitch) {
-	final BoundingBoxer boundingBoxer = (BoundingBoxer) entity;
 	
 	double yDifference;
 	if (entity == null) {
@@ -159,7 +165,7 @@ public class SmoothAimbot extends Module {
 	    yDifference = entityLivingBase.posY + entityLivingBase.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
 	} else {
 
-	    yDifference = (boundingBoxer.getBoundingBox().minY + boundingBoxer.getBoundingBox().maxY) / 2.0D - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
+	    yDifference = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0D - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
 	}
 	double var14 = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
 	float var12 = (float) (Math.atan2(diffZ, diffX) * 180.0D / Math.PI) - 90.0F;

@@ -21,19 +21,25 @@ public class ValueCommand extends Command {
 	    final Module module = ModuleManager.getModuleByName(strings[1]);
 
 	    if (module == null) {
-		Logger.logChatMessage("§c§lError: §r§aThe entered module not exist.");
+		Logger.logChatMessage("§c§lError: §r§aThe entered module does not exist.");
 		return;
 	    }
 
 	    final Value value = module.getValue(strings[2]);
 
 	    if (value == null) {
-		Logger.logChatMessage("§c§lError: §r§aThe entered value not exist.");
+		Logger.logChatMessage("§c§lError: §r§aThe entered value does not exist.");
 		return;
 	    }
 
 	    if (value.getObject() instanceof Float) {
 		final float newValue = Float.parseFloat(strings[3]);
+		value.setObject(newValue);
+		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + ") §c was set to §a§l" + newValue
+		    + "§c.");
+	    }
+	    if (value.getObject() instanceof Boolean) {
+		final boolean newValue = Boolean.parseBoolean(strings[3]);
 		value.setObject(newValue);
 		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + ") §c was set to §a§l" + newValue
 		    + "§c.");

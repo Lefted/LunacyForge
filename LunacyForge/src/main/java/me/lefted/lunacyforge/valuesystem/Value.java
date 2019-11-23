@@ -1,5 +1,7 @@
 package me.lefted.lunacyforge.valuesystem;
 
+import java.util.function.Consumer;
+
 import me.lefted.lunacyforge.LunacyForge;
 
 /**
@@ -11,6 +13,8 @@ public class Value<T> {
 
     private String valueName;
     private T valueObject;
+    
+    private Consumer<T> consumer;
 
     public Value(String valueName, T defaultValueObject) {
         this.valueName = valueName;
@@ -24,9 +28,16 @@ public class Value<T> {
     public T getObject() {
         return valueObject;
     }
+    
+    public void setConsumer(Consumer<T> consumer) {
+	this.consumer = consumer;
+    }
 
     public void setObject(T valueObject) {
         this.valueObject = valueObject;
         LunacyForge.INSTANCE.moduleConfig.saveModules();
+        if (this.consumer != null) {
+            this.consumer.accept(this.valueObject);
+        }
     }
 }

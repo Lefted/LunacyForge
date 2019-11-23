@@ -45,7 +45,7 @@ public abstract class Module {
 	    this.onDisable();
 	}
 	if (ClientConfig.isAnnounceModuleToggle()) {
-	    Logger.logChatMessage("ง6" + this.name + " ง7has been" + (this.enabled ? " enabled" : " disabled"));
+	    Logger.logChatMessage("ยง6" + this.name + " ยง7has been" + (this.enabled ? " enabled" : " disabled"));
 	}
 	LunacyForge.INSTANCE.moduleConfig.saveModules();
     }
@@ -98,7 +98,7 @@ public abstract class Module {
 
 		final Object o = field.get(this);
 
-		System.out.println(field.getName());
+		// System.out.println(field.getName());
 
 		if (o instanceof Value) {
 		    final Value value = (Value) o;

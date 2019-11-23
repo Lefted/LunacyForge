@@ -14,12 +14,12 @@ public class ConfigCommand extends Command {
     public void execute(String[] strings) {
 	if (strings.length == 2) {
 	    if (strings[1].equalsIgnoreCase("list")) {
-		listAllSettings();
+		this.listAllSettings();
 		return;
 	    }
 	}
 	
-	if (strings.length > 2) {
+	if (strings.length >= 3) {
 
 	    final String setting = strings[1];
 	    final String value = strings[2];

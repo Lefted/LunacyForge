@@ -11,8 +11,9 @@ import com.darkmagician6.eventapi.EventManager;
 
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.config.ClientConfig;
+import me.lefted.lunacyforge.dummies.ILunacyTimer;
+import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.events.KeyPressEvent;
-import me.lefted.lunacyforge.events.SmoothEvent;
 import me.lefted.lunacyforge.events.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,12 +23,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
-public class MixinMinecraft {
+public abstract class MixinMinecraft extends Object implements ILunacyTimer {
 
     @Shadow
     public GuiScreen currentScreen;
 
-    private Timer smoothTimer = new Timer(20.0F);
+    private Timer aimAssistTimer = new Timer(20.0F);
+
+    @Override
+    public net.minecraft.util.Timer getAimAssistTimer() {
+	return this.aimAssistTimer;
+    }
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void initMinecraft(CallbackInfo callbackInfo) {
@@ -64,14 +70,14 @@ public class MixinMinecraft {
 
     @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/util/Timer;renderPartialTicks:F", ordinal = 1, shift = At.Shift.AFTER))
     private void onGameLoop(CallbackInfo callbackInfo) {
-	float f1 = this.smoothTimer.renderPartialTicks;
-	this.smoothTimer.updateTimer();
-	this.smoothTimer.renderPartialTicks = f1;
+	float f1 = aimAssistTimer.renderPartialTicks;
+	aimAssistTimer.updateTimer();
+	aimAssistTimer.renderPartialTicks = f1;
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Timer;updateTimer()V", ordinal = 1, shift = At.Shift.AFTER))
     private void onGameLoop2(CallbackInfo callbackInfo) {
-	this.smoothTimer.updateTimer();
+	aimAssistTimer.updateTimer();
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = {
@@ -81,8 +87,8 @@ public class MixinMinecraft {
 	    // final EventGameLoop event = new EventGameLoop();
 	    // EventManager.call(event);
 
-	    for (int j = 0; j < this.smoothTimer.elapsedTicks; ++j) {
-		final SmoothEvent event2 = new SmoothEvent();
+	    for (int j = 0; j < aimAssistTimer.elapsedTicks; ++j) {
+		final AimAssistTimerEvent event2 = new AimAssistTimerEvent();
 		EventManager.call(event2);
 	    }
 	    // for (int j = 0; j < this.bowTimer.elapsedTicks; ++j) {
@@ -91,5 +97,4 @@ public class MixinMinecraft {
 	    // }
 	}
     }
-
 }
