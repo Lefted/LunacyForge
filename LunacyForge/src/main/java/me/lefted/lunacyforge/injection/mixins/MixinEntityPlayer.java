@@ -1,11 +1,13 @@
 package me.lefted.lunacyforge.injection.mixins;
 
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import me.lefted.lunacyforge.utils.Logger;
+import me.lefted.lunacyforge.modules.KeepSprint;
+import me.lefted.lunacyforge.modules.ModuleManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -20,16 +22,33 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 	super(p_i1594_1_);
     }
 
+    @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;motionX:D", opcode = Opcodes.PUTFIELD, ordinal = 0, args = "log=false"))
+    private void setFieldValue(EntityPlayer owner, double value) {
+	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
+	    Minecraft.getMinecraft().thePlayer.motionX = value;
+	}
+    }
+
+    @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;motionZ:D", opcode = Opcodes.PUTFIELD, ordinal = 0, args = "log=false"))
+    private void setFieldValue2(EntityPlayer owner, double value) {
+	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
+	    Minecraft.getMinecraft().thePlayer.motionZ = value;
+	}
+    }
+    
+    @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;setSprinting(Z)V", ordinal = 0, args = "log=false"))
+    private void setSprintingProxy(EntityPlayer owner, boolean value) {
+	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
+	    Minecraft.getMinecraft().thePlayer.setSprinting(value);
+	}
+	
+    }
+
     // @Inject(method = "attackTargetEntityWithCurrentItem", at = @At(target = "INVOKE", value = "", args = {"log=true"}))
     // public void onKeepSprint(CallbackInfo callbackInfo) {
     //
     // }
     //
-
-    // @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionX:D;"))
-    // private void setFieldValue(EntityPlayer owner, Double value) {
-    // Logger.logConsole(value.toString());
-    // }
 
     // @ModifyVariable( method = { "attackTargetEntityWithCurrentItem" }, at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionX:D;"))
     // private double motionX(double motionX) {
@@ -37,12 +56,11 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     // return 0D;
     // }
 
-    @ModifyVariable(method = "attackTargetEntityWithCurrentItem", at = @At(value = "STORE", ordinal = 0), require = 1, print = true)
-    private double modifiedMotionX(double d0) {
-	Logger.logChatMessage(d0 + "");
-	return d0 * 100D;
-    }
-    
+    // @ModifyVariable(method = "attackTargetEntityWithCurrentItem", at = @At(value = "STORE", ordinal = 0), require = 1, print = true)
+    // private double modifiedMotionX(double d0) {
+    // Logger.logChatMessage(d0 + "");
+    // return d0 * 100D;
+    // }
 
     // @Overwrite
     // public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
