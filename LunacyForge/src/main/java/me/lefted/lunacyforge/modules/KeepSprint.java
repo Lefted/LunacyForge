@@ -6,6 +6,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Value;
 
+/*
+ * Also see: MixinEntityPlayer.java
+ */
 public class KeepSprint extends Module{
 
     private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", true);

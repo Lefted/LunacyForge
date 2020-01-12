@@ -26,6 +26,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/* Also see: Reach.java */
 @SideOnly(Side.CLIENT)
 @Mixin(EntityRenderer.class)
 public class MixinEntityRenderer {

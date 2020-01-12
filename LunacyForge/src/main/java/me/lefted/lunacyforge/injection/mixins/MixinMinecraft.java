@@ -21,6 +21,9 @@ import net.minecraft.util.Timer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/*
+ * Also see: LunacyForge.java, AimAssisst.java, 
+ */
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
 public abstract class MixinMinecraft extends Object implements ILunacyTimer {

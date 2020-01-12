@@ -12,6 +12,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/*
+ * Also see: CommandManager.java
+ */
 @SideOnly(Side.CLIENT)
 @Mixin(GuiScreen.class)
 public class MixinGuiScreen {

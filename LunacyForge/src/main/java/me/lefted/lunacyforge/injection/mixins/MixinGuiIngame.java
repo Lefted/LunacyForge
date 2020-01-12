@@ -27,6 +27,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/*
+ * Also see: Render2DEvent
+ */
 @SideOnly(Side.CLIENT)
 @Mixin(GuiIngame.class)
 public class MixinGuiIngame {
