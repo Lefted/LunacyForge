@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Project: LiquidBase ----------------------------------------------------------- Copyright © 2017 | CCBlueX | All rights reserved.
+ * Also see: MixinGuiScreen.java
  */
 @SideOnly(Side.CLIENT)
 public class CommandManager {
@@ -31,6 +32,6 @@ public class CommandManager {
 
     public void callCommand(final String s) {
 	final String[] strings = s.split(" ");
-	commands.stream().filter(command -> strings[0].equalsIgnoreCase("." + command.getName())).forEach(command -> command.execute(strings));
+	commands.stream().filter(command -> strings[0].equalsIgnoreCase("." + command.getName()) || strings[0].equalsIgnoreCase("\\" + command.getName())).forEach(command -> command.execute(strings));
     }
 }

@@ -21,7 +21,7 @@ public class MixinGuiScreen {
 
     @Inject(method = "sendChatMessage(Ljava/lang/String;Z)V", at = @At("HEAD"), cancellable = true)
     private void chatMessage(String msg, boolean addToChat, CallbackInfo callbackInfo) {
-	if (msg.startsWith(".")) {
+	if (msg.startsWith("\\") || msg.startsWith(".")) {
 	    LunacyForge.INSTANCE.commandManager.callCommand(msg);
 	    mc.ingameGUI.getChatGUI().addToSentMessages(msg);
 	    callbackInfo.cancel();

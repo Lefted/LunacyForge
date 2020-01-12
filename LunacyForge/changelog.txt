@@ -1,3 +1,27 @@
+soon™:
+-KeepSprint settings
+-ChestESP
+-OutlineESP
+-ArrowESP
+-Parkour
+-Velocity
+-BowAimbot
+-FastBridge
+-Fullbright
+-Hitbox
+-NoFriends
+
+soon™™:
+-FastPlace
+-Ghost
+-ScaffoldWalk
+-Regen
+-BowAimbot (rage)
+-Strafe
+-Tower
+
+
+
 b2:
 -added AimAssist
 -added AimAssist timer

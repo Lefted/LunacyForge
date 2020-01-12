@@ -11,10 +11,10 @@ import com.darkmagician6.eventapi.EventManager;
 
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.config.ClientConfig;
-import me.lefted.lunacyforge.dummies.ILunacyTimer;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.TickEvent;
+import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.Timer;
