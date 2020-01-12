@@ -34,6 +34,7 @@ public final class ModuleManager {
     public void registerAllModules() {
 	this.registerModule(new Reach());
 	this.registerModule(new AimAssist());
+	this.registerModule(new KeepSprint());
     }
     
     // listens for key inputs
