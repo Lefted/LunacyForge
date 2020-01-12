@@ -2,6 +2,7 @@ package me.lefted.lunacyforge.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import me.lefted.lunacyforge.command.commands.BindCommand;
 import me.lefted.lunacyforge.command.commands.ConfigCommand;
@@ -32,6 +33,19 @@ public class CommandManager {
 
     public void callCommand(final String s) {
 	final String[] strings = s.split(" ");
-	commands.stream().filter(command -> strings[0].equalsIgnoreCase("." + command.getName()) || strings[0].equalsIgnoreCase("\\" + command.getName())).forEach(command -> command.execute(strings));
+//	commands.stream().filter(command -> strings[0].equalsIgnoreCase("." + command.getName()) || strings[0].equalsIgnoreCase("\\" + command.getName())).forEach(command -> command.execute(strings));
+	commands.stream().filter(command -> this.getFilterCriteria(strings, command)).forEach(command -> command.execute(strings));
     }
+
+    private boolean getFilterCriteria(String[] strings, Command command) {
+	for (String name : command.getNames()) {
+	    if (strings[0].equalsIgnoreCase("." + name)) {
+		return true;
+	    } else if (strings[0].equalsIgnoreCase("\\" + name)) {
+		return true;
+	    }
+	}
+	return false;
+    }
+    
 }

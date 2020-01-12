@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public abstract class Command {
 
-    private String name;
+    private String[] names;
 
-    public Command(String name) {
-        this.name = name;
+    public Command(String... names) {
+        this.names = names;
     }
 
-    public String getName() {
-        return name;
+    public String[] getNames() {
+        return names;
     }
 
     public abstract void execute(String[] strings);

@@ -13,7 +13,7 @@ import me.lefted.lunacyforge.utils.Logger;
 public class ToggleCommand extends Command {
 
     public ToggleCommand() {
-	super("toggle");
+	super("toggle", "t");
     }
 
     @Override
