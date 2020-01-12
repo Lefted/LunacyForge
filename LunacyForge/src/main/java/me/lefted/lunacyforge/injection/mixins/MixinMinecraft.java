@@ -21,9 +21,7 @@ import net.minecraft.util.Timer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/*
- * Also see: LunacyForge.java, AimAssisst.java, 
- */
+/* Also see: LunacyForge.java, AimAssisst.java, */
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
 public abstract class MixinMinecraft extends Object implements ILunacyTimer {
@@ -38,21 +36,25 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer {
 	return this.aimAssistTimer;
     }
 
+    /* create LunacyForge instance*/
     @Inject(method = "<init>", at = @At("RETURN"))
     private void initMinecraft(CallbackInfo callbackInfo) {
 	new LunacyForge();
     }
 
+    /* start LunacyForge*/
     @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;", shift = At.Shift.AFTER))
     private void startClient(CallbackInfo callbackInfo) {
 	LunacyForge.INSTANCE.startClient();
     }
 
+    /* stop LunacyForge*/
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void stopClient(CallbackInfo callbackInfo) {
 	LunacyForge.INSTANCE.stopClient();
     }
 
+    /* dispatch TickEvent*/
     @Inject(method = "runTick", at = @At("HEAD"))
     private void runTick(CallbackInfo callbackInfo) {
 	if (ClientConfig.isEnabled()) {
@@ -61,6 +63,7 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer {
 	}
     }
 
+    /* dispatch KeyPressEvent*/
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
     private void keyPress(CallbackInfo callbackInfo) {
 	if (ClientConfig.isEnabled()) {
@@ -71,6 +74,7 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer {
 	}
     }
 
+    /* update custom timers*/
     @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/util/Timer;renderPartialTicks:F", ordinal = 1, shift = At.Shift.AFTER))
     private void onGameLoop(CallbackInfo callbackInfo) {
 	float f1 = aimAssistTimer.renderPartialTicks;
@@ -78,18 +82,17 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer {
 	aimAssistTimer.renderPartialTicks = f1;
     }
 
+    /* update custom timers*/
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Timer;updateTimer()V", ordinal = 1, shift = At.Shift.AFTER))
     private void onGameLoop2(CallbackInfo callbackInfo) {
 	aimAssistTimer.updateTimer();
     }
 
+    /* dispatch AimAssistTimerEvent*/
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = {
 	    "ldc=tick" }))
     private void onGameLoop3(CallbackInfo callbackInfo) {
 	if (ClientConfig.isEnabled()) {
-	    // final EventGameLoop event = new EventGameLoop();
-	    // EventManager.call(event);
-
 	    for (int j = 0; j < aimAssistTimer.elapsedTicks; ++j) {
 		final AimAssistTimerEvent event2 = new AimAssistTimerEvent();
 		EventManager.call(event2);

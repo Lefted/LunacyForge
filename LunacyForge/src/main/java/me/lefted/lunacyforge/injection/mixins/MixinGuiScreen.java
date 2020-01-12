@@ -22,6 +22,7 @@ public class MixinGuiScreen {
     @Shadow
     public Minecraft mc;
 
+    /* dispatch commands*/
     @Inject(method = "sendChatMessage(Ljava/lang/String;Z)V", at = @At("HEAD"), cancellable = true)
     private void chatMessage(String msg, boolean addToChat, CallbackInfo callbackInfo) {
 	if (msg.startsWith("\\") || msg.startsWith(".")) {

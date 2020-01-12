@@ -14,9 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/*
- * Also see: KeepSprint.java
- */
+/* Also see: KeepSprint.java */
 
 @SideOnly(Side.CLIENT)
 @Mixin(EntityPlayer.class)
@@ -26,6 +24,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 	super(p_i1594_1_);
     }
 
+    /* aslong as KeepSpring is enabled preserve motionX*/
     @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;motionX:D", opcode = Opcodes.PUTFIELD, ordinal = 0, args = "log=false"))
     private void setFieldValue(EntityPlayer owner, double value) {
 	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
@@ -33,19 +32,21 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 	}
     }
 
+    /* aslong as KeepSpring is enabled preserve motionZ*/
     @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;motionZ:D", opcode = Opcodes.PUTFIELD, ordinal = 0, args = "log=false"))
     private void setFieldValue2(EntityPlayer owner, double value) {
 	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
 	    Minecraft.getMinecraft().thePlayer.motionZ = value;
 	}
     }
-    
+
+    /* aslong as KeepSpring is enabled preserve sprinting*/
     @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;setSprinting(Z)V", ordinal = 0, args = "log=false"))
     private void setSprintingProxy(EntityPlayer owner, boolean value) {
 	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
 	    Minecraft.getMinecraft().thePlayer.setSprinting(value);
 	}
-	
+
     }
 
     // @Inject(method = "attackTargetEntityWithCurrentItem", at = @At(target = "INVOKE", value = "", args = {"log=true"}))
