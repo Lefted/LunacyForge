@@ -36,6 +36,7 @@ public final class ModuleManager {
 	this.registerModule(new AimAssist());
 	this.registerModule(new KeepSprint());
 	this.registerModule(new Parkour());
+	this.registerModule(new Fullbright());
     }
     
     // listens for key inputs

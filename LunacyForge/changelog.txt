@@ -6,7 +6,6 @@ soon™:
 -Velocity
 -BowAimbot
 -FastBridge
--Fullbright
 -Hitbox
 -NoFriends
 
@@ -24,6 +23,7 @@ b2:
 -added AimAssist
 -added AimAssist timer
 -added Parkour
+-added Fullbright
 
 b1:
 -started from LiquidBase
