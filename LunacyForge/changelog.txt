@@ -3,7 +3,6 @@ soon™:
 -ChestESP
 -OutlineESP
 -ArrowESP
--Parkour
 -Velocity
 -BowAimbot
 -FastBridge
@@ -21,10 +20,10 @@ soon™™:
 -Tower
 
 
-
 b2:
 -added AimAssist
 -added AimAssist timer
+-added Parkour
 
 b1:
 -started from LiquidBase
