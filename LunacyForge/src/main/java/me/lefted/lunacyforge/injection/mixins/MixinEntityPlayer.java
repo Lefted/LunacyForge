@@ -46,22 +46,24 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 	if (!ModuleManager.getModule(KeepSprint.class).isEnabled()) {
 	    Minecraft.getMinecraft().thePlayer.setSprinting(value);
 	}
-
     }
 
-    // @Inject(method = "attackTargetEntityWithCurrentItem", at = @At(target = "INVOKE", value = "", args = {"log=true"}))
+    // @Inject(method = "attackTargetEntityWithCurrentItem", at = @At(target = "INVOKE", value = "",
+    // args = {"log=true"}))
     // public void onKeepSprint(CallbackInfo callbackInfo) {
     //
     // }
     //
 
-    // @ModifyVariable( method = { "attackTargetEntityWithCurrentItem" }, at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionX:D;"))
+    // @ModifyVariable( method = { "attackTargetEntityWithCurrentItem" }, at = @At(value = "FIELD",
+    // target = "Lnet/minecraft/entity/Entity;motionX:D;"))
     // private double motionX(double motionX) {
     // Logger.logConsole(motionX + "");
     // return 0D;
     // }
 
-    // @ModifyVariable(method = "attackTargetEntityWithCurrentItem", at = @At(value = "STORE", ordinal = 0), require = 1, print = true)
+    // @ModifyVariable(method = "attackTargetEntityWithCurrentItem", at = @At(value = "STORE", ordinal
+    // = 0), require = 1, print = true)
     // private double modifiedMotionX(double d0) {
     // Logger.logChatMessage(d0 + "");
     // return d0 * 100D;
@@ -71,14 +73,17 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     // public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
     // if (targetEntity.canAttackWithItem()) {
     // if (!targetEntity.hitByEntity(this)) {
-    // float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+    // float f = (float)
+    // this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
     // int i = 0;
     // float f1 = 0.0F;
     //
     // if (targetEntity instanceof EntityLivingBase) {
-    // f1 = EnchantmentHelper.getModifierForCreature(this.getHeldItem(), ((EntityLivingBase) targetEntity).getCreatureAttribute());
+    // f1 = EnchantmentHelper.getModifierForCreature(this.getHeldItem(), ((EntityLivingBase)
+    // targetEntity).getCreatureAttribute());
     // } else {
-    // f1 = EnchantmentHelper.getModifierForCreature(this.getHeldItem(), EnumCreatureAttribute.UNDEFINED);
+    // f1 = EnchantmentHelper.getModifierForCreature(this.getHeldItem(),
+    // EnumCreatureAttribute.UNDEFINED);
     // }
     //
     // i = i + EnchantmentHelper.getKnockbackModifier(this);
@@ -88,7 +93,8 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     // }
     //
     // if (f > 0.0F || f1 > 0.0F) {
-    // boolean flag = this.fallDistance > 0.0F && !this.onGround && !this.isOnLadder() && !this.isInWater() && !this.isPotionActive(
+    // boolean flag = this.fallDistance > 0.0F && !this.onGround && !this.isOnLadder() &&
+    // !this.isInWater() && !this.isPotionActive(
     // Potion.blindness) && this.ridingEntity == null && targetEntity instanceof EntityLivingBase;
     //
     // if (flag && f > 0.0F) {
@@ -108,11 +114,13 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     // Logger.logChatMessage(d0 + "");
     // double d1 = targetEntity.motionY;
     // double d2 = targetEntity.motionZ;
-    // boolean flag2 = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(Minecraft.getMinecraft().thePlayer), f);
+    // boolean flag2 =
+    // targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(Minecraft.getMinecraft().thePlayer), f);
     //
     // if (flag2) {
     // if (i > 0) {
-    // targetEntity.addVelocity((double) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F), 0.1D,
+    // targetEntity.addVelocity((double) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F)
+    // * (float) i * 0.5F), 0.1D,
     // (double) (MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F));
     //
     // KeepSprint keepsprint = (KeepSprint) ModuleManager.getModule(KeepSprint.class);
@@ -127,7 +135,8 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     // }
     //
     // if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged) {
-    // ((EntityPlayerMP) targetEntity).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(targetEntity));
+    // ((EntityPlayerMP) targetEntity).playerNetServerHandler.sendPacket(new
+    // S12PacketEntityVelocity(targetEntity));
     // targetEntity.velocityChanged = false;
     // targetEntity.motionX = d0;
     // targetEntity.motionY = d1;

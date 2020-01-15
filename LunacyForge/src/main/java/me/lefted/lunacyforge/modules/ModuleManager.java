@@ -35,6 +35,7 @@ public final class ModuleManager {
 	this.registerModule(new Reach());
 	this.registerModule(new AimAssist());
 	this.registerModule(new KeepSprint());
+	this.registerModule(new Parkour());
     }
     
     // listens for key inputs

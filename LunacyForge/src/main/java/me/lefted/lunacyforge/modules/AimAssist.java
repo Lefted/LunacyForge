@@ -151,7 +151,7 @@ public class AimAssist extends Module {
     }
 
     private void faceEntity(Entity entity, float yaw, float pitch) {
-	
+
 	double yDifference;
 	if (entity == null) {
 	    return;

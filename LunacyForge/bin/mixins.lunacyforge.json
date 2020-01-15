@@ -8,6 +8,7 @@
 		"MixinGuiScreen",
 		"MixinGuiIngame",
 		"MixinEntityRenderer",
-		"MixinEntityPlayer"
+		"MixinEntityPlayer",
+		"MixinEntityPlayerSP"
 	]
 }
