@@ -15,6 +15,7 @@ import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
+import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.Timer;
@@ -24,16 +25,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /* Also see: LunacyForge.java, AimAssisst.java, */
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
-public abstract class MixinMinecraft extends Object implements ILunacyTimer {
+public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRightClickDelayTimer {
 
     @Shadow
     public GuiScreen currentScreen;
 
+    @Shadow
+    private int rightClickDelayTimer;
+    
     private Timer aimAssistTimer = new Timer(20.0F);
 
     @Override
     public net.minecraft.util.Timer getAimAssistTimer() {
 	return this.aimAssistTimer;
+    }
+    
+    @Override
+    public int getRightClickDelayTimer() {
+        return this.rightClickDelayTimer;
+    }
+    
+    @Override
+    public void setRightClickDelayTimer(int rightClickDelayTimer) {
+	this.rightClickDelayTimer = rightClickDelayTimer;
     }
 
     /* create LunacyForge instance*/
