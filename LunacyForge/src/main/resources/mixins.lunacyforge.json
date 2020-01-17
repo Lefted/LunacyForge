@@ -10,6 +10,7 @@
 		"MixinEntityRenderer",
 		"MixinEntityPlayer",
 		"MixinEntityPlayerSP",
-		"MixinItemStack"
+		"MixinItemStack",
+		"MixinMovementInputFromOptions"
 	]
 }

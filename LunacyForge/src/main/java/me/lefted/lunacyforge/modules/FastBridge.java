@@ -3,6 +3,7 @@ package me.lefted.lunacyforge.modules;
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
+import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
@@ -12,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
+/*
+ * Also see: MixinMovementInputFromOptions.java, MixinItemStack.java
+ */
 public class FastBridge extends Module {
 
     private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
@@ -143,6 +147,17 @@ public class FastBridge extends Module {
 	}
     }
 
+    public boolean isSneaking() {
+	return this.sneak;
+    }
+
+    @EventTarget
+    public void onTick(TickEvent e) {
+	if (this.safeSneakDelay != 0) {
+	    this.safeSneakDelay--;
+	}
+    }
+
     @Override
     public void onEnable() {
 	EventManager.register(this);
@@ -150,6 +165,8 @@ public class FastBridge extends Module {
 
     @Override
     public void onDisable() {
+	this.sneak = false;
+	this.safeSneakDelay = 0;
 	EventManager.unregister(this);
     }
 

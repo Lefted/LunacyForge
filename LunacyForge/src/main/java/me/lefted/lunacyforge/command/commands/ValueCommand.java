@@ -35,14 +35,17 @@ public class ValueCommand extends Command {
 	    if (value.getObject() instanceof Float) {
 		final float newValue = Float.parseFloat(strings[3]);
 		value.setObject(newValue);
-		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + ") §c was set to §a§l" + newValue
-		    + "§c.");
-	    }
-	    if (value.getObject() instanceof Boolean) {
+		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + "§8) §c was set to §a§l" + newValue + "§c.");
+	    } else if (value.getObject() instanceof Boolean) {
 		final boolean newValue = Boolean.parseBoolean(strings[3]);
 		value.setObject(newValue);
-		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + ") §c was set to §a§l" + newValue
-		    + "§c.");
+		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + "§8) §c was set to §a§l" + newValue + "§c.");
+	    } else if (value.getObject() instanceof Integer) {
+		final int newValue = Integer.parseInt(strings[3]);
+		value.setObject(newValue);
+		Logger.logChatMessage("§cThe value of §a§l" + module.getName() + " §8(§a§l" + value.getValueName() + "§8) §c was set to §a§l" + newValue + "§c.");
+	    } else {
+		Logger.logChatMessage("§c§lError: §r§aCould not identify:" + value.getObject().getClass().getName());
 	    }
 	    return;
 	}

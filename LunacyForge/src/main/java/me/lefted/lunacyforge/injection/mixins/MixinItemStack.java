@@ -13,6 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/*
+ * Also see: FastBridge.java
+ */
 @SideOnly(Side.CLIENT)
 @Mixin(ItemStack.class)
 public class MixinItemStack {
@@ -23,7 +26,6 @@ public class MixinItemStack {
     @Inject(method = "onItemUse", at = @At("HEAD"))
     public void onItemUse(CallbackInfoReturnable<Boolean> callback) {
 	if (this.stackSize == 1) {
-	    Logger.logChatMessage("SEXY");
 	    ((FastBridge) ModuleManager.getModule(FastBridge.class)).allBlocksUsed();
 	}
     }
