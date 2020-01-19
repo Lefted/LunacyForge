@@ -9,7 +9,14 @@ public abstract class Element {
 
     // METHODS
     public abstract void draw();
-    public abstract void handleMouseInput(int mouseX, int mouseY, int mouseButton);
+
+    public abstract void mouseClicked(int mouseX, int mouseY, int mouseButton);
+    
+    public abstract void mouseReleased(int mouseX, int mouseY, int mouseButton);
+    
+    public abstract void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick);
+    
+    public abstract void keyTyped(char typedChar, int keyCode);
     
     public int getPosX() {
 	return posX;
@@ -34,5 +41,4 @@ public abstract class Element {
     public void setVisible(boolean visible) {
 	this.visible = visible;
     }
-
 }

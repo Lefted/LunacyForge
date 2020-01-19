@@ -11,6 +11,7 @@
 		"MixinEntityPlayer",
 		"MixinEntityPlayerSP",
 		"MixinItemStack",
-		"MixinMovementInputFromOptions"
+		"MixinMovementInputFromOptions",
+		"MixinGuiMainMenu"
 	]
 }
