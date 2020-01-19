@@ -2,6 +2,8 @@ package me.lefted.lunacyforge.testgui;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.utils.Logger;
@@ -14,10 +16,9 @@ public class Screen extends GuiScreen {
     @Override
     public void initGui() {
 	this.panel.getElements().add(new Label(10, 10, "Party"));
+	Keyboard.enableRepeatEvents(true);
     }
-    
-    
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 	super.drawScreen(mouseX, mouseY, partialTicks);
@@ -44,5 +45,16 @@ public class Screen extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
 	super.keyTyped(typedChar, keyCode);
 	this.panel.keyTyped(typedChar, keyCode);
+
+	
+	if (keyCode == Keyboard.KEY_DOWN) {
+	    this.panel.setY(this.panel.getY() + 5);
+	} else if (keyCode == Keyboard.KEY_UP) {
+	    this.panel.setY(this.panel.getY() - 5);
+	} else if (keyCode == Keyboard.KEY_RIGHT) {
+	    this.panel.setX(this.panel.getX() + 5);
+	} else if (keyCode == Keyboard.KEY_LEFT) {
+	    this.panel.setX(this.panel.getX() - 5);
+	}
     }
 }

@@ -20,7 +20,6 @@ public class Panel {
 
     // METHODS
     public void draw(int mouseX, int mouseY) {
-	Logger.logChatMessage("draw");
 	for (Element element : this.elements) {
 	    element.draw();
 	}
@@ -51,20 +50,22 @@ public class Panel {
     }
 
     public void setX(int x) {
+	final int offsetX = x - this.posX;
 	this.posX = x;
 
-	// update elements positions relative
+	// offset the elements accordingly
 	for (Element element : this.elements) {
-	    element.setPosX(element.getPosX() + x);
+	    element.setPosX(element.getPosX() + offsetX);
 	}
     }
 
     public void setY(int y) {
+	final int offsetY = y - this.posY;
 	this.posY = y;
 
-	// update elements positions relative
+	// offset the elements accordingly
 	for (Element element : this.elements) {
-	    element.setPosY(element.getPosY() + y);
+	    element.setPosY(element.getPosY() + offsetY);
 	}
     }
 
