@@ -48,27 +48,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 	}
     }
 
-    // @Inject(method = "attackTargetEntityWithCurrentItem", at = @At(target = "INVOKE", value = "",
-    // args = {"log=true"}))
-    // public void onKeepSprint(CallbackInfo callbackInfo) {
-    //
-    // }
-    //
-
-    // @ModifyVariable( method = { "attackTargetEntityWithCurrentItem" }, at = @At(value = "FIELD",
-    // target = "Lnet/minecraft/entity/Entity;motionX:D;"))
-    // private double motionX(double motionX) {
-    // Logger.logConsole(motionX + "");
-    // return 0D;
-    // }
-
-    // @ModifyVariable(method = "attackTargetEntityWithCurrentItem", at = @At(value = "STORE", ordinal
-    // = 0), require = 1, print = true)
-    // private double modifiedMotionX(double d0) {
-    // Logger.logChatMessage(d0 + "");
-    // return d0 * 100D;
-    // }
-
     // @Overwrite
     // public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
     // if (targetEntity.canAttackWithItem()) {

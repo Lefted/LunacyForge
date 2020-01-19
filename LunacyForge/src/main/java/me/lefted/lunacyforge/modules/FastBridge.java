@@ -46,7 +46,7 @@ public class FastBridge extends Module {
 
 		final ItemStack stack = this.mc.thePlayer.getCurrentEquippedItem();
 		final BlockPos pos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1D, mc.thePlayer.posZ);
-
+		
 		if (this.mc.thePlayer.onGround) {
 		    if (stack != null || (!(Boolean) this.useBlockSneakValue.getObject())) {
 			if (mc.theWorld.getBlockState(pos).getBlock() == Blocks.air) {
