@@ -25,7 +25,10 @@ public class Panel {
 	}
     }
 
+    private boolean newClick = false;
+
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	newClick = true;
 	for (Element element : this.elements) {
 	    element.mouseClicked(mouseX, mouseY, mouseButton);
 	}
@@ -37,10 +40,23 @@ public class Panel {
 	}
     }
 
+    private int lastMouseY = 0;
+
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
+	// Logger.logConsole("button:" + mouseButton + "y:" + mouseY + "time:" + timeSinceClick);
+
+	// final boolean newClick = timeSinceClick < lastTimeSinceClick || timeSinceClick == 0;
+	lastMouseY = (newClick) ? mouseY : lastMouseY;
+	final int diffY = mouseY - lastMouseY;
+
+	this.setY(this.getY() + diffY);
+
+	newClick = false;
+
 	for (Element element : this.elements) {
 	    element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
 	}
+	lastMouseY = mouseY;
     }
 
     public void keyTyped(char typedChar, int keyCode) {

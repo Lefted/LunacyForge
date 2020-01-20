@@ -3,10 +3,10 @@ package me.lefted.lunacyforge.testgui;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.gui.GuiScreen;
 
 public class Screen extends GuiScreen {
@@ -42,11 +42,27 @@ public class Screen extends GuiScreen {
     }
 
     @Override
+    public void handleMouseInput() throws IOException {
+	super.handleMouseInput();
+
+	int i2 = Mouse.getEventDWheel();
+
+	if (i2 != 0) {
+	    if (i2 > 0) {
+		i2 = -1;
+	    } else if (i2 < 0) {
+		i2 = 1;
+	    }
+	    System.out.println(i2);
+	}
+
+    }
+
+    @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
 	super.keyTyped(typedChar, keyCode);
 	this.panel.keyTyped(typedChar, keyCode);
 
-	
 	if (keyCode == Keyboard.KEY_DOWN) {
 	    this.panel.setY(this.panel.getY() + 5);
 	} else if (keyCode == Keyboard.KEY_UP) {

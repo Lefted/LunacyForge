@@ -1,3 +1,7 @@
+todo:
+make panel extends GuiScreen itself
+make dwheel scrolling
+
 soon™:
 -KeepSprint settings
 -ChestESP
