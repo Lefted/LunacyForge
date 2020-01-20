@@ -1,10 +1,13 @@
 package me.lefted.lunacyforge.guiapi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import me.lefted.lunacyforge.utils.Logger;
+import org.lwjgl.input.Mouse;
 
-public class Panel {
+import net.minecraft.client.gui.GuiScreen;
+
+public class Panel extends GuiScreen {
 
     // ATTRIBUTES
     private ArrayList<Element> elements;
@@ -19,14 +22,39 @@ public class Panel {
     }
 
     // METHODS
-    public void draw(int mouseX, int mouseY) {
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	super.drawScreen(mouseX, mouseY, partialTicks);
+
+	// TODO If true
+	this.drawDefaultBackground();
 	for (Element element : this.elements) {
 	    element.draw();
 	}
     }
 
+    @Override
+    public void handleMouseInput() throws IOException {
+	super.handleMouseInput();
+
+	int i2 = Mouse.getEventDWheel();
+
+	if (i2 != 0) {
+	    if (i2 > 0) {
+		i2 = -1;
+	    } else if (i2 < 0) {
+		i2 = 1;
+	    }
+	    // TODO scroll up down with value
+	    System.out.println(i2);
+	    this.setY(this.getY() + i2 * 5);
+	}
+
+    }
+
     private boolean newClick = false;
 
+    @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	newClick = true;
 	for (Element element : this.elements) {
@@ -34,6 +62,7 @@ public class Panel {
 	}
     }
 
+    @Override
     public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	for (Element element : this.elements) {
 	    element.mouseReleased(mouseX, mouseY, mouseButton);
@@ -42,6 +71,7 @@ public class Panel {
 
     private int lastMouseY = 0;
 
+    @Override
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
 	// Logger.logConsole("button:" + mouseButton + "y:" + mouseY + "time:" + timeSinceClick);
 
@@ -59,6 +89,7 @@ public class Panel {
 	lastMouseY = mouseY;
     }
 
+    @Override
     public void keyTyped(char typedChar, int keyCode) {
 	for (Element element : this.elements) {
 	    element.keyTyped(typedChar, keyCode);
