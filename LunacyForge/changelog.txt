@@ -1,7 +1,3 @@
-todo:
-make panel extends GuiScreen itself
-make dwheel scrolling
-
 soon™:
 -KeepSprint settings
 -ChestESP
@@ -23,6 +19,7 @@ soon™™:
 
 
 b2:
+-added Borders to Panel
 -added FastBridge
 -added AimAssist
 -added AimAssist timer
