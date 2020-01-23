@@ -15,7 +15,7 @@ public class Label extends Element {
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY, float partialTicks) {
 	Minecraft.getMinecraft().fontRendererObj.drawString(this.text, this.getPosX(), this.getPosY(), 0xFF);
     }
 

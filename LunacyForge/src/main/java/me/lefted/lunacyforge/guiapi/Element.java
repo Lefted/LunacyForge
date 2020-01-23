@@ -1,6 +1,11 @@
 package me.lefted.lunacyforge.guiapi;
 
-public abstract class Element {
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+
+public abstract class Element extends Gui{
 
     // ATTRIBUTES
     private int posX;
@@ -8,7 +13,7 @@ public abstract class Element {
     private boolean visible;
 
     // METHODS
-    public abstract void draw();
+    public abstract void draw(int mouseX, int mouseY, float partialTicks);
 
     public abstract void mouseClicked(int mouseX, int mouseY, int mouseButton);
     

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,13 +19,16 @@ public class Screen extends Panel {
     @Override
     public void initGui() {
 	this.getElements().add(new Label(10, 10, "Party"));
+	Button button;
+	this.getElements().add(button = new Button(100, 10, 200, 20, "Just a button"));
+	button.setCallback(() -> System.out.println("callback"));
 	Keyboard.enableRepeatEvents(true);
 	this.setScrollMultiplier(50);
-	
+
 	this.setVerticalScrolling(true);
 	this.setVerticalWheelScrolling(true);
 	this.setHorizontalScrolling(true);
-	
+
 	this.getBorders().setMaxX(350).setMinX(0).setMaxY(200).setMinY(0);
     }
 

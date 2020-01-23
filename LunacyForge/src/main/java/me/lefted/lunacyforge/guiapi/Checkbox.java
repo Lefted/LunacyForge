@@ -3,7 +3,7 @@ package me.lefted.lunacyforge.guiapi;
 public class Checkbox extends Element{
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY, float partialTicks) {
     }
 
     @Override

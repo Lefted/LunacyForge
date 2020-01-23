@@ -67,7 +67,7 @@ public class Panel extends GuiScreen {
 	    this.drawDefaultBackground();
 	}
 	for (Element element : this.elements) {
-	    element.draw();
+	    element.draw(mouseX, mouseY, partialTicks);
 	}
     }
 
