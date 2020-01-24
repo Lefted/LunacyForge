@@ -19,6 +19,7 @@ soon™™:
 
 
 b2:
+-added Textfield and updateScreen() to Element
 -added Button
 -added Callback functional interface
 -added Borders to Panel

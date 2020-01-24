@@ -35,6 +35,10 @@ public class Label extends Element {
     public void keyTyped(char typedChar, int keyCode) {
     }
 
+    @Override
+    public void updateScreen() {
+    }
+    
     public String getText() {
 	return text;
     }
@@ -42,4 +46,5 @@ public class Label extends Element {
     public void setText(String text) {
 	this.text = text;
     }
+
 }

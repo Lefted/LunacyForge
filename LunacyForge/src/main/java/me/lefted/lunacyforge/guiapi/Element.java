@@ -23,6 +23,8 @@ public abstract class Element extends Gui{
     
     public abstract void keyTyped(char typedChar, int keyCode);
     
+    public abstract void updateScreen();
+    
     public int getPosX() {
 	return posX;
     }

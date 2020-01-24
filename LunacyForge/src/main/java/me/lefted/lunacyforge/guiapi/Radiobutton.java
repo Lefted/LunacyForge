@@ -22,5 +22,7 @@ public class Radiobutton extends Element{
     public void keyTyped(char typedChar, int keyCode) {
     }
 
-
+    @Override
+    public void updateScreen() {
+    }
 }

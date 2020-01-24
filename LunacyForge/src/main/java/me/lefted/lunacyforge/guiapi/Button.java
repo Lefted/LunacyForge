@@ -13,12 +13,12 @@ import net.minecraft.util.ResourceLocation;
 public class Button extends Element {
 
     // ATTRIBUTES
-    protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
-    protected int width;
-    protected int height;
-    public String displayString;
-    public boolean enabled;
-    protected boolean hovered;
+    private static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
+    private int width;
+    private int height;
+    private String displayString;
+    private boolean enabled;
+    private boolean hovered;
     private Callback callback;
 
     public Button(int x, int y, int widthIn, int heightIn, String buttonText) {
@@ -107,6 +107,10 @@ public class Button extends Element {
     public void keyTyped(char typedChar, int keyCode) {
     }
 
+    @Override
+    public void updateScreen() {
+    }
+    
     public Callback getCallback() {
 	return callback;
     }

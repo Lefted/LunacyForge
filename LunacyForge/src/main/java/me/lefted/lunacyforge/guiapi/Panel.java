@@ -135,6 +135,15 @@ public class Panel extends GuiScreen {
 	    element.keyTyped(typedChar, keyCode);
 	}
     }
+    
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        
+        for (Element element : this.elements) {
+            element.updateScreen();
+        }
+    }
 
     public void setX(int x) {
 	final int offsetX = x - this.posX;
