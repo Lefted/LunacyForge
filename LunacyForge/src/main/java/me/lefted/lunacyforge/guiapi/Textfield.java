@@ -1,5 +1,7 @@
 package me.lefted.lunacyforge.guiapi;
 
+import java.util.function.Consumer;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -17,13 +19,14 @@ import net.minecraft.util.MathHelper;
 public class Textfield extends Element {
 
     // ATTRIBUTES
+    private static FontRenderer fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
     private final int width;
     private final int height;
-    private String text = "";
     private int maxStringLength = 32;
     private int cursorCounter;
+    private String text = "";
     private boolean enableBackgroundDrawing = true;
-    private static FontRenderer fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+    private Consumer<String> consumer; 
     
     /**
      * if true the textbox can lose focus by clicking elsewhere on the screen
@@ -76,8 +79,10 @@ public class Textfield extends Element {
 	if (this.validator.apply(text)) {
 	    if (text.length() > this.maxStringLength) {
 		this.text = text.substring(0, this.maxStringLength);
+		this.consumer.accept(this.text);
 	    } else {
 		this.text = text;
+		this.consumer.accept(this.text);
 	    }
 	    this.setCursorPositionEnd();
 	}
@@ -132,6 +137,7 @@ public class Textfield extends Element {
 
 	if (this.validator.apply(s)) {
 	    this.text = s;
+	    this.consumer.accept(this.text);
 	    this.moveCursorBy(i - this.selectionEnd + l);
 	}
     }
@@ -172,7 +178,7 @@ public class Textfield extends Element {
 
 		if (this.validator.apply(s)) {
 		    this.text = s;
-
+		    this.consumer.accept(this.text);
 		    if (flag) {
 			this.moveCursorBy(deleteNum);
 		    }
@@ -495,6 +501,7 @@ public class Textfield extends Element {
 
 	if (this.text.length() > maxStringLength) {
 	    this.text = this.text.substring(0, maxStringLength);
+	    this.consumer.accept(this.text);
 	}
     }
 
@@ -634,5 +641,13 @@ public class Textfield extends Element {
     @Override
     public void updateScreen() {
 	this.updateCursorCounter();
+    }
+
+    public Consumer<String> getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer<String> consumer) {
+        this.consumer = consumer;
     }
 }
