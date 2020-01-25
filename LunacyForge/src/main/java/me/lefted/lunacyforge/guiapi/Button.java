@@ -87,7 +87,9 @@ public class Button extends Element {
 	if (this.enabled && this.isVisible() && mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this
 	    .getPosY() + this.height) {
 	    this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
-	    this.callback.invoke();
+	    if (this.callback != null) {
+		this.callback.invoke();
+	    }
 	}
 
     }
