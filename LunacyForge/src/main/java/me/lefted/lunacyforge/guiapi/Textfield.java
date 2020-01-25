@@ -26,8 +26,8 @@ public class Textfield extends Element {
     private int cursorCounter;
     private String text = "";
     private boolean enableBackgroundDrawing = true;
-    private Consumer<String> consumer; 
-    
+    private Consumer<String> consumer;
+
     /**
      * if true the textbox can lose focus by clicking elsewhere on the screen
      */
@@ -79,10 +79,14 @@ public class Textfield extends Element {
 	if (this.validator.apply(text)) {
 	    if (text.length() > this.maxStringLength) {
 		this.text = text.substring(0, this.maxStringLength);
-		this.consumer.accept(this.text);
+		if (this.consumer != null) {
+		    this.consumer.accept(this.text);
+		}
 	    } else {
 		this.text = text;
-		this.consumer.accept(this.text);
+		if (this.consumer != null) {
+		    this.consumer.accept(this.text);
+		}
 	    }
 	    this.setCursorPositionEnd();
 	}
@@ -137,7 +141,9 @@ public class Textfield extends Element {
 
 	if (this.validator.apply(s)) {
 	    this.text = s;
-	    this.consumer.accept(this.text);
+	    if (this.consumer != null) {
+		this.consumer.accept(this.text);
+	    }
 	    this.moveCursorBy(i - this.selectionEnd + l);
 	}
     }
@@ -178,7 +184,9 @@ public class Textfield extends Element {
 
 		if (this.validator.apply(s)) {
 		    this.text = s;
-		    this.consumer.accept(this.text);
+		    if (this.consumer != null) {
+			this.consumer.accept(this.text);
+		    }
 		    if (flag) {
 			this.moveCursorBy(deleteNum);
 		    }
@@ -501,7 +509,9 @@ public class Textfield extends Element {
 
 	if (this.text.length() > maxStringLength) {
 	    this.text = this.text.substring(0, maxStringLength);
-	    this.consumer.accept(this.text);
+	    if (this.consumer != null) {
+		this.consumer.accept(this.text);
+	    }
 	}
     }
 
@@ -644,10 +654,10 @@ public class Textfield extends Element {
     }
 
     public Consumer<String> getConsumer() {
-        return consumer;
+	return consumer;
     }
 
     public void setConsumer(Consumer<String> consumer) {
-        this.consumer = consumer;
+	this.consumer = consumer;
     }
 }

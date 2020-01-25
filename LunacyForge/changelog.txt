@@ -19,6 +19,7 @@ soon™™:
 
 
 b2:
+-added not null test to textfield consumer
 -added not null test to button callback
 -added getter() and setter() to buttontexture
 -added consumer to Textfield

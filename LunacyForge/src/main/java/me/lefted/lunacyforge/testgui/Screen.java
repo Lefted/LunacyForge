@@ -1,6 +1,7 @@
 package me.lefted.lunacyforge.testgui;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import org.lwjgl.input.Keyboard;
 
@@ -22,6 +23,12 @@ public class Screen extends Panel {
 	Textfield field;
 	this.getElements().add(field = new Textfield(200, 200, 200, 20));
 	field.setText("Nicer text");
+	field.setConsumer(new Consumer<String>() {
+	    @Override
+	    public void accept(String t) {
+		System.out.println(t);
+	    }
+	});
 
 	Button button;
 	this.getElements().add(button = new Button(100, 10, 200, 20, "Just a button"));
