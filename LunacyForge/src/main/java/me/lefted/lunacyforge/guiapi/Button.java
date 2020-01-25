@@ -1,8 +1,5 @@
 package me.lefted.lunacyforge.guiapi;
 
-import java.util.function.Consumer;
-
-import akka.japi.Procedure;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -13,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 public class Button extends Element {
 
     // ATTRIBUTES
-    private static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
+    private ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
     private int width;
     private int height;
     private String displayString;
@@ -117,6 +114,14 @@ public class Button extends Element {
 
     public void setCallback(Callback callback) {
 	this.callback = callback;
+    }
+
+    public ResourceLocation getButtonTextures() {
+        return buttonTextures;
+    }
+
+    public void setButtonTextures(ResourceLocation buttonTextures) {
+        this.buttonTextures = buttonTextures;
     }
 
 }

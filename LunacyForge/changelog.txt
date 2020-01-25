@@ -19,6 +19,7 @@ soon™™:
 
 
 b2:
+-added getter() and setter() to buttontexture
 -added consumer to Textfield
 -added Textfield and updateScreen() to Element
 -added Button
