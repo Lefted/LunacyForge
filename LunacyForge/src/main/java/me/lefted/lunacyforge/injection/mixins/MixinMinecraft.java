@@ -59,13 +59,13 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
     /* start LunacyForge*/
     @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;", shift = At.Shift.AFTER))
     private void startClient(CallbackInfo callbackInfo) {
-	LunacyForge.INSTANCE.startClient();
+	LunacyForge.instance.startClient();
     }
 
     /* stop LunacyForge*/
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void stopClient(CallbackInfo callbackInfo) {
-	LunacyForge.INSTANCE.stopClient();
+	LunacyForge.instance.stopClient();
     }
 
     /* dispatch TickEvent*/

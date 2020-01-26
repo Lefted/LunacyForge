@@ -9,14 +9,16 @@ import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod(modid = "lunacyforge")
 public final class LunacyForge {
 
     // CONSTANTS
     public static final double CLIENT_BUILD = 1;
     public static final String CLIENT_NAME = "LunacyForge";
     public static final String PREFIX = "[Lunacy] ";
-    public static LunacyForge INSTANCE;
+    public static LunacyForge instance;
 
     // ATTRIBUTES
     public final ModuleManager moduleManager = new ModuleManager();
@@ -24,10 +26,12 @@ public final class LunacyForge {
     public final ClientConfig clientConfig = new ClientConfig();
     public final CommandManager commandManager = new CommandManager();
 
+    // CONSTRUCTOR
     public LunacyForge() {
-	INSTANCE = this;
+	instance = this;
     }
 
+    // METHODS
     public void startClient() {
 	this.moduleManager.registerAllModules();
 	this.commandManager.registerCommands();
@@ -57,9 +61,8 @@ public final class LunacyForge {
 	} else {
 	    result = MC_DIR + "\\";
 	}
-	result = result.concat(INSTANCE.CLIENT_NAME);
+	result = result.concat(instance.CLIENT_NAME);
 
 	return result;
     }
-
 }

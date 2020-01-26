@@ -6,10 +6,10 @@ import java.util.function.Consumer;
 import org.lwjgl.input.Keyboard;
 
 import me.lefted.lunacyforge.guiapi.Button;
+import me.lefted.lunacyforge.guiapi.Checkbox;
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Textfield;
-import net.minecraft.client.gui.GuiTextField;
 
 public class Screen extends Panel {
 
@@ -19,6 +19,9 @@ public class Screen extends Panel {
 
     @Override
     public void initGui() {
+	Checkbox box;
+	this.getElements().add(box = new Checkbox());
+
 	this.getElements().add(new Label(10, 10, "Party"));
 	Textfield field;
 	this.getElements().add(field = new Textfield(200, 200, 200, 20));

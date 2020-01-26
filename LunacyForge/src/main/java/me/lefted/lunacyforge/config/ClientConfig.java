@@ -106,34 +106,34 @@ public final class ClientConfig {
 
     // GETTERS AND SETTERS
     public static boolean isEnabled() {
-	return LunacyForge.INSTANCE.clientConfig.enabled;
+	return LunacyForge.instance.clientConfig.enabled;
     }
 
     public static void setEnabled(boolean enabled) {
-	LunacyForge.INSTANCE.clientConfig.enabled = enabled;
+	LunacyForge.instance.clientConfig.enabled = enabled;
     }
 
     public static boolean isAnnounceModuleToggle() {
-	return LunacyForge.INSTANCE.clientConfig.announceModuleToggle;
+	return LunacyForge.instance.clientConfig.announceModuleToggle;
     }
 
     public static void setAnnounceModuleToggle(boolean announceModuleToggle) {
-	LunacyForge.INSTANCE.clientConfig.announceModuleToggle = announceModuleToggle;
+	LunacyForge.instance.clientConfig.announceModuleToggle = announceModuleToggle;
     }
 
     public static boolean isRenderArrayList() {
-	return LunacyForge.INSTANCE.clientConfig.renderArrayList;
+	return LunacyForge.instance.clientConfig.renderArrayList;
     }
 
     public static void setRenderArrayList(boolean renderArrayList) {
-	LunacyForge.INSTANCE.clientConfig.renderArrayList = renderArrayList;
+	LunacyForge.instance.clientConfig.renderArrayList = renderArrayList;
     }
 
     public static boolean isShowRageMods() {
-	return LunacyForge.INSTANCE.clientConfig.showRageMods;
+	return LunacyForge.instance.clientConfig.showRageMods;
     }
 
     public static void setShowRageMods(boolean showRageMods) {
-	LunacyForge.INSTANCE.clientConfig.showRageMods = showRageMods;
+	LunacyForge.instance.clientConfig.showRageMods = showRageMods;
     }
 }

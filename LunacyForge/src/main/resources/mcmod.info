@@ -1,0 +1,16 @@
+[
+{
+  "modid": "lunacyforge",
+  "name": "LunacyForge",
+  "description": "Just things",
+  "version": "b2",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Lefted"],
+  "credits": "CCBlueX for LiquidBase, LabyMod autists for gui",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

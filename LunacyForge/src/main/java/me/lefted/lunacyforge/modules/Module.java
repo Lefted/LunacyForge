@@ -47,7 +47,7 @@ public abstract class Module {
 	if (ClientConfig.isAnnounceModuleToggle()) {
 	    Logger.logChatMessage("§6" + this.name + " §7has been" + (this.enabled ? " enabled" : " disabled"));
 	}
-	LunacyForge.INSTANCE.moduleConfig.saveModules();
+	LunacyForge.instance.moduleConfig.saveModules();
     }
 
     public abstract void onEnable();
@@ -66,7 +66,7 @@ public abstract class Module {
 	    this.onEnable();
 	}
 	if (ModuleConfig.initDone) {
-	    LunacyForge.INSTANCE.moduleConfig.saveModules();
+	    LunacyForge.instance.moduleConfig.saveModules();
 	}
     }
 
@@ -80,7 +80,7 @@ public abstract class Module {
 
     public void setKeycode(int keycode) {
 	this.keycode = keycode;
-	LunacyForge.INSTANCE.moduleConfig.saveModules();
+	LunacyForge.instance.moduleConfig.saveModules();
     }
 
     public String getName() {

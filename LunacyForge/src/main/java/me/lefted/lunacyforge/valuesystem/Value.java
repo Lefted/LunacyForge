@@ -35,7 +35,7 @@ public class Value<T> {
 
     public void setObject(T valueObject) {
         this.valueObject = valueObject;
-        LunacyForge.INSTANCE.moduleConfig.saveModules();
+        LunacyForge.instance.moduleConfig.saveModules();
         if (this.consumer != null) {
             this.consumer.accept(this.valueObject);
         }
