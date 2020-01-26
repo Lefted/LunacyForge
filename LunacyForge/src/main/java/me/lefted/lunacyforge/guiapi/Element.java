@@ -10,7 +10,7 @@ public abstract class Element extends Gui{
     // ATTRIBUTES
     private int posX;
     private int posY;
-    private boolean visible;
+    private boolean visible = true;
 
     // METHODS
     public abstract void draw(int mouseX, int mouseY, float partialTicks);

@@ -100,6 +100,12 @@ public class DrawUtils extends Gui {
 	tessellator.draw();
     }
 
+    /*
+     * @parms
+     * x, y position to be rendered
+     * imageWidth, imageHeight should be 256D
+     * maxWidt, maxHeight are size in game		 
+     */
     public void drawTexture(double x, double y, double imageWidth, double imageHeight, double maxWidth, double maxHeight, float alpha) {
 	GL11.glPushMatrix();
 	double sizeWidth = maxWidth / imageWidth;
@@ -110,7 +116,7 @@ public class DrawUtils extends Gui {
 	    GlStateManager.enableBlend();
 	    GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 	}
-	drawTexturedModalRect(x / sizeWidth, y / sizeHeight, x / sizeWidth + imageWidth, y / sizeHeight + imageHeight);
+	this.drawTexturedModalRect(x / sizeWidth, y / sizeHeight, x / sizeWidth + imageWidth, y / sizeHeight + imageHeight);
 	if (alpha <= 1.0F) {
 	    GlStateManager.disableAlpha();
 	    GlStateManager.disableBlend();

@@ -20,7 +20,7 @@ public class Screen extends Panel {
     @Override
     public void initGui() {
 	Checkbox box;
-	this.getElements().add(box = new Checkbox());
+	this.getElements().add(box = new Checkbox(20, 40, true));
 
 	this.getElements().add(new Label(10, 10, "Party"));
 	Textfield field;
