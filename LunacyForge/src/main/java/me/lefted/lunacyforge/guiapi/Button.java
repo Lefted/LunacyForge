@@ -126,4 +126,19 @@ public class Button extends Element {
         this.buttonTextures = buttonTextures;
     }
 
+    public String getDisplayString() {
+        return displayString;
+    }
+
+    public void setDisplayString(String displayString) {
+        this.displayString = displayString;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

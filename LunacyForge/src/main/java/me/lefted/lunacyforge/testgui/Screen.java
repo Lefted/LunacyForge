@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 
 import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.guiapi.Checkbox;
+import me.lefted.lunacyforge.guiapi.KeybindButton;
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Textfield;
@@ -19,6 +20,9 @@ public class Screen extends Panel {
 
     @Override
     public void initGui() {
+	KeybindButton keybindBtn = new KeybindButton(150, 150, 200, 20, 0);
+	this.getElements().add(keybindBtn);
+
 	Checkbox box;
 	this.getElements().add(box = new Checkbox(20, 40, true));
 
@@ -64,5 +68,10 @@ public class Screen extends Panel {
 	// } else if (keyCode == Keyboard.KEY_LEFT) {
 	// this.setX(this.getX() - 5);
 	// }
+    }
+    
+    @Override
+    public void onGuiClosed() {
+	Keyboard.enableRepeatEvents(false);
     }
 }

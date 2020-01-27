@@ -19,6 +19,8 @@ soon™™:
 
 
 b2:
+-added KeybindButton
+-added some getters and setters to Button
 -added Checkbox
 -added not null test to textfield consumer
 -added not null test to button callback
