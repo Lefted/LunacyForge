@@ -383,7 +383,7 @@ public class Textfield extends Element {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	boolean flag = mouseX >= this.getPosX() && mouseX < this.getPosX() + this.width && mouseY >= this.getPosY() && mouseY < this.getPosY() + this.height;
 
 	if (this.canLoseFocus) {
@@ -400,7 +400,6 @@ public class Textfield extends Element {
 	    String s = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
 	    this.setCursorPosition(this.fontRendererInstance.trimStringToWidth(s, i).length() + this.lineScrollOffset);
 	}
-	return flag;
     }
 
     /**

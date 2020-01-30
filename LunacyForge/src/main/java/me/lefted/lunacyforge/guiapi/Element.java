@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 public abstract class Element extends Gui {
 
     // ATTRIBUTES
-    private int posX;
-    private int posY;
+    protected int posX;
+    protected int posY;
     private boolean visible = true;
 
     // METHODS

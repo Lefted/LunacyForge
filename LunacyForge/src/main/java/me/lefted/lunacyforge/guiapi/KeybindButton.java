@@ -46,7 +46,7 @@ public class KeybindButton extends Element {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (this.listening) {
 	    if (mouseButton == 0) {
 		this.keycode = -100;
@@ -56,7 +56,6 @@ public class KeybindButton extends Element {
 		if (this.consumer != null) {
 		    this.consumer.accept(this.keycode);
 		}
-		return false;
 	    } else if (mouseButton == 1) {
 		this.keycode = -99;
 		this.button.setDisplayString(this.getKeybindName(this.keycode));
@@ -65,7 +64,6 @@ public class KeybindButton extends Element {
 		if (this.consumer != null) {
 		    this.consumer.accept(this.keycode);
 		}
-		return false;
 	    } else if (mouseButton == 2) {
 		this.keycode = -98;
 		this.button.setDisplayString(this.getKeybindName(this.keycode));
@@ -74,10 +72,9 @@ public class KeybindButton extends Element {
 		if (this.consumer != null) {
 		    this.consumer.accept(this.keycode);
 		}
-		return false;
 	    }
 	}
-	return this.button.mouseClicked(mouseX, mouseY, mouseButton);
+	this.button.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override

@@ -48,12 +48,13 @@ public class Checkbox extends Element {
 	}
     }
 
-    private boolean isMouseOver(int mouseX, int mouseY) {
+    @Override
+    public boolean isMouseOver(int mouseX, int mouseY) {
 	return mouseX > this.getPosX() && mouseX < this.getPosX() + 16 && mouseY > this.getPosY() && mouseY < this.getPosY() + 16;
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	Minecraft mc = Minecraft.getMinecraft();
 
 	if (this.isVisible() && this.isMouseOver(mouseX, mouseY) && mouseButton == 0) {
@@ -69,9 +70,7 @@ public class Checkbox extends Element {
 		    this.consumer.accept(this.checked);
 		}
 	    }
-	    return true;
 	}
-	return false;
     }
 
     private void playPressSound() {

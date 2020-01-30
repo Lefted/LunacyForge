@@ -30,11 +30,11 @@ public class Button extends Element {
 	this.displayString = buttonText;
     }
 
-    public boolean isMouseOver() {
+    private boolean isMouseOver() {
 	return this.hovered;
     }
 
-    private void playPressSound(SoundHandler soundHandlerIn) {
+    public void playPressSound(SoundHandler soundHandlerIn) {
 	soundHandlerIn.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
     }
 
@@ -83,16 +83,19 @@ public class Button extends Element {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public boolean isMouseOver(int mouseX, int mouseY) {
+	return this.hovered;
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (this.enabled && this.isVisible() && mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this
 	    .getPosY() + this.height) {
 	    this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	    if (this.callback != null) {
 		this.callback.invoke();
 	    }
-	    return true;
 	}
-	return false;
     }
 
     public Callback getCallback() {

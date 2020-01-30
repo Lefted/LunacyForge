@@ -7,12 +7,15 @@ public class Radiobutton extends Element {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	return false;
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
     }
 
     @Override
-    public boolean mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    }
+
+    @Override
+    public boolean isMouseOver(int mouseX, int mouseY) {
 	return false;
     }
 
