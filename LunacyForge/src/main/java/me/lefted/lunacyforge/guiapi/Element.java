@@ -20,22 +20,18 @@ public abstract class Element extends Gui {
 
     }
 
-    /*
-     * should handle the click and return if the element was clicked
-     */
-    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	return false;
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
     }
 
-    /*
-     * should handle the release and return if the mouse was released on the element
-     */
-    public boolean mouseReleased(int mouseX, int mouseY, int mouseButton) {
-	return false;
+    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
     }
 
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
 
+    }
+
+    public boolean isMouseOver(int mouseX, int mouseY) {
+	return false;
     }
 
     public void keyTyped(char typedChar, int keyCode) {
