@@ -83,33 +83,18 @@ public class Button extends Element {
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (this.enabled && this.isVisible() && mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this
 	    .getPosY() + this.height) {
 	    this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	    if (this.callback != null) {
 		this.callback.invoke();
 	    }
+	    return true;
 	}
-
+	return false;
     }
 
-    @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-    }
-
-    @Override
-    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
-    }
-
-    @Override
-    public void keyTyped(char typedChar, int keyCode) {
-    }
-
-    @Override
-    public void updateScreen() {
-    }
-    
     public Callback getCallback() {
 	return callback;
     }
@@ -119,26 +104,26 @@ public class Button extends Element {
     }
 
     public ResourceLocation getButtonTextures() {
-        return buttonTextures;
+	return buttonTextures;
     }
 
     public void setButtonTextures(ResourceLocation buttonTextures) {
-        this.buttonTextures = buttonTextures;
+	this.buttonTextures = buttonTextures;
     }
 
     public String getDisplayString() {
-        return displayString;
+	return displayString;
     }
 
     public void setDisplayString(String displayString) {
-        this.displayString = displayString;
+	this.displayString = displayString;
     }
 
     public boolean isEnabled() {
-        return enabled;
+	return enabled;
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+	this.enabled = enabled;
     }
 }

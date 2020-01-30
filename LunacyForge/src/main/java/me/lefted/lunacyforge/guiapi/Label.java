@@ -19,26 +19,6 @@ public class Label extends Element {
 	Minecraft.getMinecraft().fontRendererObj.drawString(this.text, this.getPosX(), this.getPosY(), 0xFF);
     }
 
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-    }
-
-    @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-    }
-
-    @Override
-    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
-    }
-
-    @Override
-    public void keyTyped(char typedChar, int keyCode) {
-    }
-
-    @Override
-    public void updateScreen() {
-    }
-    
     public String getText() {
 	return text;
     }

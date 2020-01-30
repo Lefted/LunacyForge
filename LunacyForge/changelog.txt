@@ -19,6 +19,7 @@ soon™™:
 
 
 b2:
+-made element methods non abstract
 -added KeybindButton
 -added some getters and setters to Button
 -added Checkbox

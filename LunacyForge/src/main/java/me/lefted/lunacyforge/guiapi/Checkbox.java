@@ -53,7 +53,7 @@ public class Checkbox extends Element {
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	Minecraft mc = Minecraft.getMinecraft();
 
 	if (this.isVisible() && this.isMouseOver(mouseX, mouseY) && mouseButton == 0) {
@@ -69,7 +69,9 @@ public class Checkbox extends Element {
 		    this.consumer.accept(this.checked);
 		}
 	    }
+	    return true;
 	}
+	return false;
     }
 
     private void playPressSound() {
@@ -78,22 +80,6 @@ public class Checkbox extends Element {
 
     public String toString() {
 	return "Checkbox [checked=" + this.checked + ", posX=" + this.getPosX() + ", posY=" + this.getPosY() + "]";
-    }
-
-    @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-    }
-
-    @Override
-    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
-    }
-
-    @Override
-    public void keyTyped(char typedChar, int keyCode) {
-    }
-
-    @Override
-    public void updateScreen() {
     }
 
     public Consumer<Boolean> getConsumer() {

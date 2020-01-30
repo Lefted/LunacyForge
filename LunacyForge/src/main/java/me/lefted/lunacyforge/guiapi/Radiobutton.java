@@ -1,17 +1,19 @@
 package me.lefted.lunacyforge.guiapi;
 
-public class Radiobutton extends Element{
+public class Radiobutton extends Element {
 
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	return false;
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	return false;
     }
 
     @Override
