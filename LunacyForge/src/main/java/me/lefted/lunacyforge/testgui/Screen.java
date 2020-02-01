@@ -14,6 +14,8 @@ import me.lefted.lunacyforge.guiapi.KeybindButton;
 import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Textfield;
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleScreen;
+import net.minecraft.client.Minecraft;
 
 public class Screen extends Panel {
 
@@ -48,13 +50,13 @@ public class Screen extends Panel {
 
 	Button schoen = new Button(30, 40, 200, 20, "schön");
 	Button traurig = new Button(30, 80, 200, 20, "traurig");
-	Button cool = new Button(30, 120, 200, 20, "cool");
+	Button cool = new Button(30, 120, 200, 20, "modules");
 
 	schoen.setCallback(() -> {
 	    System.out.println("schön");
 	});
 	cool.setCallback(() -> {
-	    System.out.println("cool");
+	    Minecraft.getMinecraft().displayGuiScreen(new ModuleScreen());
 	});
 	traurig.setCallback(() -> {
 	    System.out.println("traurig");
@@ -72,25 +74,25 @@ public class Screen extends Panel {
 	this.getBorders().setMaxX(350).setMinX(0).setMaxY(200).setMinY(0);
     }
 
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
+    // @Override
+    // public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    // super.mouseClicked(mouseX, mouseY, mouseButton);
+    // }
 
-    @Override
-    public void keyTyped(char typedChar, int keyCode) throws IOException {
-	super.keyTyped(typedChar, keyCode);
-
-	// if (keyCode == Keyboard.KEY_DOWN) {
-	// this.setY(this.getY() + 5);
-	// } else if (keyCode == Keyboard.KEY_UP) {
-	// this.setY(this.getY() - 5);
-	// } else if (keyCode == Keyboard.KEY_RIGHT) {
-	// this.setX(this.getX() + 5);
-	// } else if (keyCode == Keyboard.KEY_LEFT) {
-	// this.setX(this.getX() - 5);
-	// }
-    }
+    // @Override
+    // public void keyTyped(char typedChar, int keyCode) throws IOException {
+    // super.keyTyped(typedChar, keyCode);
+    //
+    // // if (keyCode == Keyboard.KEY_DOWN) {
+    // // this.setY(this.getY() + 5);
+    // // } else if (keyCode == Keyboard.KEY_UP) {
+    // // this.setY(this.getY() - 5);
+    // // } else if (keyCode == Keyboard.KEY_RIGHT) {
+    // // this.setX(this.getX() + 5);
+    // // } else if (keyCode == Keyboard.KEY_LEFT) {
+    // // this.setX(this.getX() - 5);
+    // // }
+    // }
 
     @Override
     public void onGuiClosed() {

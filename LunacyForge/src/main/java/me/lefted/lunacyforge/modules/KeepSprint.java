@@ -11,7 +11,7 @@ import me.lefted.lunacyforge.valuesystem.Value;
  */
 public class KeepSprint extends Module{
 
-    private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", true);
+    private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", Boolean.valueOf(true));
     private Value<Integer> randomizerValue = new Value<Integer>("randomizer", Integer.valueOf(30));
     private Value<Integer> firstHitDelayValue = new Value<Integer>("firstHitDelay", Integer.valueOf(2));
     
