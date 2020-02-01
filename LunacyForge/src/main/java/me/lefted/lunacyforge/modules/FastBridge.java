@@ -5,6 +5,7 @@ import com.darkmagician6.eventapi.EventTarget;
 
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;
@@ -13,9 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
-/*
- * Also see: MixinMovementInputFromOptions.java, MixinItemStack.java
- */
+/* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
+@ModuleInterpreter(description = "Sneaks/Unsneaks at the end of a block to build bridges faster")
 public class FastBridge extends Module {
 
     private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
@@ -46,7 +46,7 @@ public class FastBridge extends Module {
 
 		final ItemStack stack = this.mc.thePlayer.getCurrentEquippedItem();
 		final BlockPos pos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1D, mc.thePlayer.posZ);
-		
+
 		if (this.mc.thePlayer.onGround) {
 		    if (stack != null || (!(Boolean) this.useBlockSneakValue.getObject())) {
 			if (mc.theWorld.getBlockState(pos).getBlock() == Blocks.air) {

@@ -4,8 +4,10 @@ import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
 import me.lefted.lunacyforge.events.UpdateEvent;
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
 import net.minecraft.client.Minecraft;
 
+@ModuleInterpreter(description = "Jumps at the perfect moment; useful for jump and runs")
 public class Parkour extends Module {
 
     public Parkour() {

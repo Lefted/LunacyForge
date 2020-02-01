@@ -27,6 +27,51 @@ public class DrawUtils extends Gui {
 	this.mc.getTextureManager().bindTexture(resourceLocation);
     }
 
+    public void drawVerticalLine(int x, int startY, int endY, int color) {
+	if (endY < startY) {
+	    int i = startY;
+	    startY = endY;
+	    endY = i;
+	}
+
+	drawRect(x, startY + 1, x + 1, endY, color);
+    }
+
+    public void drawHorizontalLine(int startX, int endX, int y, int color) {
+	if (endX < startX) {
+	    int i = startX;
+	    startX = endX;
+	    endX = i;
+	}
+
+	this.drawRect(startX, y, endX + 1, y + 1, color);
+    }
+
+    public void drawSelectionBox(int x, int width, int y, int height) {
+	Tessellator tessellator = Tessellator.getInstance();
+	WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+	int i1 = x + (width / 2 - width / 2);
+	int j1 = x + width / 2 + width / 2;
+	GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+	GlStateManager.disableTexture2D();
+	worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+	worldrenderer.pos((double) i1, (double) (y + height + 2), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+	worldrenderer.pos((double) j1, (double) (y + height + 2), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+	worldrenderer.pos((double) j1, (double) (y - 2), 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+	worldrenderer.pos((double) i1, (double) (y - 2), 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+	worldrenderer.pos((double) (i1 + 1), (double) (y + height + 1), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+	worldrenderer.pos((double) (j1 - 1), (double) (y + height + 1), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+	worldrenderer.pos((double) (j1 - 1), (double) (y - 1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+	worldrenderer.pos((double) (i1 + 1), (double) (y - 1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+	tessellator.draw();
+	GlStateManager.enableTexture2D();
+    }
+
+    public void drawRect(int x, int y, int width, int height, float color) {
+	this.drawRect(x, y, x + width, y + height, new Float(color).intValue());
+    }
+
     public void drawRect(double left, double top, double right, double bottom, int color) {
 	if (left < right) {
 	    double i = left;

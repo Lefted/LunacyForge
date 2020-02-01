@@ -1,6 +1,5 @@
 package me.lefted.lunacyforge.guiscreen.interpreter;
 
-import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 
 import java.lang.annotation.Retention;

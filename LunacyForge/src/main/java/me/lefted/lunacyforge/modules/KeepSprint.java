@@ -3,12 +3,14 @@ package me.lefted.lunacyforge.modules;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 /*
  * Also see: MixinEntityPlayer.java
  */
+@ModuleInterpreter(description = "Prevents you from slowing down when hitting an enemy")
 public class KeepSprint extends Module{
 
     private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", Boolean.valueOf(true));

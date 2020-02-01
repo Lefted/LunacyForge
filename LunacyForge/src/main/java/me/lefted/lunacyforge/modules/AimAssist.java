@@ -6,6 +6,7 @@ import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.MathHelper;
 
+@ModuleInterpreter(description = "Gradually aims at the nearest target")
 public class AimAssist extends Module {
 
     // VALUES

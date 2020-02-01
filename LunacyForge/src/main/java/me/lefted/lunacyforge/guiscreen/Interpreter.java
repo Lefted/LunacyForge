@@ -1,12 +1,18 @@
 package me.lefted.lunacyforge.guiscreen;
 
+import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
+import me.lefted.lunacyforge.modules.Rectangle;
+import me.lefted.lunacyforge.utils.ColorUtils;
+import me.lefted.lunacyforge.utils.DrawUtils;
+import net.minecraft.client.Minecraft;
 
 public class Interpreter {
 
@@ -22,7 +28,7 @@ public class Interpreter {
      */
 
     /*
-     * adds all available modules to an elementlist
+     * adds all available modules including their name, toggles and settings
      */
     public static void addInterpretedModules(ArrayList<Element> elementList) {
 
@@ -30,8 +36,10 @@ public class Interpreter {
 	    final Module module = ModuleManager.getModuleList().get(i);
 
 	    if (Interpreter.moduleHasClassAnnotation(module)) {
-		// DEBUG
-		System.out.println(module.getName());
+		// TODO add modules as label and checkboxes
+
+		ModuleElement moduleElement = new ModuleElement(module, i, elementList);
+		elementList.add(moduleElement);
 	    }
 	}
     }

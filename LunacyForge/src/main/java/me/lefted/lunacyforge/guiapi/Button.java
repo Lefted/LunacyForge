@@ -56,9 +56,9 @@ public class Button extends Element {
 	    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	    this.hovered = mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this.getPosY()
 		+ this.height;
-	    // int i = this.getHoverState(this.hovered);
-	    int i = 1;
 
+
+	    int i = 1;
 	    if (!this.enabled) {
 		i = 0;
 	    } else if (this.hovered) {

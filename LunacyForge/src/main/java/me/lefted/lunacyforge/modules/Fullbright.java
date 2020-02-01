@@ -1,5 +1,8 @@
 package me.lefted.lunacyforge.modules;
 
+import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+
+@ModuleInterpreter(description = "Makes everything brighter")
 public class Fullbright extends Module{
 
     public Fullbright() {
@@ -15,5 +18,4 @@ public class Fullbright extends Module{
     public void onDisable() {
 	this.mc.gameSettings.gammaSetting = 1.0F;
     }
-
 }

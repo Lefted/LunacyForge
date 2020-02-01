@@ -2,6 +2,9 @@ package me.lefted.lunacyforge.guiscreen.interpreter;
 
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiscreen.Interpreter;
+import me.lefted.lunacyforge.modules.Rectangle;
+import me.lefted.lunacyforge.utils.DrawUtils;
+import net.minecraft.client.Minecraft;
 
 public class ModuleScreen extends Panel {
 
@@ -15,12 +18,12 @@ public class ModuleScreen extends Panel {
     // METHODS
     @Override
     public void initGui() {
-        super.initGui();
-        // clear prevous elements
-        this.getElements().clear();
-        
-        // adds all available modules
-        Interpreter.addInterpretedModules(this.getElements());
+	super.initGui();
+	// clear prevous elements
+	this.getElements().clear();
+
+	// adds all available modules
+	Interpreter.addInterpretedModules(this.getElements());
     }
-    
+
 }

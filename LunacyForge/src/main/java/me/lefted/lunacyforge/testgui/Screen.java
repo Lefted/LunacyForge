@@ -1,20 +1,15 @@
 package me.lefted.lunacyforge.testgui;
 
-import java.io.IOException;
-import java.util.function.Consumer;
+import java.awt.Color;
 
 import org.lwjgl.input.Keyboard;
 
-import com.ibm.icu.text.MessageFormat;
-
 import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.guiapi.ButtonSelection;
-import me.lefted.lunacyforge.guiapi.Checkbox;
-import me.lefted.lunacyforge.guiapi.KeybindButton;
-import me.lefted.lunacyforge.guiapi.Label;
 import me.lefted.lunacyforge.guiapi.Panel;
-import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.guiscreen.interpreter.ModuleScreen;
+import me.lefted.lunacyforge.modules.Rectangle;
+import me.lefted.lunacyforge.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
 
 public class Screen extends Panel {
@@ -48,6 +43,9 @@ public class Screen extends Panel {
 	// button.setCallback(() -> System.out.println("callback"));
 	// Keyboard.enableRepeatEvents(true);
 
+	Rectangle rect = new Rectangle(40, 150, 120, 80, ColorUtils.toRGB(Color.PINK));
+	this.getElements().add(rect);
+
 	Button schoen = new Button(30, 40, 200, 20, "schön");
 	Button traurig = new Button(30, 80, 200, 20, "traurig");
 	Button cool = new Button(30, 120, 200, 20, "modules");
@@ -67,13 +65,18 @@ public class Screen extends Panel {
 
 	this.setScrollMultiplier(50);
 
-	// this.setVerticalScrolling(true);
-	// this.setVerticalWheelScrolling(true);
-	// this.setHorizontalScrolling(true);
+	this.setVerticalScrolling(true);
+	this.setVerticalWheelScrolling(true);
+	this.setHorizontalScrolling(true);
 
 	this.getBorders().setMaxX(350).setMinX(0).setMaxY(200).setMinY(0);
     }
 
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+    
     // @Override
     // public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
     // super.mouseClicked(mouseX, mouseY, mouseButton);
