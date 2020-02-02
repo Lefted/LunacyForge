@@ -27,6 +27,13 @@ public class DrawUtils extends Gui {
 	this.mc.getTextureManager().bindTexture(resourceLocation);
     }
 
+    /**
+     * best working
+     */
+    public void drawTexturedRectangle(int x, int y, int u, int v, int width, int height) {
+	this.drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, width, height);
+    }
+    
     public void drawVerticalLine(int x, int startY, int endY, int color) {
 	if (endY < startY) {
 	    int i = startY;

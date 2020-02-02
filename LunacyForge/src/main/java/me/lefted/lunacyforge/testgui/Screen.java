@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.guiapi.ButtonSelection;
 import me.lefted.lunacyforge.guiapi.Panel;
+import me.lefted.lunacyforge.guiapi.Slider;
 import me.lefted.lunacyforge.guiscreen.interpreter.ModuleScreen;
 import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.ColorUtils;
@@ -43,26 +44,30 @@ public class Screen extends Panel {
 	// button.setCallback(() -> System.out.println("callback"));
 	// Keyboard.enableRepeatEvents(true);
 
-	Rectangle rect = new Rectangle(40, 150, 120, 80, ColorUtils.toRGB(Color.PINK));
-	this.getElements().add(rect);
-
-	Button schoen = new Button(30, 40, 200, 20, "schön");
-	Button traurig = new Button(30, 80, 200, 20, "traurig");
-	Button cool = new Button(30, 120, 200, 20, "modules");
-
-	schoen.setCallback(() -> {
-	    System.out.println("schön");
-	});
-	cool.setCallback(() -> {
-	    Minecraft.getMinecraft().displayGuiScreen(new ModuleScreen());
-	});
-	traurig.setCallback(() -> {
-	    System.out.println("traurig");
-	});
-
-	ButtonSelection selection = new ButtonSelection(0, traurig, cool, schoen);
-	this.getElements().add(selection);
-
+//	Rectangle rect = new Rectangle(40, 150, 120, 80, ColorUtils.toRGB(Color.PINK));
+//	this.getElements().add(rect);
+//
+//	Button schoen = new Button(30, 40, 200, 20, "schön");
+//	Button traurig = new Button(30, 80, 200, 20, "traurig");
+//	Button cool = new Button(30, 120, 200, 20, "modules");
+//
+//	schoen.setCallback(() -> {
+//	    System.out.println("schön");
+//	});
+//	cool.setCallback(() -> {
+//	    Minecraft.getMinecraft().displayGuiScreen(new ModuleScreen());
+//	});
+//	traurig.setCallback(() -> {
+//	    System.out.println("traurig");
+//	});
+//
+//	ButtonSelection selection = new ButtonSelection(0, traurig, cool, schoen);
+//	this.getElements().add(selection);
+//
+	Slider slider = new Slider(50, 100, 200, 0, 100, 1, 0);
+	this.getElements().add(slider);
+	
+	
 	this.setScrollMultiplier(50);
 
 	this.setVerticalScrolling(true);
