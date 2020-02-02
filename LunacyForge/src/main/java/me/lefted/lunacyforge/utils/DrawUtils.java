@@ -146,7 +146,6 @@ public class DrawUtils extends Gui {
     }
 
     /*
-     * @parms
      * x, y position to be rendered
      * imageWidth, imageHeight should be 256D
      * maxWidt, maxHeight are size in game		 

@@ -69,41 +69,100 @@ public class ModuleElement extends Element {
 	    new Color(128, 128, 128)));
     }
 
+    /* fixes a bug preventing multiple elements from (un-)folding at the same time */
+    private boolean shouldFold = false;
+    private boolean shouldUnfold = false;
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (this.isMouseOver(mouseX, mouseY)) {
+	if (this.isMouseOver(mouseX, mouseY) && mouseButton == 1) {
 
-	    for (Element element : this.elementList) {
-		if (element instanceof ModuleElement && element != this) {
-		    ModuleElement moduleElement = (ModuleElement) element;
-		    moduleElement.moveModuleY(this.elapsed ? -20 : 20);
-
-		}
+	    // unfold or fold the element
+	    if (this.elapsed) {
+		this.shouldFold = true;
+	    } else {
+		this.shouldUnfold = true;
 	    }
-	    this.elapsed = !this.elapsed;
 	}
     }
 
+    @Override
+    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	if (this.isMouseOver(mouseX, mouseY) && mouseButton == 1) {
+	    // System.out.println(this.module.getName());
+	    // unfold or fold the element
+	    if (this.shouldFold) {
+		this.fold(100);
+		this.shouldFold = false;
+	    } else if (this.shouldUnfold) {
+		this.unfold(100);
+		this.shouldUnfold = false;
+	    }
+	}
+    }
+
+    private void fold(int amount) {
+	// move all other elements under this one up
+	for (Element element : this.elementList) {
+	    if (element instanceof ModuleElement && element != this) {
+		ModuleElement moduleElement = (ModuleElement) element;
+
+		if (moduleElement.getIndex() > this.index) {
+		    moduleElement.offsetY(-amount);
+		}
+	    }
+	}
+	// decrease own height
+	this.height -= amount;
+	this.rect.setHeight(this.rect.getHeight() - amount);
+
+	this.elapsed = false;
+    }
+
+    private void unfold(int amount) {
+	// move all other elements under this one down
+	for (Element element : this.elementList) {
+	    if (element instanceof ModuleElement && element != this) {
+		ModuleElement moduleElement = (ModuleElement) element;
+		if (moduleElement.getIndex() > this.index) {
+		    moduleElement.offsetY(amount);
+		}
+	    }
+	}
+	// increase own height
+	this.height += amount;
+	this.rect.setHeight(this.rect.getHeight() + amount);
+
+	this.elapsed = true;
+    }
+
+    /*
+     * returns if the mouse is over this element
+     */
     public boolean isMouseOver(int mouseX, int mouseY) {
 	boolean hovered = mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this.getPosY() + this.height;
 	return hovered;
     }
 
     /*
-     * moves the module vertically, used when other modules have been unfolded
+     * moves the module vertically, used for folding
      */
-    public void moveModuleY(int offsetY) {
+    public void offsetY(int offsetY) {
 	super.setPosY(this.posY + offsetY);
 	this.rect.setPosY(this.rect.getPosY() + offsetY);
 	this.label.setPosY(this.label.getPosY() + offsetY);
 	this.checkboxElement.setPosY(this.checkboxElement.getPosY() + offsetY);
     }
 
-    public boolean isElapsed() {
-	return elapsed;
+    public int getIndex() {
+	return index;
     }
 
-    public void setElapsed(boolean elapsed) {
-	this.elapsed = elapsed;
-    }
+    // public boolean isElapsed() {
+    // return elapsed;
+    // }
+    //
+    // public void setElapsed(boolean elapsed) {
+    // this.elapsed = elapsed;
+    // }
 }

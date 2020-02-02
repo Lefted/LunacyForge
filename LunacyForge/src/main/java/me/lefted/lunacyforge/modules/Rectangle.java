@@ -32,10 +32,32 @@ public class Rectangle extends Element {
 	}
     }
 
-    /*
-     * should this draw a selection box instead
-     */
+    /* sets if this should draw a selection box instead of a filled rectangle */
     public void setSelection(boolean selection) {
 	this.selection = selection;
+    }
+
+    public int getHeight() {
+	return height;
+    }
+
+    public void setHeight(int height) {
+	this.height = height;
+    }
+
+    public int getWidth() {
+	return width;
+    }
+
+    public void setWidth(int width) {
+	this.width = width;
+    }
+
+    public int getColor() {
+	return color;
+    }
+
+    public void setColor(int color) {
+	this.color = color;
     }
 }
