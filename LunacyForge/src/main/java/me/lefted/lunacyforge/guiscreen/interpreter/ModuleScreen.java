@@ -6,6 +6,9 @@ import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 
+/*
+ * The actual screen where you can change settings
+ */
 public class ModuleScreen extends Panel {
 
     // CONSTRUCTOR
@@ -13,6 +16,7 @@ public class ModuleScreen extends Panel {
 	super(0, 0);
 	this.setDrawDefaultBackground(true);
 	this.setVerticalScrolling(true);
+	this.setScrollMouseButtons(1);
     }
 
     // METHODS

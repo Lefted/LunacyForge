@@ -1,7 +1,5 @@
 package me.lefted.lunacyforge.testgui;
 
-import java.awt.Color;
-
 import org.lwjgl.input.Keyboard;
 
 import me.lefted.lunacyforge.guiapi.Button;
@@ -9,8 +7,6 @@ import me.lefted.lunacyforge.guiapi.ButtonSelection;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Slider;
 import me.lefted.lunacyforge.guiscreen.interpreter.ModuleScreen;
-import me.lefted.lunacyforge.modules.Rectangle;
-import me.lefted.lunacyforge.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
 
 public class Screen extends Panel {
@@ -47,29 +43,32 @@ public class Screen extends Panel {
 //	Rectangle rect = new Rectangle(40, 150, 120, 80, ColorUtils.toRGB(Color.PINK));
 //	this.getElements().add(rect);
 //
-//	Button schoen = new Button(30, 40, 200, 20, "schön");
-//	Button traurig = new Button(30, 80, 200, 20, "traurig");
-//	Button cool = new Button(30, 120, 200, 20, "modules");
+	Button schoen = new Button(30, 40, 200, 20, "schön");
+	Button traurig = new Button(30, 80, 200, 20, "traurig");
+	Button cool = new Button(30, 120, 200, 20, "modules");
+
+	schoen.setCallback(() -> {
+	    System.out.println("schön");
+	});
+	cool.setCallback(() -> {
+	    Minecraft.getMinecraft().displayGuiScreen(new ModuleScreen());
+	});
+	traurig.setCallback(() -> {
+	    System.out.println("traurig");
+	});
+
+	ButtonSelection selection = new ButtonSelection(0, traurig, cool, schoen);
+	this.getElements().add(selection);
 //
-//	schoen.setCallback(() -> {
-//	    System.out.println("schön");
-//	});
-//	cool.setCallback(() -> {
-//	    Minecraft.getMinecraft().displayGuiScreen(new ModuleScreen());
-//	});
-//	traurig.setCallback(() -> {
-//	    System.out.println("traurig");
-//	});
-//
-//	ButtonSelection selection = new ButtonSelection(0, traurig, cool, schoen);
-//	this.getElements().add(selection);
-//
-	Slider slider = new Slider(50, 100, 200, 0, 100, 1, 0);
+	
+	Slider slider = new Slider(30, 180, 200, 0, 10, 1, 0);
 	this.getElements().add(slider);
 	
+//	Slider slider = new Slider(50, 100, 200, 0, 100, 1, 0);
+//	this.getElements().add(slider);
 	
+	this.setScrollMouseButtons(1);
 	this.setScrollMultiplier(50);
-
 	this.setVerticalScrolling(true);
 	this.setVerticalWheelScrolling(true);
 	this.setHorizontalScrolling(true);

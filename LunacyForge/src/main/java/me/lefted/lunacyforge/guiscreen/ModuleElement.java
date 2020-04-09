@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import me.lefted.lunacyforge.guiapi.Checkbox;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.guiapi.Label;
+import me.lefted.lunacyforge.guiapi.Slider;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 
-/* contains the module: enabled button, label and further settings */
+/* contains the module: enabled button, keybind, label and further settings */
 public class ModuleElement extends Element {
 
     // ATTRIBUTES
@@ -30,7 +31,11 @@ public class ModuleElement extends Element {
     private int index;
     private boolean elapsed;
 
+    // DEBUG
+    private Slider slider;
+
     // CONSTRUCTOR
+    // FIXME posY is not in top left
     public ModuleElement(Module module, int index, ArrayList<Element> elementList) {
 	this.module = module;
 	this.index = index;
@@ -49,9 +54,14 @@ public class ModuleElement extends Element {
 	this.rect = new Rectangle(this.getPosX(), this.getPosY(), width, height, ColorUtils.toRGB(new Color(22, 15, 48)));
 	this.rect.setSelection(true);
 	this.label = new Label(this.getPosX() + 2, this.getPosY() + 1, module.getName(), 0x20C20E);
+	// DEBUG
+	this.slider = new Slider(this.getPosX() + 5, this.getPosY() + 0, 200, 0, 1, 1, 1);
 
 	this.checkboxElement = new Checkbox(this.right - 20, this.getPosY(), this.module.isEnabled());
 	this.checkboxElement.setVisible(true);
+
+	// DEBUG
+	this.elementList.add(this.slider);
 
 	this.elementList.add(this.rect);
 	this.elementList.add(this.label);

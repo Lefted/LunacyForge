@@ -22,11 +22,15 @@ public class Panel extends GuiScreen {
     private int lastMouseY = 0;
     private int lastMouseX = 0;
     private int scrollMultiplier = 5;
+    private int[] scrollMouseButtons = { 0, 1, 2 };
     private int initialX;
     private int initialY;
     private Borders borders;
 
     // CONSTRUCTOR
+    /*
+     * x, y are coordinates where the panel is scrolled
+     */
     public Panel(int x, int y) {
 	this.posX = x;
 	this.posY = y;
@@ -90,10 +94,22 @@ public class Panel extends GuiScreen {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	this.newClick = true;
 	for (Element element : this.elements) {
 	    element.mouseClicked(mouseX, mouseY, mouseButton);
 	}
+
+	boolean flag = true;
+	/* only drag if button should drag*/
+	for (int i : this.scrollMouseButtons) {
+	    if (i == mouseButton) {
+		flag = false;
+	    }
+	}
+	if (flag) {
+	    return;
+	}
+
+	this.newClick = true;
     }
 
     @Override
@@ -101,10 +117,36 @@ public class Panel extends GuiScreen {
 	for (Element element : this.elements) {
 	    element.mouseReleased(mouseX, mouseY, mouseButton);
 	}
+
+	boolean flag = true;
+	/* only drag if button should drag*/
+	for (int i : this.scrollMouseButtons) {
+	    if (i == mouseButton) {
+		flag = false;
+	    }
+	}
+	if (flag) {
+	    return;
+	}
     }
 
     @Override
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
+	for (Element element : this.elements) {
+	    element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+	}
+
+	boolean flag = true;
+	/* only drag if button should drag*/
+	for (int i : this.scrollMouseButtons) {
+	    if (i == mouseButton) {
+		flag = false;
+	    }
+	}
+	if (flag) {
+	    return;
+	}
+
 	if (this.isVerticalScrolling()) {
 	    this.lastMouseY = (this.newClick) ? mouseY : this.lastMouseY;
 	    final int diffY = mouseY - this.lastMouseY;
@@ -119,9 +161,6 @@ public class Panel extends GuiScreen {
 	    this.scrollHorizontalByAmount(diffX);
 	}
 
-	for (Element element : this.elements) {
-	    element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
-	}
 	this.newClick = false;
 	this.lastMouseY = mouseY;
 	this.lastMouseX = mouseX;
@@ -135,14 +174,14 @@ public class Panel extends GuiScreen {
 	    element.keyTyped(typedChar, keyCode);
 	}
     }
-    
+
     @Override
     public void updateScreen() {
-        super.updateScreen();
-        
-        for (Element element : this.elements) {
-            element.updateScreen();
-        }
+	super.updateScreen();
+
+	for (Element element : this.elements) {
+	    element.updateScreen();
+	}
     }
 
     public void setX(int x) {
@@ -227,5 +266,16 @@ public class Panel extends GuiScreen {
 
     public Borders getBorders() {
 	return borders;
+    }
+
+    /**
+     * @param scrollMouseButtons array of buttons (0 = left button 1 = right button 2 = middle button)
+     */
+    public void setScrollMouseButtons(int... scrollMouseButtons) {
+	if (scrollMouseButtons.length > 3) {
+	    System.err.println("Error in setScrollMouseButtons array is too big (larger than 3)");
+	    return;
+	}
+	this.scrollMouseButtons = scrollMouseButtons;
     }
 }

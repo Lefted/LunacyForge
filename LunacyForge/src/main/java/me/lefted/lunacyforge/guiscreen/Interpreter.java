@@ -36,8 +36,7 @@ public class Interpreter {
 	    final Module module = ModuleManager.getModuleList().get(i);
 
 	    if (Interpreter.moduleHasClassAnnotation(module)) {
-		// TODO add modules as label and checkboxes
-
+		// creates the moduleElement (Box with Name, Keybind, Toggle, Options)
 		ModuleElement moduleElement = new ModuleElement(module, i, elementList);
 		elementList.add(moduleElement);
 	    }
