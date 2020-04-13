@@ -5,10 +5,9 @@ import me.lefted.lunacyforge.guiscreen.Interpreter;
 import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
-/*
- * The actual screen where you can change settings
- */
+/* The actual screen where you can change settings */
 public class ModuleScreen extends Panel {
 
     // CONSTRUCTOR
@@ -28,6 +27,19 @@ public class ModuleScreen extends Panel {
 
 	// adds all available modules
 	Interpreter.addInterpretedModules(this.getElements());
+    }
+
+    // DEBUG
+    private static final ResourceLocation SEARCH = new ResourceLocation("lunacyforge", "search.png");
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	super.drawScreen(mouseX, mouseY, partialTicks);
+
+	final DrawUtils utils = DrawUtils.INSTANCE;
+
+	utils.bindTexture(SEARCH);
+	utils.drawTexturedRectangle(this.width / 2 - 350 / 2, 50, 0, 0, 350, 30);
     }
 
 }

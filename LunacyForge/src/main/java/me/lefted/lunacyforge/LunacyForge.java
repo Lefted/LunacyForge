@@ -7,6 +7,7 @@ import com.darkmagician6.eventapi.EventManager;
 import me.lefted.lunacyforge.command.CommandManager;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
+import me.lefted.lunacyforge.guiscreen.interpreter.ClickGuiScreen;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
@@ -43,6 +44,8 @@ public final class LunacyForge {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
+
+	ClickGuiScreen.instance = new ClickGuiScreen();
     }
 
     public void stopClient() {

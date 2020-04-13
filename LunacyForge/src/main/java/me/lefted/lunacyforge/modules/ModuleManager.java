@@ -26,10 +26,12 @@ public final class ModuleManager {
     // ATTRIBUTES
     private static final List<Module> modules = new ArrayList<Module>();;
 
+    // CONSTRUCTOR
     public ModuleManager() {
 	EventManager.register(this);
     }
 
+    // METHODS
     // registering modules goes here
     public void registerAllModules() {
 	this.registerModule(new Reach());
@@ -38,6 +40,7 @@ public final class ModuleManager {
 	this.registerModule(new Parkour());
 	this.registerModule(new Fullbright());
 	this.registerModule(new FastBridge());
+	this.registerModule(new ClickGui());
     }
     
     // listens for key inputs

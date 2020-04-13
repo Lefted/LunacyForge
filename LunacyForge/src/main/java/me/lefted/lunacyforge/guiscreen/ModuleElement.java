@@ -12,6 +12,7 @@ import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 /* contains the module: enabled button, keybind, label and further settings */
 public class ModuleElement extends Element {
@@ -68,6 +69,8 @@ public class ModuleElement extends Element {
 	this.elementList.add(this.checkboxElement);
     }
 
+    
+    
     // METHODS
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
