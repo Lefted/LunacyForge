@@ -56,9 +56,9 @@ public class ModuleContainer extends Element {
 	}
     }
 
-    public void updateVisibleCoords(int scissorBoxTop, int sciccorBoxBottom) {
+    public void updateVisibleCoords(int scissorBoxTop, int scissorBoxBottom) {
 	visibleYTop = (posY >= scissorBoxTop) ? posY : scissorBoxTop;
-	visibleYBottom = (posY + HEIGHT <= sciccorBoxBottom) ? posY + HEIGHT : sciccorBoxBottom;
+	visibleYBottom = (posY + HEIGHT <= scissorBoxBottom) ? posY + HEIGHT : scissorBoxBottom;
     }
     
     @Override
