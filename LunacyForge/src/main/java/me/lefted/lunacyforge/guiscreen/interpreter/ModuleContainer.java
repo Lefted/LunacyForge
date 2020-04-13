@@ -2,6 +2,7 @@ package me.lefted.lunacyforge.guiscreen.interpreter;
 
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Module;
+import me.lefted.lunacyforge.modules.Reach;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
@@ -13,10 +14,12 @@ public class ModuleContainer extends Element {
     // CONSTANTS
     public static final int WIDTH = 350;
     public static final int HEIGHT = 30;
-    public static final ResourceLocation SEARCH_CONTAINER = new ResourceLocation("lunacyforge", "search_container.png");
+    private static final ResourceLocation SEARCH_CONTAINER = new ResourceLocation("lunacyforge", "search_container.png");
 
     // ATTRIBUTES
     private Module module;
+    private int visibleYTop;
+    private int visibleYBottom;
 
     // CONSTRUCTOR
     public ModuleContainer(Module module) {
@@ -47,16 +50,21 @@ public class ModuleContainer extends Element {
     // opens the module settings
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (isMouseOver(mouseX, mouseY)) {
+	if (isVisible() && isMouseOver(mouseX, mouseY)) {
 	    // DEBUG
 	    Logger.logChatMessage("Module " + module.getName() + " has been clicked");
 	}
     }
 
+    public void updateVisibleCoords(int scissorBoxTop, int sciccorBoxBottom) {
+	visibleYTop = (posY >= scissorBoxTop) ? posY : scissorBoxTop;
+	visibleYBottom = (posY + HEIGHT <= sciccorBoxBottom) ? posY + HEIGHT : sciccorBoxBottom;
+    }
+    
     @Override
     public boolean isMouseOver(int mouseX, int mouseY) {
 	boolean flag1 = mouseX <= posX + WIDTH && mouseX >= posX;
-	boolean flag2 = mouseY <= posY + HEIGHT && mouseY >= posY;
+	boolean flag2 = mouseY <= visibleYBottom && mouseY >= visibleYTop;
 	return flag1 && flag2;
     }
 }

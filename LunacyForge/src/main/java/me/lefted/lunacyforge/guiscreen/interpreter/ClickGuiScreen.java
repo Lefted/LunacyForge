@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.modules.ClickGui;
+import me.lefted.lunacyforge.modules.KeepSprint;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.ColorUtils;
@@ -23,12 +24,12 @@ public class ClickGuiScreen extends Panel {
 
     // CONSTANTS
     private static final int CONTAINER_SPACING = 4;
-    private static final ResourceLocation SEARCH = new ResourceLocation("lunacyforge", "search2.png");
     private static final ResourceLocation MEME_NIGGA = new ResourceLocation("lunacyforge", "meme_nigga.png");
 
     // ATTRIBUTES
     private boolean shouldBlur = true;
     private ArrayList<ModuleContainer> container;
+    private SearchBar search;
 
     // INSTANCE
     public static ClickGuiScreen instance;
@@ -39,6 +40,7 @@ public class ClickGuiScreen extends Panel {
 	setDrawDefaultBackground(false);
 	setVerticalScrolling(true);
 	container = new ArrayList<ModuleContainer>();
+	search = new SearchBar();
     }
 
     // METHODS
@@ -49,24 +51,21 @@ public class ClickGuiScreen extends Panel {
 	drawCustomBackground();
 
 	GlStateManager.enableBlend();
-	// TODO make search own element
-	final int searchWidth = 350;
-	final int searchHeight = 30;
-	final int searchY = this.height / 10;
-	final int searchX = this.width / 2 - searchWidth / 2;
 
-	// search
-	utils.bindTexture(SEARCH);
-	utils.drawTexturedRectangle(searchX, searchY, 0, 0, searchWidth, searchHeight);
+	// searchbar
+	search.draw(mouseX, mouseY, partialTicks);
+	
 	// meme nigga
 	utils.bindTexture(MEME_NIGGA);
 	utils.drawTexturedRectangle(this.width - 46, this.height - 64, 0, 0, 48, 64);
 
 	// module container
-	final int startY = searchY + searchHeight + CONTAINER_SPACING * 5;
-
+	final int startY = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
+	
 	// scissor box
-	scissorBox(searchX, startY, searchX + searchWidth, startY + 250);
+	final int scissorBoxTop = startY;
+	final int scissorBoxBottom = startY + 250;
+	scissorBox(search.getPosX(), scissorBoxTop, search.getPosX() + SearchBar.WIDTH, scissorBoxBottom);
 	GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
 	// for all containers
@@ -75,6 +74,16 @@ public class ClickGuiScreen extends Panel {
 
 	    // update module container positions
 	    container.setPosY(startY + ModuleContainer.HEIGHT * i + CONTAINER_SPACING * i + this.getY());
+	    // and its visible coords
+	    container.updateVisibleCoords(scissorBoxTop, scissorBoxBottom);
+	    
+	    // if out of scissorbox make them invisible
+	    if ((container.getPosY() + ModuleContainer.HEIGHT) <= startY || container.getPosY() >= startY + 250) {
+		container.setVisible(false);
+	    } else {
+		container.setVisible(true);
+	    }
+	    
 	    // and draw them
 	    container.draw(mouseX, mouseY, partialTicks);
 	}
@@ -115,6 +124,8 @@ public class ClickGuiScreen extends Panel {
 	for (ModuleContainer container : this.container) {
 	    container.mouseClicked(mouseX, mouseY, mouseButton);
 	}
+	
+	search.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -144,10 +155,18 @@ public class ClickGuiScreen extends Panel {
 		continue;
 	    }
 	    final ModuleContainer container = new ModuleContainer(module);
+	    
+	    if (module instanceof KeepSprint) {
+		container.setVisible(false);
+	    }
+	    
 	    // and ad it
 	    this.container.add(container);
 	}
 
+	// init searchbar
+	search.init();
+	
 	// set panel posY to 0
 	setY(0);
 	// blur may be set by the user later
