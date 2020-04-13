@@ -51,8 +51,7 @@ public class ModuleContainer extends Element {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (isVisible() && isMouseOver(mouseX, mouseY)) {
-	    // DEBUG
-	    Logger.logChatMessage("Module " + module.getName() + " has been clicked");
+	    Logger.logChatMessage("module " + module.getName() + " clicked");
 	}
     }
 

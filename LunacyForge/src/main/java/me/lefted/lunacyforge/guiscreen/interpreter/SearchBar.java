@@ -37,7 +37,7 @@ public class SearchBar extends Element{
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (isMouseOver(mouseX, mouseY)) {
 	    // DEBUG
-	    Logger.logChatMessage("seach has been clicked");
+	    Logger.logChatMessage("search has been clicked");
 	}
     }
     
