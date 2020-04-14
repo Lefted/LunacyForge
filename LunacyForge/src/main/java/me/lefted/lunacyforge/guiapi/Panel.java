@@ -26,6 +26,7 @@ public class Panel extends GuiScreen {
     private int initialX;
     private int initialY;
     private Borders borders;
+    private boolean initDone = false;
 
     // CONSTRUCTOR
     /*
@@ -64,14 +65,23 @@ public class Panel extends GuiScreen {
     }
 
     @Override
+    public void initGui() {
+	super.initGui();
+	initDone = true;
+    }
+
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 	super.drawScreen(mouseX, mouseY, partialTicks);
 
 	if (this.isDrawDefaultBackground()) {
 	    this.drawDefaultBackground();
 	}
-	for (Element element : this.elements) {
-	    element.draw(mouseX, mouseY, partialTicks);
+
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.draw(mouseX, mouseY, partialTicks);
+	    }
 	}
     }
 
@@ -94,10 +104,12 @@ public class Panel extends GuiScreen {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	for (Element element : this.elements) {
-	    element.mouseClicked(mouseX, mouseY, mouseButton);
-	}
 
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.mouseClicked(mouseX, mouseY, mouseButton);
+	    }
+	}
 	boolean flag = true;
 	/* only drag if button should drag*/
 	for (int i : this.scrollMouseButtons) {
@@ -114,10 +126,11 @@ public class Panel extends GuiScreen {
 
     @Override
     public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-	for (Element element : this.elements) {
-	    element.mouseReleased(mouseX, mouseY, mouseButton);
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.mouseReleased(mouseX, mouseY, mouseButton);
+	    } 
 	}
-
 	boolean flag = true;
 	/* only drag if button should drag*/
 	for (int i : this.scrollMouseButtons) {
@@ -132,10 +145,11 @@ public class Panel extends GuiScreen {
 
     @Override
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
-	for (Element element : this.elements) {
-	    element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+	    } 
 	}
-
 	boolean flag = true;
 	/* only drag if button should drag*/
 	for (int i : this.scrollMouseButtons) {
@@ -170,8 +184,10 @@ public class Panel extends GuiScreen {
     public void keyTyped(char typedChar, int keyCode) throws IOException {
 	super.keyTyped(typedChar, keyCode);
 
-	for (Element element : this.elements) {
-	    element.keyTyped(typedChar, keyCode);
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.keyTyped(typedChar, keyCode);
+	    } 
 	}
     }
 
@@ -179,8 +195,10 @@ public class Panel extends GuiScreen {
     public void updateScreen() {
 	super.updateScreen();
 
-	for (Element element : this.elements) {
-	    element.updateScreen();
+	if (initDone) {
+	    for (Element element : this.elements) {
+		element.updateScreen();
+	    } 
 	}
     }
 
