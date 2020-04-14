@@ -3,6 +3,7 @@ package me.lefted.lunacyforge.guiscreen.interpreter;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.modules.Category;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.KeepSprint;
 import me.lefted.lunacyforge.modules.Module;
@@ -107,6 +108,13 @@ public class SearchBar extends Element {
 		if (inputTag.equalsIgnoreCase(module.getName()) || inputTag.toLowerCase().contains(module.getName().toLowerCase()) || module.getName()
 		    .toLowerCase().startsWith(inputTag.toLowerCase())) {
 		    // add the module and check next module
+		    final ModuleContainer container = new ModuleContainer(module);
+		    results.add(container);
+		    continue moduleLoop;
+		}
+
+		// if one tag matches one category
+		if (module.getCategory().name().toLowerCase().startsWith(inputTag.toLowerCase()) || inputTag.equalsIgnoreCase(module.getCategory().name())) {
 		    final ModuleContainer container = new ModuleContainer(module);
 		    results.add(container);
 		    continue moduleLoop;
