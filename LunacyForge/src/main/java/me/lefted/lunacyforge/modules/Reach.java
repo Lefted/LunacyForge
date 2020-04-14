@@ -11,6 +11,7 @@ public class Reach extends Module {
 
     public Reach() {
 	super("Reach", Category.COMBAT);
+	setTags("range", "hitdistance");
     }
 
     @Override

@@ -20,10 +20,12 @@ public abstract class Module {
     private boolean enabled;
     private boolean rage;
     private Category category;
+    private String[] tags;
 
     // ACCESS
     protected Minecraft mc = Minecraft.getMinecraft();
 
+    // CONSTRUCTOR
     public Module(String name, Category category) {
 	this.name = name;
 	this.category = category;
@@ -32,6 +34,7 @@ public abstract class Module {
 	this.keycode = 0;
     }
 
+    // METHODS
     // marks the module as rage
     protected void markAsRage() {
 	this.rage = true;
@@ -131,5 +134,17 @@ public abstract class Module {
 	}
 
 	return values;
+    }
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String... tags) {
+        this.tags = tags;
+    }
+    
+    public boolean hasTags() {
+	return tags != null && tags.length != 0;
     }
 }

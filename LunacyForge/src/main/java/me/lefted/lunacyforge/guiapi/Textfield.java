@@ -19,13 +19,13 @@ import net.minecraft.util.MathHelper;
 public class Textfield extends Element {
 
     // ATTRIBUTES
-    private static FontRenderer fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
-    private final int width;
-    private final int height;
+    protected static FontRenderer fontRendererInstance = Minecraft.getMinecraft().fontRendererObj;
+    protected final int width;
+    protected final int height;
     private int maxStringLength = 32;
-    private int cursorCounter;
-    private String text = "";
-    private boolean enableBackgroundDrawing = true;
+    protected int cursorCounter;
+    protected String text = "";
+    protected boolean enableBackgroundDrawing = true;
     private Consumer<String> consumer;
 
     /**
@@ -36,23 +36,23 @@ public class Textfield extends Element {
     /**
      * If this value is true along with isEnabled, keyTyped will process the keys.
      */
-    private boolean isFocused;
+    protected boolean isFocused;
 
     /**
      * If this value is true along with isFocused, keyTyped will process the keys.
      */
-    private boolean isEnabled = true;
+    protected boolean isEnabled = true;
 
     /**
      * The current character index that should be used as start of the rendered text.
      */
-    private int lineScrollOffset;
-    private int cursorPosition;
+    protected int lineScrollOffset;
+    protected int cursorPosition;
 
     /** other selection position, maybe the same as the cursor */
-    private int selectionEnd;
-    private int enabledColor = 14737632;
-    private int disabledColor = 7368816;
+    protected int selectionEnd;
+    protected int enabledColor = 14737632;
+    protected int disabledColor = 7368816;
     private Predicate<String> validator = Predicates.<String>alwaysTrue();
 
     // CONSTRUCOTOR
@@ -384,7 +384,7 @@ public class Textfield extends Element {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	boolean flag = mouseX >= this.getPosX() && mouseX < this.getPosX() + this.width && mouseY >= this.getPosY() && mouseY < this.getPosY() + this.height;
+	boolean flag = isMouseOver(mouseX, mouseY);
 
 	if (this.canLoseFocus) {
 	    this.setFocused(flag);
@@ -402,6 +402,10 @@ public class Textfield extends Element {
 	}
     }
 
+    public boolean isMouseOver(int mouseX, int mouseY) {
+	return mouseX >= this.getPosX() && mouseX < this.getPosX() + this.width && mouseY >= this.getPosY() && mouseY < this.getPosY() + this.height;
+    }
+    
     /**
      * Draws the textbox
      */
@@ -464,7 +468,7 @@ public class Textfield extends Element {
     /**
      * draws the vertical line cursor in the textbox
      */
-    private void drawCursorVertical(int p_146188_1_, int p_146188_2_, int p_146188_3_, int p_146188_4_) {
+    public void drawCursorVertical(int p_146188_1_, int p_146188_2_, int p_146188_3_, int p_146188_4_) {
 	if (p_146188_1_ < p_146188_3_) {
 	    int i = p_146188_1_;
 	    p_146188_1_ = p_146188_3_;

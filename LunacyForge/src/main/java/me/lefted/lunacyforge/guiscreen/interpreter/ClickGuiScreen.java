@@ -1,5 +1,6 @@
 package me.lefted.lunacyforge.guiscreen.interpreter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
@@ -29,34 +30,36 @@ public class ClickGuiScreen extends Panel {
 
     // ATTRIBUTES
     private boolean shouldBlur = true;
-    private ArrayList<ModuleContainer> container;
+    private boolean initDone = false;
+    private ArrayList<ModuleContainer> resultingContainers;
     private SearchBar search;
     private ScissorBox scissorBox;
 
     // INSTANCE
     public static ClickGuiScreen instance;
-    // private int scissorBoxTop;
-    // private int scissorBoxBottom;
 
     // CONSTRUCTOR
     public ClickGuiScreen() {
 	super(0, 0);
 	setDrawDefaultBackground(false);
 	setVerticalScrolling(true);
-	container = new ArrayList<ModuleContainer>();
+	setVerticalWheelScrolling(true);
+	resultingContainers = new ArrayList<ModuleContainer>();
     }
 
     // METHODS
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
 	final DrawUtils utils = DrawUtils.INSTANCE;
 
 	drawCustomBackground();
 
 	GlStateManager.enableBlend();
-
-	// searchbar
-	search.draw(mouseX, mouseY, partialTicks);
 
 	// meme nigga
 	utils.bindTexture(MEME_NIGGA);
@@ -70,8 +73,8 @@ public class ClickGuiScreen extends Panel {
 	GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
 	// for all containers
-	for (int i = 0; i < container.size(); i++) {
-	    final ModuleContainer container = this.container.get(i);
+	for (int i = 0; i < resultingContainers.size(); i++) {
+	    final ModuleContainer container = this.resultingContainers.get(i);
 
 	    // update module container positions
 	    container.setPosY(startY + ModuleContainer.HEIGHT * i + CONTAINER_SPACING * i + this.getY());
@@ -93,6 +96,9 @@ public class ClickGuiScreen extends Panel {
 	GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	GlStateManager.disableBlend();
 
+	// searchbar
+	search.draw(mouseX, mouseY, partialTicks);
+
 	super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -109,10 +115,15 @@ public class ClickGuiScreen extends Panel {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
 	// call the panels mouseClicked
 	super.mouseClicked(mouseX, mouseY, mouseButton);
 
-	for (ModuleContainer container : this.container) {
+	for (ModuleContainer container : this.resultingContainers) {
 	    container.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
@@ -120,69 +131,64 @@ public class ClickGuiScreen extends Panel {
     }
 
     @Override
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	if (keyCode == Keyboard.KEY_ESCAPE) {
+	    super.keyTyped(typedChar, keyCode);
+	} else {
+	    // searchbar
+	    search.keyTyped(typedChar, keyCode);
+	}
+    }
+
+    @Override
     public void updateScreen() {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
 	super.updateScreen();
 
-	// InventoryMove Credits @Andrew Saint 2.3
-	KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-		mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-	KeyBinding[] array = moveKeys;
-	int length = moveKeys.length;
-
-	for (int i = 0; i < length; ++i) {
-	    KeyBinding bind = array[i];
-	    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	if (!search.getTextfield().isFocused()) {
+	    // InventoryMove Credits @Andrew Saint 2.3
+	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+	    KeyBinding[] array = moveKeys;
+	    int length = moveKeys.length;
+	    for (int i = 0; i < length; ++i) {
+		KeyBinding bind = array[i];
+		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	    }
 	}
+	// searchbar
+	search.updateScreen();
     }
 
     // TODO is called twice
     @Override
     public void initGui() {
-	// clear container list
-	container.clear();
 	// add all available modules as container
-	for (Module module : ModuleManager.getModuleList()) {
-	    if (module instanceof ClickGui) {
-		continue;
-	    }
-	    final ModuleContainer container = new ModuleContainer(module);
+	addAllModules(resultingContainers);
 
-	    if (module instanceof KeepSprint) {
-		container.setVisible(false);
-	    }
+	// create searchbar (needs current resolution, thats why it's in initGui)
+	search = new SearchBar(resultingContainers, this);
 
-	    // and ad it
-	    this.container.add(container);
-	}
-
-	// DEBUG
-	for (Module module : ModuleManager.getModuleList()) {
-	    if (module instanceof ClickGui) {
-		continue;
-	    }
-	    final ModuleContainer container = new ModuleContainer(module);
-
-	    if (module instanceof KeepSprint) {
-		container.setVisible(false);
-	    }
-
-	    // and ad it
-	    this.container.add(container);
-	}
-
-	// set panel borders
-	setPanelBorders();
-	// init searchbar
-	search = new SearchBar();
-	search.init();
-	
 	// scissor box
 	final int boxTop = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
 	final int boxBottom = boxTop + 250;
 	scissorBox = new ScissorBox(boxTop, boxBottom);
-	
+
 	// set panel posY to 0
 	setY(0);
+
+	// set panel borders
+	setPanelBorders();
+
 	// blur may be set by the user later
 	shouldBlur = false;
 	/*
@@ -194,17 +200,39 @@ public class ClickGuiScreen extends Panel {
 	    }
 	    mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
 	}
+
+	// initialisation finished
+	initDone = true;
+    }
+
+    // add all available modules
+    public static void addAllModules(ArrayList<ModuleContainer> list) {
+	// clear container list
+	list.clear();
+	// add all available modules as container
+	for (Module module : ModuleManager.getModuleList()) {
+	    if (module instanceof ClickGui) {
+		continue;
+	    }
+	    // create new container
+	    final ModuleContainer container = new ModuleContainer(module);
+
+	    // and ad it
+	    list.add(container);
+	}
     }
 
     // sets the borders accrodingly to how much the user needs to be able to scroll
-    private void setPanelBorders() {
+    public void setPanelBorders() {
 	// calculate the sum height of all containers and spacing
-	final int sumHeight = ModuleContainer.HEIGHT * container.size() + CONTAINER_SPACING * (container.size() - 1);
+	final int sumHeight = ModuleContainer.HEIGHT * resultingContainers.size() + CONTAINER_SPACING * (resultingContainers.size() - 1);
 	// calculate the scissorbox height
 	final int scissorBoxHeight = scissorBox.getBoxBottom() - scissorBox.getBoxTop();
 
 	if (sumHeight > scissorBoxHeight) {
 	    getBorders().setMinY(-(sumHeight - scissorBoxHeight));
+	} else {
+	    getBorders().setMinY(0);
 	}
 	getBorders().setMaxY(0);
     }
