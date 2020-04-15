@@ -26,12 +26,12 @@ public class ClickGuiScreen extends Panel {
 
     // CONSTANTS
     private static final int CONTAINER_SPACING = 4;
-    private static final ResourceLocation MEME_NIGGA = new ResourceLocation("lunacyforge", "meme_nigga.png");
 
     // ATTRIBUTES
     private boolean shouldBlur = true;
     private boolean initDone = false;
     private ArrayList<ModuleContainer> resultingContainers;
+    private GuiSecurity security;
     private SearchBar search;
     private ScissorBox scissorBox;
 
@@ -57,13 +57,11 @@ public class ClickGuiScreen extends Panel {
 
 	final DrawUtils utils = DrawUtils.INSTANCE;
 
+	// background
 	drawCustomBackground();
 
-	GlStateManager.enableBlend();
-
-	// meme nigga
-	utils.bindTexture(MEME_NIGGA);
-	utils.drawTexturedRectangle(this.width - 46, this.height - 64, 0, 0, 48, 64);
+	// gui security
+	security.draw(mouseX, mouseY, partialTicks);
 
 	// module container
 	final int startY = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
@@ -71,7 +69,10 @@ public class ClickGuiScreen extends Panel {
 	// scissor box
 	scissorBox.cut(search.getPosX(), scissorBox.getBoxTop(), search.getPosX() + SearchBar.WIDTH, scissorBox.getBoxBottom());
 	GL11.glEnable(GL11.GL_SCISSOR_TEST);
-
+	// enable blending
+	GlStateManager.enableBlend();
+	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	
 	// for all containers
 	for (int i = 0; i < resultingContainers.size(); i++) {
 	    final ModuleContainer container = this.resultingContainers.get(i);
@@ -81,7 +82,7 @@ public class ClickGuiScreen extends Panel {
 	    // and its visible coords
 	    container.updateVisibleCoords(scissorBox.getBoxTop(), scissorBox.getBoxBottom());
 
-	    // if out of scissorbox make them invisible
+	    // if completly out of scissorbox make them invisible
 	    if ((container.getPosY() + ModuleContainer.HEIGHT) <= startY || container.getPosY() >= startY + 250) {
 		container.setVisible(false);
 	    } else {
@@ -94,11 +95,12 @@ public class ClickGuiScreen extends Panel {
 
 	// end of module container -> end of scissor box
 	GL11.glDisable(GL11.GL_SCISSOR_TEST);
-	GlStateManager.disableBlend();
 
 	// searchbar
 	search.draw(mouseX, mouseY, partialTicks);
 
+	// disable blending
+	GlStateManager.disableBlend();
 	super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -128,6 +130,8 @@ public class ClickGuiScreen extends Panel {
 	}
 
 	search.mouseClicked(mouseX, mouseY, mouseButton);
+	
+	security.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -175,6 +179,9 @@ public class ClickGuiScreen extends Panel {
 	// add all available modules as container
 	addAllModules(resultingContainers);
 
+	// create the gui security
+	security = new GuiSecurity();
+	
 	// create searchbar (needs current resolution, thats why it's in initGui)
 	search = new SearchBar(resultingContainers, this);
 
@@ -239,6 +246,7 @@ public class ClickGuiScreen extends Panel {
 
     @Override
     public void onGuiClosed() {
+	security.onGuiClose();
 	/*
 	 * End blur 
 	 */

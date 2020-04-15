@@ -76,8 +76,10 @@ public class SearchBar extends Element {
 	// textfield
 	textfield.keyTyped(typedChar, keyCode);
 
-	// update search results
-	updateSearchresults(textfield.getText());
+	// update search results if textfield is focused
+	if (textfield.isFocused()) {
+	    updateSearchresults(textfield.getText());
+	}
     }
 
     private void updateSearchresults(String text) {

@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.darkmagician6.eventapi.EventManager;
@@ -18,6 +19,8 @@ import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Timer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,19 +35,19 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
 
     @Shadow
     private int rightClickDelayTimer;
-    
+
     private Timer aimAssistTimer = new Timer(20.0F);
 
     @Override
     public net.minecraft.util.Timer getAimAssistTimer() {
 	return this.aimAssistTimer;
     }
-    
+
     @Override
     public int getRightClickDelayTimer() {
-        return this.rightClickDelayTimer;
+	return this.rightClickDelayTimer;
     }
-    
+
     @Override
     public void setRightClickDelayTimer(int rightClickDelayTimer) {
 	this.rightClickDelayTimer = rightClickDelayTimer;
@@ -86,6 +89,11 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
 		EventManager.call(event);
 	    }
 	}
+    }
+
+    /* keep supersecretsettings active when toggling perspective*/
+    @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;loadEntityShader(Lnet/minecraft/entity/Entity;)V"))
+    public void loadEntityShaderProxy(EntityRenderer entityRenderer, Entity renderViewEntity) {
     }
 
     /* update custom timers*/

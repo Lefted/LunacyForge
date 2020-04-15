@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mixin(GuiMainMenu.class)
 public class MixinGuiMainMenu extends GuiScreen {
 
-    @Inject(method = "initGui", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, opcode = Opcodes.PUTFIELD, args = "log=true"))
+    @Inject(method = "initGui", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0, opcode = Opcodes.PUTFIELD, args = "log=false"))
     private void addButton(CallbackInfo ci) {
 	this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height / 2 - 100, "Screen"));
     }

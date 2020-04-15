@@ -1,5 +1,6 @@
 package me.lefted.lunacyforge.config;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,10 +14,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import me.lefted.lunacyforge.LunacyForge;
-import me.lefted.lunacyforge.modules.Module;
-import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.Logger;
-import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,6 +32,7 @@ public final class ClientConfig {
     private boolean announceModuleToggle = false;
     private boolean renderArrayList = false;
     private boolean showRageMods = false;
+    private Color guiColor = new Color(0x017AFF);
 
     public ClientConfig() {
 	dir.mkdirs();
@@ -54,6 +53,7 @@ public final class ClientConfig {
 	jsonObject.addProperty("announceModuleToggle", isAnnounceModuleToggle());
 	jsonObject.addProperty("renderArrayList", isRenderArrayList());
 	jsonObject.addProperty("showRageMods", isShowRageMods());
+	jsonObject.addProperty("guicolor", getGuiColor().getRGB());
 
 	try {
 	    final PrintWriter printWriter = new PrintWriter(saveFile);
@@ -98,6 +98,9 @@ public final class ClientConfig {
 	    if (jsonObject.has("showRageMods")) {
 		setShowRageMods(jsonObject.get("showRageMods").getAsBoolean());
 	    }
+	    if (jsonObject.has("guicolor")) {
+		setGuiColor(new Color(jsonObject.get("guicolor").getAsInt()));
+	    }
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
@@ -135,5 +138,13 @@ public final class ClientConfig {
 
     public static void setShowRageMods(boolean showRageMods) {
 	LunacyForge.instance.clientConfig.showRageMods = showRageMods;
+    }
+
+    public static Color getGuiColor() {
+	return LunacyForge.instance.clientConfig.guiColor;
+    }
+
+    public static void setGuiColor(Color guiColor) {
+	LunacyForge.instance.clientConfig.guiColor = guiColor;
     }
 }

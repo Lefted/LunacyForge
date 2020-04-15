@@ -1,7 +1,10 @@
 package me.lefted.lunacyforge.utils;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.LunacyForge;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -27,13 +30,24 @@ public class DrawUtils extends Gui {
 	this.mc.getTextureManager().bindTexture(resourceLocation);
     }
 
+    /* guicolor
+     */
+    public void guiColor() {
+	// final Color c = new Color(0x017AFF);
+	final Color c = LunacyForge.instance.clientConfig.getGuiColor();
+	final float r = c.getRed() / 255F;
+	final float g = c.getGreen() / 255F;
+	final float b = c.getBlue() / 255F;
+	GlStateManager.color(r, g, b, 1F);
+    }
+
     /**
      * best working
      */
     public void drawTexturedRectangle(int x, int y, int u, int v, int width, int height) {
 	this.drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, width, height);
     }
-    
+
     public void drawVerticalLine(int x, int startY, int endY, int color) {
 	if (endY < startY) {
 	    int i = startY;
