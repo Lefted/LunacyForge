@@ -246,7 +246,6 @@ public class ClickGuiScreen extends Panel {
 
     @Override
     public void onGuiClosed() {
-	security.onGuiClose();
 	/*
 	 * End blur 
 	 */

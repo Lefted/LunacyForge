@@ -68,21 +68,6 @@ public class GuiSecurity extends Element {
 	}
     }
 
-//    @EventTarget
-//    public static void onKeyPress(KeyPressEvent e) {
-//	if (e.getKey() == Minecraft.getMinecraft().gameSettings.keyBindTogglePerspective.getKeyCode()) {
-//	    if (tripping) {
-//		final Minecraft mc = Minecraft.getMinecraft();
-//		if (OpenGlHelper.shadersSupported && mc.getRenderViewEntity() instanceof EntityPlayer) {
-//		    if (mc.entityRenderer.getShaderGroup() != null) {
-//			mc.entityRenderer.getShaderGroup().deleteShaderGroup();
-//		    }
-//		    mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/wobble.json"));
-//		}
-//	    }
-//	}
-//    }
-
     @Override
     public boolean isMouseOver(int mouseX, int mouseY) {
 	boolean flag1 = mouseX >= posX && mouseX <= posX + WIDTH;
@@ -90,9 +75,11 @@ public class GuiSecurity extends Element {
 	return flag1 && flag2;
     }
 
-    public void onGuiClose() {
-//	EventManager.unregister(this);
-//	// DEBUG
-//	Logger.logChatMessage("unregistered");
+    public static boolean isTripping() {
+        return tripping;
+    }
+
+    public static void setTripping(boolean tripping) {
+        GuiSecurity.tripping = tripping;
     }
 }

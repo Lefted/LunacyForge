@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import me.lefted.lunacyforge.guiscreen.interpreter.GuiSecurity;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,6 +34,8 @@ public class MixinGuiOptions extends GuiScreen {
 	    if (mc.entityRenderer.getShaderGroup() != null) {
 		mc.entityRenderer.getShaderGroup().deleteShaderGroup();
 		mc.entityRenderer.stopUseShader();// = null;
+		GuiSecurity.setTripping(false);
+		btnResetShader.visible = false;
 	    }
 	}
 	if (button.id == 8675309) {
@@ -41,10 +44,10 @@ public class MixinGuiOptions extends GuiScreen {
     }
 
     public GuiButton getBtnResetShader() {
-        return btnResetShader;
+	return btnResetShader;
     }
 
     public void setBtnResetShader(GuiButton btnResetShader) {
-        this.btnResetShader = btnResetShader;
+	this.btnResetShader = btnResetShader;
     }
 }
