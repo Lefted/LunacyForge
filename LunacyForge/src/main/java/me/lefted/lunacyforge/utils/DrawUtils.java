@@ -34,8 +34,8 @@ public class DrawUtils extends Gui {
      */
     public void guiColor() {
 	// final Color c = new Color(0x017AFF);
-	// final Color c = LunacyForge.instance.clientConfig.getGuiColor();
-	final Color c = new Color(0xF74E9E);
+	final Color c = LunacyForge.instance.clientConfig.getGuiColor();
+	// final Color c = new Color(0xF74E9E);
 	final float r = c.getRed() / 255F;
 	final float g = c.getGreen() / 255F;
 	final float b = c.getBlue() / 255F;

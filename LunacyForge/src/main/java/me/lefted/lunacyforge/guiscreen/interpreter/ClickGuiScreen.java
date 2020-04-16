@@ -30,11 +30,13 @@ public class ClickGuiScreen extends Panel {
     // ATTRIBUTES
     private boolean shouldBlur = true;
     private boolean initDone = false;
-    private ArrayList<ModuleContainer> resultingContainers;
+    private ArrayList<ModuleContainer> resultingContainers; // list of all modules depending on the searchcontext
     private GuiSecurity security;
     private SearchBar search;
-    private ScissorBox scissorBox;
+    private ScissorBox scissorBox; // used to cut off rendering when scrolling
     private ClientSettingsButton btnSettings;
+    private ClientSettingsOverlay settingsOverlay; // place to configure client specific settings
+    private static Menu menu; // saves the state of the menu: search, settings, module
 
     // INSTANCE
     public static ClickGuiScreen instance;
@@ -46,6 +48,8 @@ public class ClickGuiScreen extends Panel {
 	setVerticalScrolling(true);
 	setVerticalWheelScrolling(true);
 	resultingContainers = new ArrayList<ModuleContainer>();
+	
+	settingsOverlay = new ClientSettingsOverlay();
     }
 
     // METHODS
@@ -64,45 +68,51 @@ public class ClickGuiScreen extends Panel {
 	// gui security
 	security.draw(mouseX, mouseY, partialTicks);
 
-	// module container
-	final int startY = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
-
-	// scissor box
-	scissorBox.cut(search.getPosX(), scissorBox.getBoxTop(), search.getPosX() + SearchBar.WIDTH, scissorBox.getBoxBottom());
-	GL11.glEnable(GL11.GL_SCISSOR_TEST);
 	// enable blending
 	GlStateManager.enableBlend();
 	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	
-	// for all containers
-	for (int i = 0; i < resultingContainers.size(); i++) {
-	    final ModuleContainer container = this.resultingContainers.get(i);
 
-	    // update module container positions
-	    container.setPosY(startY + ModuleContainer.HEIGHT * i + CONTAINER_SPACING * i + this.getY());
-	    // and its visible coords
-	    container.updateVisibleCoords(scissorBox.getBoxTop(), scissorBox.getBoxBottom());
+	// module container
+	if (menu == Menu.SEARCH) {
 
-	    // if completly out of scissorbox make them invisible
-	    if ((container.getPosY() + ModuleContainer.HEIGHT) <= startY || container.getPosY() >= startY + 250) {
-		container.setVisible(false);
-	    } else {
-		container.setVisible(true);
+	    final int startY = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
+
+	    // scissor box
+	    scissorBox.cut(search.getPosX(), scissorBox.getBoxTop(), search.getPosX() + SearchBar.WIDTH, scissorBox.getBoxBottom());
+	    GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
+	    // for all containers
+	    for (int i = 0; i < resultingContainers.size(); i++) {
+		final ModuleContainer container = this.resultingContainers.get(i);
+
+		// update module container positions
+		container.setPosY(startY + ModuleContainer.HEIGHT * i + CONTAINER_SPACING * i + this.getY());
+		// and its visible coords
+		container.updateVisibleCoords(scissorBox.getBoxTop(), scissorBox.getBoxBottom());
+
+		// if completly out of scissorbox make them invisible
+		if ((container.getPosY() + ModuleContainer.HEIGHT) <= startY || container.getPosY() >= startY + 250) {
+		    container.setVisible(false);
+		} else {
+		    container.setVisible(true);
+		}
+
+		// and draw them
+		container.draw(mouseX, mouseY, partialTicks);
 	    }
 
-	    // and draw them
-	    container.draw(mouseX, mouseY, partialTicks);
+	    // end of module container -> end of scissor box
+	    GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
+	    // searchbar
+	    search.draw(mouseX, mouseY, partialTicks);
+
+	    // settings button
+	    btnSettings.draw(mouseX, mouseY, partialTicks);
+	} else if (menu == Menu.SETTINGS) {
+	    settingsOverlay.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	// end of module container -> end of scissor box
-	GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
-	// searchbar
-	search.draw(mouseX, mouseY, partialTicks);
-
-	// settings button
-	btnSettings.draw(mouseX, mouseY, partialTicks);
-	
 	// disable blending
 	GlStateManager.disableBlend();
 	super.drawScreen(mouseX, mouseY, partialTicks);
@@ -129,12 +139,17 @@ public class ClickGuiScreen extends Panel {
 	// call the panels mouseClicked
 	super.mouseClicked(mouseX, mouseY, mouseButton);
 
-	for (ModuleContainer container : this.resultingContainers) {
-	    container.mouseClicked(mouseX, mouseY, mouseButton);
+	if (menu == Menu.SEARCH) {
+	    for (ModuleContainer container : this.resultingContainers) {
+		container.mouseClicked(mouseX, mouseY, mouseButton);
+	    }
+
+	    search.mouseClicked(mouseX, mouseY, mouseButton);
+	    btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
+	} else if (menu == Menu.SETTINGS) {
+	    settingsOverlay.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
-	search.mouseClicked(mouseX, mouseY, mouseButton);
-	btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
 	security.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -148,8 +163,12 @@ public class ClickGuiScreen extends Panel {
 	if (keyCode == Keyboard.KEY_ESCAPE) {
 	    super.keyTyped(typedChar, keyCode);
 	} else {
-	    // searchbar
-	    search.keyTyped(typedChar, keyCode);
+	    if (menu == Menu.SEARCH) {
+		// searchbar
+		search.keyTyped(typedChar, keyCode);
+	    } else if (menu == Menu.SETTINGS) {
+		settingsOverlay.keyTyped(typedChar, keyCode);
+	    }
 	}
     }
 
@@ -162,19 +181,23 @@ public class ClickGuiScreen extends Panel {
 
 	super.updateScreen();
 
-	if (!search.getTextfield().isFocused()) {
-	    // InventoryMove Credits @Andrew Saint 2.3
-	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-	    KeyBinding[] array = moveKeys;
-	    int length = moveKeys.length;
-	    for (int i = 0; i < length; ++i) {
-		KeyBinding bind = array[i];
-		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	if (menu == Menu.SEARCH) {
+	    if (!search.getTextfield().isFocused()) {
+		// InventoryMove Credits @Andrew Saint 2.3
+		KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+			mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+		KeyBinding[] array = moveKeys;
+		int length = moveKeys.length;
+		for (int i = 0; i < length; ++i) {
+		    KeyBinding bind = array[i];
+		    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+		}
 	    }
+	    // searchbar
+	    search.updateScreen();
+	} else if (menu == Menu.SETTINGS) {
+	    settingsOverlay.updateScreen();
 	}
-	// searchbar
-	search.updateScreen();
     }
 
     // TODO is called twice
@@ -189,7 +212,7 @@ public class ClickGuiScreen extends Panel {
 	// settings button
 	btnSettings = new ClientSettingsButton();
 	btnSettings.setCallback(() -> toggleSettingsMenu());
-	
+
 	// create searchbar (needs current resolution, thats why it's in initGui)
 	search = new SearchBar(resultingContainers, this);
 
@@ -197,7 +220,7 @@ public class ClickGuiScreen extends Panel {
 	final int boxTop = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
 	final int boxBottom = boxTop + 250;
 	scissorBox = new ScissorBox(boxTop, boxBottom);
-	
+
 	// set panel posY to 0
 	setY(0);
 
@@ -215,6 +238,9 @@ public class ClickGuiScreen extends Panel {
 	    }
 	    mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
 	}
+
+	// set menu to search
+	menu = Menu.SEARCH;
 
 	// initialisation finished
 	initDone = true;
@@ -254,8 +280,12 @@ public class ClickGuiScreen extends Panel {
 
     private void toggleSettingsMenu() {
 	Logger.logChatMessage("TOggle");
+	if (menu == Menu.SEARCH) {
+	    settingsOverlay.initGui();
+	    menu = Menu.SETTINGS;
+	}
     }
-    
+
     @Override
     public void onGuiClosed() {
 	/*
@@ -265,6 +295,17 @@ public class ClickGuiScreen extends Panel {
 	    mc.entityRenderer.getShaderGroup().deleteShaderGroup();
 	    mc.entityRenderer.stopUseShader();// = null;
 	}
+	if (menu == Menu.SETTINGS) {
+	    settingsOverlay.onGuiClosed();
+	}
+	initDone = false;
     }
 
+    public static Menu getMenu() {
+        return menu;
+    }
+
+    public static void setMenu(Menu menu) {
+        ClickGuiScreen.menu = menu;
+    }
 }
