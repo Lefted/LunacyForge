@@ -24,13 +24,13 @@ public class Slider extends Element {
     private boolean dragging = false;
 
     // CONSTRUCTOR
-    public Slider(int x, int y, int width, int min, int max, int step, int value) {
+    public Slider(int x, int y, int width, int min, int max, int step, int defaultValue) {
 	this.posX = x;
 	this.posY = y;
 	this.min = min;
 	this.max = max;
 	this.step = step;
-	this.value = Integer.valueOf(value);
+	this.value = Integer.valueOf(defaultValue);
 	this.setVisible(true);
 	this.width = width;
 

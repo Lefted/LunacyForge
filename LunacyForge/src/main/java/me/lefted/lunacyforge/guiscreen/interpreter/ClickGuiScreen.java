@@ -35,7 +35,7 @@ public class ClickGuiScreen extends Panel {
     private SearchBar search;
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
     private ClientSettingsButton btnSettings;
-    private ClientSettingsOverlay settingsOverlay; // place to configure client specific settings
+    private ClientSettingsMenu settingsOverlay; // place to configure client specific settings
     private static Menu menu; // saves the state of the menu: search, settings, module
 
     // INSTANCE
@@ -48,8 +48,8 @@ public class ClickGuiScreen extends Panel {
 	setVerticalScrolling(true);
 	setVerticalWheelScrolling(true);
 	resultingContainers = new ArrayList<ModuleContainer>();
-	
-	settingsOverlay = new ClientSettingsOverlay();
+
+	settingsOverlay = new ClientSettingsMenu();
     }
 
     // METHODS
@@ -181,18 +181,20 @@ public class ClickGuiScreen extends Panel {
 
 	super.updateScreen();
 
-	if (menu == Menu.SEARCH) {
-	    if (!search.getTextfield().isFocused()) {
-		// InventoryMove Credits @Andrew Saint 2.3
-		KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-			mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-		KeyBinding[] array = moveKeys;
-		int length = moveKeys.length;
-		for (int i = 0; i < length; ++i) {
-		    KeyBinding bind = array[i];
-		    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-		}
+	// movement
+	if (!search.getTextfield().isFocused()) {
+	    // InventoryMove Credits @Andrew Saint 2.3
+	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+	    KeyBinding[] array = moveKeys;
+	    int length = moveKeys.length;
+	    for (int i = 0; i < length; ++i) {
+		KeyBinding bind = array[i];
+		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
 	    }
+	}
+
+	if (menu == Menu.SEARCH) {
 	    // searchbar
 	    search.updateScreen();
 	} else if (menu == Menu.SETTINGS) {
@@ -302,10 +304,10 @@ public class ClickGuiScreen extends Panel {
     }
 
     public static Menu getMenu() {
-        return menu;
+	return menu;
     }
 
     public static void setMenu(Menu menu) {
-        ClickGuiScreen.menu = menu;
+	ClickGuiScreen.menu = menu;
     }
 }

@@ -1,5 +1,8 @@
 package me.lefted.lunacyforge.guiscreen.interpreter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.guiapi.Button;
@@ -46,6 +49,16 @@ public class BackButton extends Button {
 	    // gear
 	    mc.getTextureManager().bindTexture(SETTINGS_BACK);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
+	    
+	    // DEBUG
+	    if (hovered) {
+		List<String> line = new ArrayList<String>();
+		line.add("this is");
+		line.add("a text");
+		utils.drawTooltip(line, 200, 200);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	    }
 	}
     }
 }
