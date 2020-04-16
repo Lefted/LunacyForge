@@ -34,6 +34,7 @@ public class ClickGuiScreen extends Panel {
     private GuiSecurity security;
     private SearchBar search;
     private ScissorBox scissorBox;
+    private ClientSettingsButton btnSettings;
 
     // INSTANCE
     public static ClickGuiScreen instance;
@@ -99,6 +100,9 @@ public class ClickGuiScreen extends Panel {
 	// searchbar
 	search.draw(mouseX, mouseY, partialTicks);
 
+	// settings button
+	btnSettings.draw(mouseX, mouseY, partialTicks);
+	
 	// disable blending
 	GlStateManager.disableBlend();
 	super.drawScreen(mouseX, mouseY, partialTicks);
@@ -130,7 +134,7 @@ public class ClickGuiScreen extends Panel {
 	}
 
 	search.mouseClicked(mouseX, mouseY, mouseButton);
-	
+	btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
 	security.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -181,6 +185,10 @@ public class ClickGuiScreen extends Panel {
 
 	// create the gui security
 	security = new GuiSecurity();
+
+	// settings button
+	btnSettings = new ClientSettingsButton();
+	btnSettings.setCallback(() -> toggleSettingsMenu());
 	
 	// create searchbar (needs current resolution, thats why it's in initGui)
 	search = new SearchBar(resultingContainers, this);
@@ -189,7 +197,7 @@ public class ClickGuiScreen extends Panel {
 	final int boxTop = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
 	final int boxBottom = boxTop + 250;
 	scissorBox = new ScissorBox(boxTop, boxBottom);
-
+	
 	// set panel posY to 0
 	setY(0);
 
@@ -244,6 +252,10 @@ public class ClickGuiScreen extends Panel {
 	getBorders().setMaxY(0);
     }
 
+    private void toggleSettingsMenu() {
+	Logger.logChatMessage("TOggle");
+    }
+    
     @Override
     public void onGuiClosed() {
 	/*

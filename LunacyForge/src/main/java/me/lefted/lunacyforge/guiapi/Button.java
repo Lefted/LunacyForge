@@ -9,6 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class Button extends Element {
 
+    // CONSTANTS
+    private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
+    
     // ATTRIBUTES
     private ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
     private int width;
@@ -18,24 +21,22 @@ public class Button extends Element {
     private boolean hovered;
     private Callback callback;
 
-    public Button(int x, int y, int widthIn, int heightIn, String buttonText) {
+    // CONSTRUCTOR
+    public Button(int x, int y, int width, int height, String buttonText) {
 	this.width = 200;
 	this.height = 20;
 	this.enabled = true;
 	this.setVisible(true);
 	this.setPosX(x);
 	this.setPosY(y);
-	this.width = widthIn;
-	this.height = heightIn;
+	this.width = width;
+	this.height = height;
 	this.displayString = buttonText;
     }
 
-    private boolean isMouseOver() {
-	return this.hovered;
-    }
-
+    // METHODS
     public void playPressSound(SoundHandler soundHandlerIn) {
-	soundHandlerIn.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
+	soundHandlerIn.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
     }
 
     public int getWidth() {
@@ -54,8 +55,7 @@ public class Button extends Element {
 	    FontRenderer fontrenderer = mc.fontRendererObj;
 	    mc.getTextureManager().bindTexture(buttonTextures);
 	    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-	    this.hovered = mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this.getPosY()
-		+ this.height;
+	    final boolean hovered = isMouseOver(mouseX, mouseY);
 
 
 	    int i = 1;
@@ -84,13 +84,12 @@ public class Button extends Element {
 
     @Override
     public boolean isMouseOver(int mouseX, int mouseY) {
-	return this.hovered;
+	return mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this.getPosY() + this.height;
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (this.enabled && this.isVisible() && mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this
-	    .getPosY() + this.height) {
+	if (this.enabled && this.isVisible() && isMouseOver(mouseX, mouseY)) {
 	    this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	    if (this.callback != null) {
 		this.callback.invoke();
