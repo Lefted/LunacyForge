@@ -2,7 +2,7 @@ package me.lefted.lunacyforge.modules;
 
 import com.darkmagician6.eventapi.EventTarget;
 
-import me.lefted.lunacyforge.clickgui.menus.ClickGuiScreen;
+import me.lefted.lunacyforge.clickgui.menus.SearchMenu;
 
 public class ClickGui extends Module {
 
@@ -14,7 +14,7 @@ public class ClickGui extends Module {
     // METHODS
     @Override
     public void onEnable() {
-	mc.displayGuiScreen(ClickGuiScreen.instance);
+	mc.displayGuiScreen(SearchMenu.instance);
 	toggle();
     }
 

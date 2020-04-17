@@ -27,7 +27,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class ClickGuiScreen extends Panel {
+public class SearchMenu extends Panel {
 
     // CONSTANTS
     private static final int CONTAINER_SPACING = 4;
@@ -44,10 +44,10 @@ public class ClickGuiScreen extends Panel {
     private static Menu menu; // saves the state of the menu: search, settings, module
 
     // INSTANCE
-    public static ClickGuiScreen instance;
+    public static SearchMenu instance;
 
     // CONSTRUCTOR
-    public ClickGuiScreen() {
+    public SearchMenu() {
 	super(0, 0);
 	setDrawDefaultBackground(false);
 	setVerticalScrolling(true);
@@ -313,6 +313,6 @@ public class ClickGuiScreen extends Panel {
     }
 
     public static void setMenu(Menu menu) {
-	ClickGuiScreen.menu = menu;
+	SearchMenu.menu = menu;
     }
 }

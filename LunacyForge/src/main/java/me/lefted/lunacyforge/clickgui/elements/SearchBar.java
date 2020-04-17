@@ -3,7 +3,7 @@ package me.lefted.lunacyforge.clickgui.elements;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
-import me.lefted.lunacyforge.clickgui.menus.ClickGuiScreen;
+import me.lefted.lunacyforge.clickgui.menus.SearchMenu;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Category;
 import me.lefted.lunacyforge.modules.ClickGui;
@@ -26,10 +26,10 @@ public class SearchBar extends Element {
     // ATTRIBUTES
     private SearchBarTextfield textfield;
     private ArrayList<ModuleContainer> results;
-    private ClickGuiScreen parent;
+    private SearchMenu parent;
 
     // CONSTRUCTOR
-    public SearchBar(ArrayList<ModuleContainer> results, ClickGuiScreen parent) {
+    public SearchBar(ArrayList<ModuleContainer> results, SearchMenu parent) {
 	this.results = results;
 	this.parent = parent;
 
@@ -90,7 +90,7 @@ public class SearchBar extends Element {
 
 	// if there is only whitespace, dont filter
 	if (noSpaces.equalsIgnoreCase(" ") || noSpaces.isEmpty()) {
-	    ClickGuiScreen.addAllModules(results);
+	    SearchMenu.addAllModules(results);
 
 	    // update scroll borders
 	    parent.setPanelBorders();
