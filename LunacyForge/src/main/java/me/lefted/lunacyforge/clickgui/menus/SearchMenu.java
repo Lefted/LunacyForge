@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
@@ -40,7 +41,7 @@ public class SearchMenu extends Panel {
     private SearchBar search;
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
     private ClientSettingsButton btnSettings;
-    private ClientSettingsMenu settingsOverlay; // place to configure client specific settings
+    private ClientSettingsMenu settingsMenu; // place to configure client specific settings
     private static Menu menu; // saves the state of the menu: search, settings, module
 
     // INSTANCE
@@ -54,10 +55,56 @@ public class SearchMenu extends Panel {
 	setVerticalWheelScrolling(true);
 	resultingContainers = new ArrayList<ModuleContainer>();
 
-	settingsOverlay = new ClientSettingsMenu();
+	settingsMenu = new ClientSettingsMenu();
     }
 
     // METHODS
+    // TODO is called twice
+    @Override
+    public void initGui() {
+	// (re)add all available modules as container
+	addAllModules(resultingContainers);
+
+	// create the gui security
+	security = new GuiSecurity();
+
+	// settings button
+	btnSettings = new ClientSettingsButton();
+	btnSettings.setCallback(() -> toggleSettingsMenu());
+
+	// create searchbar (needs current resolution, thats why it's in initGui)
+	search = new SearchBar(resultingContainers, this);
+
+	// scissor box
+	final int boxTop = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
+	final int boxBottom = boxTop + 250;
+	scissorBox = new ScissorBox(boxTop, boxBottom);
+
+	// reset scroll
+	setY(0);
+
+	// set panel borders
+	setPanelBorders();
+
+	// blur may be set by the user later
+	shouldBlur = false;
+	/*
+	 * Start blur
+	 */
+	if (shouldBlur && OpenGlHelper.shadersSupported && mc.getRenderViewEntity() instanceof EntityPlayer) {
+	    if (mc.entityRenderer.getShaderGroup() != null) {
+		mc.entityRenderer.getShaderGroup().deleteShaderGroup();
+	    }
+	    mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
+	}
+
+	// set menu to search
+	menu = Menu.SEARCH;
+
+	// initialisation finished
+	initDone = true;
+    }
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 	// wait for searchbar, scissorbox to be setup
@@ -80,7 +127,7 @@ public class SearchMenu extends Panel {
 	// module container
 	if (menu == Menu.SEARCH) {
 
-	    final int startY = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
+	    final int startY = scissorBox.getBoxTop();
 
 	    // scissor box
 	    scissorBox.cut(search.getPosX(), scissorBox.getBoxTop(), search.getPosX() + SearchBar.WIDTH, scissorBox.getBoxBottom());
@@ -115,7 +162,7 @@ public class SearchMenu extends Panel {
 	    // settings button
 	    btnSettings.draw(mouseX, mouseY, partialTicks);
 	} else if (menu == Menu.SETTINGS) {
-	    settingsOverlay.drawScreen(mouseX, mouseY, partialTicks);
+	    settingsMenu.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	// disable blending
@@ -132,6 +179,32 @@ public class SearchMenu extends Panel {
     @Override
     public boolean doesGuiPauseGame() {
 	return false;
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	// own panel aswell as mouseClicked, clickmoved and released
+	super.handleMouseInput();
+
+	// settingsmenu panel
+	if (menu == Menu.SETTINGS) {
+	    if (settingsMenu.isVerticalWheelScrolling()) {
+		int delta = Mouse.getEventDWheel();
+		if (delta != 0) {
+		    if (delta > 0) {
+			delta = -1;
+		    } else if (delta < 0) {
+			delta = 1;
+		    }
+		    settingsMenu.scrollVerticalByAmount(delta * this.scrollMultiplier);
+		}
+	    }
+	}
     }
 
     @Override
@@ -152,10 +225,40 @@ public class SearchMenu extends Panel {
 	    search.mouseClicked(mouseX, mouseY, mouseButton);
 	    btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
 	} else if (menu == Menu.SETTINGS) {
-	    settingsOverlay.mouseClicked(mouseX, mouseY, mouseButton);
+	    settingsMenu.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	security.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	// own panel
+	super.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+	// settingsmenu
+	if (menu == Menu.SETTINGS) {
+	    settingsMenu.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+	}
+    }
+
+    @Override
+    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	// own panel
+	super.mouseReleased(mouseX, mouseY, mouseButton);
+	// settingsmenu
+	if (menu == Menu.SETTINGS) {
+	    settingsMenu.mouseReleased(mouseX, mouseY, mouseButton);
+	}
     }
 
     @Override
@@ -172,7 +275,7 @@ public class SearchMenu extends Panel {
 		// searchbar
 		search.keyTyped(typedChar, keyCode);
 	    } else if (menu == Menu.SETTINGS) {
-		settingsOverlay.keyTyped(typedChar, keyCode);
+		settingsMenu.keyTyped(typedChar, keyCode);
 	    }
 	}
     }
@@ -203,54 +306,8 @@ public class SearchMenu extends Panel {
 	    // searchbar
 	    search.updateScreen();
 	} else if (menu == Menu.SETTINGS) {
-	    settingsOverlay.updateScreen();
+	    settingsMenu.updateScreen();
 	}
-    }
-
-    // TODO is called twice
-    @Override
-    public void initGui() {
-	// add all available modules as container
-	addAllModules(resultingContainers);
-
-	// create the gui security
-	security = new GuiSecurity();
-
-	// settings button
-	btnSettings = new ClientSettingsButton();
-	btnSettings.setCallback(() -> toggleSettingsMenu());
-
-	// create searchbar (needs current resolution, thats why it's in initGui)
-	search = new SearchBar(resultingContainers, this);
-
-	// scissor box
-	final int boxTop = search.getPosY() + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
-	final int boxBottom = boxTop + 250;
-	scissorBox = new ScissorBox(boxTop, boxBottom);
-
-	// set panel posY to 0
-	setY(0);
-
-	// set panel borders
-	setPanelBorders();
-
-	// blur may be set by the user later
-	shouldBlur = false;
-	/*
-	 * Start blur
-	 */
-	if (shouldBlur && OpenGlHelper.shadersSupported && mc.getRenderViewEntity() instanceof EntityPlayer) {
-	    if (mc.entityRenderer.getShaderGroup() != null) {
-		mc.entityRenderer.getShaderGroup().deleteShaderGroup();
-	    }
-	    mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
-	}
-
-	// set menu to search
-	menu = Menu.SEARCH;
-
-	// initialisation finished
-	initDone = true;
     }
 
     // add all available modules
@@ -288,7 +345,7 @@ public class SearchMenu extends Panel {
     private void toggleSettingsMenu() {
 	Logger.logChatMessage("TOggle");
 	if (menu == Menu.SEARCH) {
-	    settingsOverlay.initGui();
+	    settingsMenu.initGui();
 	    menu = Menu.SETTINGS;
 	}
     }
@@ -303,7 +360,7 @@ public class SearchMenu extends Panel {
 	    mc.entityRenderer.stopUseShader();// = null;
 	}
 	if (menu == Menu.SETTINGS) {
-	    settingsOverlay.onGuiClosed();
+	    settingsMenu.onGuiClosed();
 	}
 	initDone = false;
     }

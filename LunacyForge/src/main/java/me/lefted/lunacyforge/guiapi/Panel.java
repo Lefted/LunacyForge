@@ -21,7 +21,7 @@ public class Panel extends GuiScreen {
     private boolean newClick = false;
     private int lastMouseY = 0;
     private int lastMouseX = 0;
-    private int scrollMultiplier = 5;
+    protected int scrollMultiplier = 5;
     private int[] scrollMouseButtons = { 0, 1, 2 };
     private int initialX;
     private int initialY;
@@ -77,6 +77,7 @@ public class Panel extends GuiScreen {
 
     @Override
     public void handleMouseInput() throws IOException {
+	// needed in order for mouseClicked and mouseReleased to be triggered
 	super.handleMouseInput();
 
 	if (this.isVerticalWheelScrolling()) {

@@ -35,7 +35,7 @@ public class SettingContainer extends Element {
 	utils.drawTexturedRectangle(posX, posY, 0, 0, ModuleContainer.WIDTH, ModuleContainer.HEIGHT);
 
 	// render description
-	// TODO offset x, y
+	// TODO offset x, y properly
 	utils.drawString(description, posX, posY);
 
 	if (settingElement != null) {

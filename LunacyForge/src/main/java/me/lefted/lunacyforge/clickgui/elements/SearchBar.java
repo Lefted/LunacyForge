@@ -58,12 +58,7 @@ public class SearchBar extends Element {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (isMouseOver(mouseX, mouseY)) {
-	    // DEBUG
-	    Logger.logChatMessage("search has been clicked");
-
-	}
-	// textfield (must be outside so that is can loose focus)
+	// textfield (even if mouse is not over the search, so it can loose focus)
 	textfield.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
