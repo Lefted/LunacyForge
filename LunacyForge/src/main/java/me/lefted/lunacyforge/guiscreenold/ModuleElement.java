@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen;
+package me.lefted.lunacyforge.guiscreenold;
 
 import java.awt.Color;
 import java.util.ArrayList;

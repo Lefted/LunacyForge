@@ -2,7 +2,7 @@ package me.lefted.lunacyforge.modules;
 
 import com.darkmagician6.eventapi.EventTarget;
 
-import me.lefted.lunacyforge.guiscreen.interpreter.ClickGuiScreen;
+import me.lefted.lunacyforge.clickgui.menus.ClickGuiScreen;
 
 public class ClickGui extends Module {
 

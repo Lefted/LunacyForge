@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.container;
 
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;

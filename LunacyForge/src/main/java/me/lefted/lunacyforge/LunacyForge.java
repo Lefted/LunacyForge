@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import com.darkmagician6.eventapi.EventManager;
 
+import me.lefted.lunacyforge.clickgui.menus.ClickGuiScreen;
 import me.lefted.lunacyforge.command.CommandManager;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
-import me.lefted.lunacyforge.guiscreen.interpreter.ClickGuiScreen;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;

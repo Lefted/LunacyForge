@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.elements;
 
 import me.lefted.lunacyforge.guiapi.Textfield;
 import net.minecraft.client.gui.Gui;

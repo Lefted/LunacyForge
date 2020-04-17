@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.menus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
+import me.lefted.lunacyforge.clickgui.elements.ClientSettingsButton;
+import me.lefted.lunacyforge.clickgui.elements.GuiSecurity;
+import me.lefted.lunacyforge.clickgui.elements.SearchBar;
+import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.KeepSprint;

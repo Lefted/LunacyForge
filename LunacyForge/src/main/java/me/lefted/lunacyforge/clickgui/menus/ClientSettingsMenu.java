@@ -1,10 +1,12 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.menus;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
+import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Slider;
 import me.lefted.lunacyforge.utils.Logger;

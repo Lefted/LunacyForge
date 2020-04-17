@@ -6,7 +6,7 @@ import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.guiapi.ButtonSelection;
 import me.lefted.lunacyforge.guiapi.Panel;
 import me.lefted.lunacyforge.guiapi.Slider;
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleScreen;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleScreen;
 import net.minecraft.client.Minecraft;
 
 public class Screen extends Panel {

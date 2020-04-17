@@ -1,7 +1,7 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.guiscreenold.interpreter;
 
 import me.lefted.lunacyforge.guiapi.Panel;
-import me.lefted.lunacyforge.guiscreen.Interpreter;
+import me.lefted.lunacyforge.guiscreenold.Interpreter;
 import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;

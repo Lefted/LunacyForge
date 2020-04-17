@@ -5,7 +5,7 @@ import com.darkmagician6.eventapi.EventTarget;
 
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;

@@ -1,6 +1,6 @@
 package me.lefted.lunacyforge.modules;
 
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 
 @ModuleInterpreter(description = "Makes everything brighter")
 public class Fullbright extends Module{

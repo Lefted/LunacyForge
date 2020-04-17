@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.guiscreenold.interpreter;
 
 import static java.lang.annotation.ElementType.TYPE;
 

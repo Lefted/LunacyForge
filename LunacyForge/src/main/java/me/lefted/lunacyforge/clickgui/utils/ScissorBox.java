@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.utils;
 
 import org.lwjgl.opengl.GL11;
 

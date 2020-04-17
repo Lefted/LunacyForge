@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen;
+package me.lefted.lunacyforge.guiscreenold;
 
 import java.awt.Color;
 import java.lang.annotation.Annotation;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.guiapi.Label;
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.modules.Rectangle;

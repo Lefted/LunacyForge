@@ -1,7 +1,9 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.ArrayList;
 
+import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
+import me.lefted.lunacyforge.clickgui.menus.ClickGuiScreen;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Category;
 import me.lefted.lunacyforge.modules.ClickGui;

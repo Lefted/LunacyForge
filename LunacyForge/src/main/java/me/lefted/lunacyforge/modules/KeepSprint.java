@@ -3,7 +3,7 @@ package me.lefted.lunacyforge.modules;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Value;
 

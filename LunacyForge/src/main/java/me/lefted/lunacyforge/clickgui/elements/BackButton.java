@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.ArrayList;
 import java.util.List;

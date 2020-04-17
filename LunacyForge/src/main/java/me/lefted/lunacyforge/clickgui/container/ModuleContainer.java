@@ -1,7 +1,7 @@
-package me.lefted.lunacyforge.guiscreen.interpreter;
+package me.lefted.lunacyforge.clickgui.container;
 
+import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
 import me.lefted.lunacyforge.guiapi.Checkbox;
-import me.lefted.lunacyforge.guiapi.ContainerCheckbox;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.DrawUtils;

@@ -6,7 +6,7 @@ import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
-import me.lefted.lunacyforge.guiscreen.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.Minecraft;
