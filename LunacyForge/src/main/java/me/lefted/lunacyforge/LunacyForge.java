@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.darkmagician6.eventapi.EventManager;
 
-import me.lefted.lunacyforge.clickgui.menus.SearchMenu;
+import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
 import me.lefted.lunacyforge.command.CommandManager;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
@@ -45,7 +45,7 @@ public final class LunacyForge {
 	    e.printStackTrace();
 	}
 
-	SearchMenu.instance = new SearchMenu();
+	SearchScreen.instance = new SearchScreen();
     }
 
     public void stopClient() {

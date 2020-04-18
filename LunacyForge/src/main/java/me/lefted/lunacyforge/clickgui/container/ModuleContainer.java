@@ -11,79 +11,88 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class ModuleContainer extends Element {
+public class ModuleContainer extends SettingContainer {
 
     // CONSTANTS
     public static final int WIDTH = 350;
     public static final int HEIGHT = 30;
-    private static final ResourceLocation MODULE_CONTAINER = new ResourceLocation("lunacyforge", "container.png");
+    // private static final ResourceLocation MODULE_CONTAINER = new ResourceLocation("lunacyforge", "container.png");
 
     // ATTRIBUTES
     private Module module;
-    private int visibleYTop;
-    private int visibleYBottom;
+    // private int visibleYTop;
+    // private int visibleYBottom;
     private ContainerCheckbox togglebox;
 
     // CONSTRUCTOR
     public ModuleContainer(Module module) {
+	super(WIDTH, HEIGHT);
 	this.module = module;
-	init();
-    }
-
-    // METHODS
-    private void init() {
 	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
+
+	// set description to module name
+	setDescription(module.getName());
+
+	// set own x position
 	setPosX(sc.getScaledWidth() / 2 - WIDTH / 2);
-	// togglebox
-	togglebox = new ContainerCheckbox(posX, false);
+
+	// create togglebox // TODO make defaultvalue equal to module.isEnabled()
+	togglebox = new ContainerCheckbox(false);
+	// set x position of togglebox
+	togglebox.setPosX(posX + WIDTH - togglebox.WIDTH - 10);
+
+	// add the togglebox
+	setSettingElement(togglebox);
     }
-
-    @Override
-    public void draw(int mouseX, int mouseY, float partialTicks) {
-	if (isVisible()) {
-	    final DrawUtils utils = DrawUtils.INSTANCE;
-
-	    // bar
-	    utils.bindTexture(MODULE_CONTAINER);
-	    utils.drawTexturedRectangle(posX, posY, 0, 0, ModuleContainer.WIDTH, ModuleContainer.HEIGHT);
-
-	    // togglebox
-	    // DEBUG
-	    togglebox.draw(mouseX, mouseY, partialTicks);
-	    // name
-	    drawString(Minecraft.getMinecraft().fontRendererObj, module.getName(), posX + 20, posY + 12, 0xffffff);
-	}
-    }
-
-    // opens the module settings
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (isVisible() && isMouseOver(mouseX, mouseY)) {
-	    // TODO
-	    // show module settings
-
-	    // togglebox
-	    togglebox.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-    }
-
-    public void updateVisibleCoords(int scissorBoxTop, int scissorBoxBottom) {
-	visibleYTop = (posY >= scissorBoxTop) ? posY : scissorBoxTop;
-	visibleYBottom = (posY + HEIGHT <= scissorBoxBottom) ? posY + HEIGHT : scissorBoxBottom;
-    }
-
-    @Override
-    public boolean isMouseOver(int mouseX, int mouseY) {
-	boolean flag1 = mouseX <= posX + WIDTH && mouseX >= posX;
-	boolean flag2 = mouseY <= visibleYBottom && mouseY >= visibleYTop;
-	return flag1 && flag2;
-    }
-
-    @Override
-    public void setPosY(int posY) {
-	// own
-	super.setPosY(posY);
-	// togglebox
-	togglebox.setPosY(posY);
-    }
+    //
+    //
+    // // METHODS
+    // @Override
+    // public void draw(int mouseX, int mouseY, float partialTicks) {
+    // if (isVisible()) {
+    // final DrawUtils utils = DrawUtils.INSTANCE;
+    //
+    // // bar
+    // utils.bindTexture(MODULE_CONTAINER);
+    // utils.drawTexturedRectangle(posX, posY, 0, 0, ModuleContainer.WIDTH, ModuleContainer.HEIGHT);
+    //
+    // // togglebox
+    // // DEBUG
+    // togglebox.draw(mouseX, mouseY, partialTicks);
+    // // name
+    // drawString(Minecraft.getMinecraft().fontRendererObj, module.getName(), posX + 20, posY + 12, 0xffffff);
+    // }
+    // }
+    //
+    // // opens the module settings
+    // @Override
+    // public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    // if (isVisible() && isMouseOver(mouseX, mouseY)) {
+    // // TODO
+    // // show module settings
+    //
+    // // togglebox
+    // togglebox.mouseClicked(mouseX, mouseY, mouseButton);
+    // }
+    // }
+    //
+    // public void updateVisibleCoords(int scissorBoxTop, int scissorBoxBottom) {
+    // visibleYTop = (posY >= scissorBoxTop) ? posY : scissorBoxTop;
+    // visibleYBottom = (posY + HEIGHT <= scissorBoxBottom) ? posY + HEIGHT : scissorBoxBottom;
+    // }
+    //
+    // @Override
+    // public boolean isMouseOver(int mouseX, int mouseY) {
+    // boolean flag1 = mouseX <= posX + WIDTH && mouseX >= posX;
+    // boolean flag2 = mouseY <= visibleYBottom && mouseY >= visibleYTop;
+    // return flag1 && flag2;
+    // }
+    //
+    // @Override
+    // public void setPosY(int posY) {
+    // // own
+    // super.setPosY(posY);
+    // // togglebox
+    // togglebox.setPosY(posY);
+    // }
 }

@@ -28,12 +28,22 @@ public class ContainerCheckbox extends Element {
     private boolean checked;
     private Consumer<Boolean> consumer;
 
-    public ContainerCheckbox(int x, boolean checked) {
-	posX = x + ModuleContainer.WIDTH - WIDTH - 10;
+    //  CONSTRUCTOR
+    public ContainerCheckbox(int x, int y, boolean checked) {
+	posX = x;
+	posY = y;
 	this.checked = checked;
 	this.setVisible(true);
     }
-
+    
+    // CONSTRUCTOR
+    public ContainerCheckbox(boolean checked) {
+	posX = 0;
+	posY = 0;
+	this.checked = checked;
+	this.setVisible(true);
+    }
+    
     // METHODS
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {

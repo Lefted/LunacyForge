@@ -51,6 +51,12 @@ public class DrawUtils extends Gui {
 	this.drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, width, height);
     }
 
+    public void drawCustomBackground(int width, int height) {
+	// light background
+	int alpha = 60;
+	this.drawGradientRect(0, 0, width, height, ColorUtils.toRGB(255, 255, 255, alpha), ColorUtils.toRGB(255, 255, 255, alpha));
+    }
+
     /**
      * Draws a List of strings as a tooltip. Every entry is drawn on a seperate line.
      */
@@ -164,8 +170,9 @@ public class DrawUtils extends Gui {
 	GlStateManager.enableTexture2D();
     }
 
-    public void drawRect(int x, int y, int width, int height, float color) {
-	this.drawRect(x, y, x + width, y + height, new Float(color).intValue());
+    /* draw a rectangle using width and height*/
+    public void drawRectWidthHeight(int x, int y, int width, int height, int color) {
+	this.drawRect(x, y, x + width, y + height, color);
     }
 
     public void drawRect(double left, double top, double right, double bottom, int color) {

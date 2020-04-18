@@ -28,7 +28,7 @@ public class Rectangle extends Element {
 	if (this.selection) {
 	    utils.drawSelectionBox(this.getPosX(), this.width, this.getPosY(), this.height);
 	} else {
-	    utils.drawRect(this.getPosX(), this.getPosY(), this.width, this.height, new Integer(color).floatValue());
+	    utils.drawRectWidthHeight(this.getPosX(), this.getPosY(), this.width, this.height, color);
 	}
     }
 

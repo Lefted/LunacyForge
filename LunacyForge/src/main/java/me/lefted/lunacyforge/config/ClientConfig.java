@@ -27,17 +27,19 @@ public final class ClientConfig {
     private final File saveFile = new File(dir, "clientconfig.json");
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    // ACCESS
+    // SETTINGS AND DEFAULT VALUES
     private boolean enabled = false;
     private boolean announceModuleToggle = false;
     private boolean renderArrayList = false;
     private boolean showRageMods = false;
     private Color guiColor = new Color(0x017AFF);
 
+    // CONSTRUCTOR
     public ClientConfig() {
 	dir.mkdirs();
     }
 
+    // METHODS
     public void save() {
 	if (!saveFile.exists()) {
 	    try {

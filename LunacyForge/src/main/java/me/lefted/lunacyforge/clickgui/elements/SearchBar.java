@@ -3,15 +3,12 @@ package me.lefted.lunacyforge.clickgui.elements;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
-import me.lefted.lunacyforge.clickgui.menus.SearchMenu;
+import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
 import me.lefted.lunacyforge.guiapi.Element;
-import me.lefted.lunacyforge.modules.Category;
-import me.lefted.lunacyforge.modules.ClickGui;
-import me.lefted.lunacyforge.modules.KeepSprint;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
@@ -25,11 +22,11 @@ public class SearchBar extends Element {
 
     // ATTRIBUTES
     private SearchBarTextfield textfield;
-    private ArrayList<ModuleContainer> results;
-    private SearchMenu parent;
+    private ArrayList<SettingContainer> results;
+    private SearchScreen parent;
 
     // CONSTRUCTOR
-    public SearchBar(ArrayList<ModuleContainer> results, SearchMenu parent) {
+    public SearchBar(ArrayList<SettingContainer> results, SearchScreen parent) {
 	this.results = results;
 	this.parent = parent;
 
@@ -85,7 +82,7 @@ public class SearchBar extends Element {
 
 	// if there is only whitespace, dont filter
 	if (noSpaces.equalsIgnoreCase(" ") || noSpaces.isEmpty()) {
-	    SearchMenu.addAllModules(results);
+	    SearchScreen.addAllModules(results);
 
 	    // update scroll borders
 	    parent.setPanelBorders();
@@ -107,7 +104,10 @@ public class SearchBar extends Element {
 		if (inputTag.equalsIgnoreCase(module.getName()) || inputTag.toLowerCase().contains(module.getName().toLowerCase()) || module.getName()
 		    .toLowerCase().startsWith(inputTag.toLowerCase())) {
 		    // add the module and check next module
-		    final ModuleContainer container = new ModuleContainer(module);
+//		    final ModuleContainer container = new ModuleContainer(module);
+		    final SettingContainer container = new SettingContainer(350, 30);
+		    
+		    
 		    results.add(container);
 		    continue moduleLoop;
 		}
