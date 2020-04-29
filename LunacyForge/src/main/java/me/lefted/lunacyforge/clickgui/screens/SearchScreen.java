@@ -20,8 +20,8 @@ import net.minecraft.client.settings.KeyBinding;
 public class SearchScreen extends SettingsScreen {
 
     // ATTRIBUTES
-    private boolean shouldBlur = true;
-//    private ArrayList<ModuleContainer> resultingContainers; // list of all modules depending on the searchcontext
+    private boolean shouldBlur = false;
+    // private ArrayList<ModuleContainer> resultingContainers; // list of all modules depending on the searchcontext
     private GuiSecurity security;
     private SearchBar search;
     private ClientSettingsButton btnSettings;
@@ -46,9 +46,12 @@ public class SearchScreen extends SettingsScreen {
 	btnSettings = new ClientSettingsButton();
 	btnSettings.setCallback(() -> Minecraft.getMinecraft().displayGuiScreen(ClientSettingsScreen.instance));
 
+	// security
+	security = new GuiSecurity();
+
 	// searchbar
 	search = new SearchBar(settings, this);
-	
+
 	// add all modules
 	addAllModules(settings);
     }
@@ -69,16 +72,93 @@ public class SearchScreen extends SettingsScreen {
 	    settings.add(container);
 	}
     }
-    
+
     @Override
     public void drawOtherElements(int mouseX, int mouseY, float partialTicks) {
-	
+	// search
+	search.draw(mouseX, mouseY, partialTicks);
+	// security
+	security.draw(mouseX, mouseY, partialTicks);
+	// settings button
+	btnSettings.draw(mouseX, mouseY, partialTicks);
     }
-    
+
     @Override
-    public boolean isUseBackButton() {
-        return false;
+    public boolean doesGuiPauseGame() {
+	return false;
     }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	// deals with nullpointerexceptions
+	if (!initDone) {
+	    return;
+	}
+
+	// pass call to containers
+	super.mouseClicked(mouseX, mouseY, mouseButton);
+
+	// security
+	security.mouseClicked(mouseX, mouseY, mouseButton);
+	// settings button
+	btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
+	// search
+	search.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	// pass call to containers
+	super.keyTyped(typedChar, keyCode);
+
+	// searchbar
+	search.keyTyped(typedChar, keyCode);
+    }
+
+    @Override
+    public void updateScreen() {
+	// wait for searchbar, scissorbox to be setup
+	if (!initDone) {
+	    return;
+	}
+
+	// pass call to containers
+	super.updateScreen();
+
+	// movement
+	if (!search.getTextfield().isFocused()) {
+	    // InventoryMove Credits @Andrew Saint 2.3
+	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+	    KeyBinding[] array = moveKeys;
+	    int length = moveKeys.length;
+	    for (int i = 0; i < length; ++i) {
+		KeyBinding bind = array[i];
+		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	    }
+	}
+
+	// searchbar
+	search.updateScreen();
+    }
+
+    @Override
+    public void onGuiClosed() {
+	/*
+	 * End blur 
+	 */
+	if (shouldBlur && mc.entityRenderer.getShaderGroup() != null) {
+	    mc.entityRenderer.getShaderGroup().deleteShaderGroup();
+	    mc.entityRenderer.stopUseShader();// = null;
+	}
+	initDone = false;
+    }
+
     // @Override
     // public void initGui() {
     // // (re)add all available modules as container
@@ -180,11 +260,6 @@ public class SearchScreen extends SettingsScreen {
     // GlStateManager.disableBlend();
     // }
 
-    @Override
-    public boolean doesGuiPauseGame() {
-	return false;
-    }
-
     // @Override
     // public void handleMouseInput() throws IOException {
     // // wait for searchbar, scissorbox to be setup
@@ -210,36 +285,6 @@ public class SearchScreen extends SettingsScreen {
     // }
     // }
     // }
-
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	// // wait for searchbar, scissorbox to be setup
-	// if (!initDone) {
-	// return;
-	// }
-	//
-	// // call the panels mouseClicked
-	// super.mouseClicked(mouseX, mouseY, mouseButton);
-	//
-	// if (menu == Menu.SEARCH) {
-	// for (ModuleContainer container : this.resultingContainers) {
-	// container.mouseClicked(mouseX, mouseY, mouseButton);
-	// }
-	//
-	// search.mouseClicked(mouseX, mouseY, mouseButton);
-	// btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
-	// } else if (menu == Menu.SETTINGS) {
-	// settingsMenu.mouseClicked(mouseX, mouseY, mouseButton);
-	// }
-
-	// TODO check if super returns, this method also returns
-	super.mouseClicked(mouseX, mouseY, mouseButton);
-
-	// security
-	security.mouseClicked(mouseX, mouseY, mouseButton);
-	// settings button
-	btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
-    }
 
     // @Override
     // public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
@@ -271,47 +316,6 @@ public class SearchScreen extends SettingsScreen {
     // }
     // }
 
-    @Override
-    public void keyTyped(char typedChar, int keyCode) throws IOException {
-	// wait for searchbar, scissorbox to be setup
-	if (!initDone) {
-	    return;
-	}
-
-	// pass call to containers
-	super.keyTyped(typedChar, keyCode);
-
-	// searchbar
-	search.keyTyped(typedChar, keyCode);
-    }
-
-    @Override
-    public void updateScreen() {
-	// wait for searchbar, scissorbox to be setup
-	if (!initDone) {
-	    return;
-	}
-
-	// pass call to containers
-	super.updateScreen();
-
-	// movement
-	if (!search.getTextfield().isFocused()) {
-	    // InventoryMove Credits @Andrew Saint 2.3
-	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-	    KeyBinding[] array = moveKeys;
-	    int length = moveKeys.length;
-	    for (int i = 0; i < length; ++i) {
-		KeyBinding bind = array[i];
-		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-	    }
-	}
-
-	// searchbar
-	search.updateScreen();
-    }
-
     // sets the borders accrodingly to how much the user needs to be able to scroll
     // public void setPanelBorders() {
     // // calculate the sum height of all containers and spacing
@@ -326,16 +330,4 @@ public class SearchScreen extends SettingsScreen {
     // }
     // getBorders().setMaxY(0);
     // }
-
-    @Override
-    public void onGuiClosed() {
-	/*
-	 * End blur 
-	 */
-	if (shouldBlur && mc.entityRenderer.getShaderGroup() != null) {
-	    mc.entityRenderer.getShaderGroup().deleteShaderGroup();
-	    mc.entityRenderer.stopUseShader();// = null;
-	}
-	initDone = false;
-    }
 }

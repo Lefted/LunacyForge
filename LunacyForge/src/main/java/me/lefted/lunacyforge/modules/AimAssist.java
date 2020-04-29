@@ -44,6 +44,7 @@ public class AimAssist extends Module {
 		((ILunacyTimer) Minecraft.getMinecraft()).getAimAssistTimer().timerSpeed = t.floatValue();
 	    }
 	});
+	setTags("SmoothAimbot");
     }
 
     @EventTarget

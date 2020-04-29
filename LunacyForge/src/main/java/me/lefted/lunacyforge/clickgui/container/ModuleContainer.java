@@ -1,9 +1,12 @@
 package me.lefted.lunacyforge.clickgui.container;
 
+import java.util.function.Consumer;
+
 import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
 import me.lefted.lunacyforge.guiapi.Checkbox;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Module;
+import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
@@ -13,11 +16,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModuleContainer extends SettingContainer {
 
-    // CONSTANTS
-    public static final int WIDTH = 350;
-    public static final int HEIGHT = 30;
-    // private static final ResourceLocation MODULE_CONTAINER = new ResourceLocation("lunacyforge", "container.png");
-
     // ATTRIBUTES
     private Module module;
     // private int visibleYTop;
@@ -26,7 +24,7 @@ public class ModuleContainer extends SettingContainer {
 
     // CONSTRUCTOR
     public ModuleContainer(Module module) {
-	super(WIDTH, HEIGHT);
+	super();
 	this.module = module;
 	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -34,16 +32,29 @@ public class ModuleContainer extends SettingContainer {
 	setDescription(module.getName());
 
 	// set own x position
-	setPosX(sc.getScaledWidth() / 2 - WIDTH / 2);
+	setPosX(sc.getScaledWidth() / 2 - DEFAULT_WIDTH / 2);
 
-	// create togglebox // TODO make defaultvalue equal to module.isEnabled()
-	togglebox = new ContainerCheckbox(false);
+	// create togglebox
+	togglebox = new ContainerCheckbox(module.isEnabled());
+
+	// add callback
+	togglebox.setConsumer((state) -> module.setEnabled(state.booleanValue()));
+
 	// set x position of togglebox
-	togglebox.setPosX(posX + WIDTH - togglebox.WIDTH - 10);
+	togglebox.setPosX(this.getPosX() + 350 - togglebox.WIDTH - 10);
 
 	// add the togglebox
 	setSettingElement(togglebox);
     }
+
+    @Override
+    public void setPosY(int posY) {
+	// own
+	super.setPosY(posY);
+	// togglebox
+	togglebox.setPosY(posY + 7);
+    }
+
     //
     //
     // // METHODS
@@ -88,11 +99,4 @@ public class ModuleContainer extends SettingContainer {
     // return flag1 && flag2;
     // }
     //
-    // @Override
-    // public void setPosY(int posY) {
-    // // own
-    // super.setPosY(posY);
-    // // togglebox
-    // togglebox.setPosY(posY);
-    // }
 }

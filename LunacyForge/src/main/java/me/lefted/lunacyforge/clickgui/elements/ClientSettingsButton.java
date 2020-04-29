@@ -1,5 +1,7 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
+import org.lwjgl.opengl.GL11;
+
 import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
@@ -43,6 +45,9 @@ public class ClientSettingsButton extends Button {
 	    // gear
 	    mc.getTextureManager().bindTexture(SETTINGS_GEAR);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
+	    
+	    // reset color mask
+	    GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
     }
 }

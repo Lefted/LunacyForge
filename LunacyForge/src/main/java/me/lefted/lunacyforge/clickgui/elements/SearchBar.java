@@ -2,6 +2,8 @@ package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
@@ -51,6 +53,9 @@ public class SearchBar extends Element {
 
 	// textfield
 	textfield.draw(mouseX, mouseY, partialTicks);
+
+	// reset color mask
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     @Override
@@ -104,22 +109,20 @@ public class SearchBar extends Element {
 		if (inputTag.equalsIgnoreCase(module.getName()) || inputTag.toLowerCase().contains(module.getName().toLowerCase()) || module.getName()
 		    .toLowerCase().startsWith(inputTag.toLowerCase())) {
 		    // add the module and check next module
-//		    final ModuleContainer container = new ModuleContainer(module);
-		    final SettingContainer container = new SettingContainer(350, 30);
-		    
-		    
+		    final ModuleContainer container = new ModuleContainer(module);
 		    results.add(container);
 		    continue moduleLoop;
 		}
 
 		// if one tag matches one category
 		if (module.getCategory().name().toLowerCase().startsWith(inputTag.toLowerCase()) || inputTag.equalsIgnoreCase(module.getCategory().name())) {
+		    // add the module and check next module
 		    final ModuleContainer container = new ModuleContainer(module);
 		    results.add(container);
 		    continue moduleLoop;
 		}
 
-		// if module doesn't have any other tags (other than its name) continue
+		// if module doesn't have any tags, continue
 		if (!module.hasTags()) {
 		    continue moduleLoop;
 		}

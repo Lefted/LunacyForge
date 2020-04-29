@@ -1,18 +1,21 @@
 package me.lefted.lunacyforge.clickgui.container;
 
+import org.lwjgl.opengl.GL11;
+
 import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 /* This class combines the container texture, a description and an element. */
 public class SettingContainer extends Element {
 
     // CONSTANTS
-    // public static final int WIDTH = 350;
-    // public static final int HEIGHT = 30;
-    private static final ResourceLocation CONTAINER_CORNERS = new ResourceLocation("lunacyforge", "container.png");
+    public static final int DEFAULT_WIDTH = 350;
+    public static final int DEFAULT_HEIGHT = 50;
     private static final int CORNER_RADIUS = 9;
+    private static final ResourceLocation CONTAINER = new ResourceLocation("lunacyforge", "container.png");
 
     // ATTRIBUTES
     private Element settingElement;
@@ -30,21 +33,24 @@ public class SettingContainer extends Element {
 	this.posY = y;
 	this.width = width;
 	this.height = height;
-
-	// final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-	// setPosX(sc.getScaledWidth() / 2 - WIDTH / 2);
 	setVisible(true);
     }
 
     // CONSTRUCTOR
     public SettingContainer(int width, int height) {
-	this.posX = 0;
-	this.posY = 0;
 	this.width = width;
 	this.height = height;
+	this.posX = 0;
+	this.posY = 0;
+	setVisible(true);
+    }
 
-	// final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-	// setPosX(sc.getScaledWidth() / 2 - WIDTH / 2);
+    // CONSTRUCTOR
+    public SettingContainer() {
+	this.posX = 0;
+	this.posY = 0;
+	this.width = DEFAULT_WIDTH;
+	this.height = DEFAULT_HEIGHT;
 	setVisible(true);
     }
 
@@ -57,25 +63,50 @@ public class SettingContainer extends Element {
 	    // draw container background
 	    drawContainer(utils);
 	    // render description
-	    // TODO offset x, y properly
-	    utils.drawString(description, posX, posY);
+	    utils.drawString(description, posX + 10, posY + 12);
 	    if (settingElement != null) {
 		settingElement.draw(mouseX, mouseY, partialTicks);
 	    }
 	}
     }
 
-    // draws the container according to x, y, width, height with round corners
     private void drawContainer(DrawUtils utils) {
-	// draw rectangle 1
-	utils.drawRectWidthHeight(posX + CORNER_RADIUS, posY, width - 2 * CORNER_RADIUS, CORNER_RADIUS, 0x393334);
-	// draw rectangle 2
-	utils.drawRectWidthHeight(posX, posY + CORNER_RADIUS, width, height - 2 * CORNER_RADIUS, 0x393334);
-	// draw rectangle 3
-	utils.drawRectWidthHeight(posX + CORNER_RADIUS, height - CORNER_RADIUS, width - 2 * CORNER_RADIUS, CORNER_RADIUS, 0x393334);
+	// just draw the fucking container
+	utils.bindTexture(CONTAINER);
 
-	// TODO draw corners
+	// blending
+	GlStateManager.enableBlend();
+	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
+	// final int width = 350;
+	// final int height = 30;
+
+	/**
+	 * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
+	 */
+
+	// middle part
+	utils.drawModalRectWithCustomSizedTexture(posX + CORNER_RADIUS, posY, CORNER_RADIUS, CORNER_RADIUS, width - 2 * CORNER_RADIUS, height, width, height);
+
+	// left side
+	utils.drawModalRectWithCustomSizedTexture(posX, posY + CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, height - 2 * CORNER_RADIUS, width, height);
+
+	// right side
+	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY + CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, height - 2
+	    * CORNER_RADIUS, width, height);
+
+	// top left corner
+	utils.drawModalRectWithCustomSizedTexture(posX, posY, 0, 0, CORNER_RADIUS, CORNER_RADIUS, width, height);
+
+	// top right corner
+	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY, width - CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, width, height);
+
+	// bottom left
+	utils.drawModalRectWithCustomSizedTexture(posX, posY + height - CORNER_RADIUS, 0, height - CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS, width, height);
+
+	// bottom right
+	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY + height - CORNER_RADIUS, width - CORNER_RADIUS, height - CORNER_RADIUS,
+	    CORNER_RADIUS, CORNER_RADIUS, width, height);
     }
 
     @Override
@@ -131,7 +162,7 @@ public class SettingContainer extends Element {
 	// setting
 	if (settingElement != null) {
 	    // apply offset to setting
-	    settingElement.setPosY(settingElement.getPosX() + offset);
+	    settingElement.setPosY(settingElement.getPosY() + offset);
 	}
     }
 
@@ -149,8 +180,8 @@ public class SettingContainer extends Element {
 	this.settingElement = settingElement;
 
 	// combine positioning of setting with own one
-	settingElement.setPosX(settingElement.getPosX() + getPosX());
-	settingElement.setPosY(settingElement.getPosY() + getPosY());
+	settingElement.setPosX(settingElement.getPosX());
+	settingElement.setPosY(settingElement.getPosY());
     }
 
     public String getDescription() {

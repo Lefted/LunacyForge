@@ -12,15 +12,18 @@ import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
 import me.lefted.lunacyforge.guiapi.Panel;
+import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
-/* Abstract class that implements the settings functionality using a scrollable list of custom sized containers */
+/* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
+ * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
+ * super() to this class */
 public abstract class SettingsScreen extends Panel {
 
     // CONSTANTS
-    protected static final int CONTAINER_SPACING = 4;
+    public static final int CONTAINER_SPACING = 4;
 
     // ATTRIBUTES
     protected boolean initDone = false; // if true, initGui() has been finished
@@ -47,19 +50,8 @@ public abstract class SettingsScreen extends Panel {
 	// readd them
 	addAllSettings(settings);
 
-	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-
-	// DEBUG
-	SettingContainer container = new SettingContainer(sc.getScaledWidth() - 350 / 2, 0, 350, 30);
-	container.setDescription("Just testing this out.");
-	// add it to the settings list
-	settings.add(container);
-
-	// back button
-	if (this.isUseBackButton()) {
-	    btnBack = new BackButton();
-	    btnBack.setCallback(() -> back());
-	}
+	// init other elements
+	initOtherElements();
 
 	// scissor box
 	scissorBox = new ScissorBox(getListX(), getListY(), getListWidth(), getListHeight());
@@ -81,14 +73,12 @@ public abstract class SettingsScreen extends Panel {
 	    return;
 	}
 
+	// custom background
+	DrawUtils.INSTANCE.drawCustomBackground(this.width, this.height);
+
 	// enable blending
 	GlStateManager.enableBlend();
 	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-	if (isUseBackButton()) {
-	    // back button
-	    btnBack.draw(mouseX, mouseY, partialTicks);
-	}
 
 	// draw other elements
 	drawOtherElements(mouseX, mouseY, partialTicks);
@@ -107,7 +97,7 @@ public abstract class SettingsScreen extends Panel {
 		final SettingContainer container = settings.get(i);
 
 		// update container's y position
-		container.setPosY(startY + ModuleContainer.HEIGHT * i + CONTAINER_SPACING * i + this.getY());
+		container.setPosY(startY + container.getHeight() * i + CONTAINER_SPACING * i + this.getY());
 		// and its visible coords
 		container.updateVisibleCoords(scissorBox);
 
@@ -138,11 +128,6 @@ public abstract class SettingsScreen extends Panel {
 
 	// pass call to panel
 	super.mouseClicked(mouseX, mouseY, mouseButton);
-
-	if (isUseBackButton()) {
-	    // back button
-	    btnBack.mouseClicked(mouseX, mouseY, mouseButton);
-	}
 
 	// settings
 	if (hasSettingsContainer()) {
@@ -278,6 +263,10 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to add all settings, can also be used to initialize other elements
     public abstract void addAllSettings(ArrayList<SettingContainer> settings);
 
+    // USETHIS to initialize other elments
+    public void initOtherElements() {
+    }
+
     // USETHIS to draw elements which are no settingcontainers
     public void drawOtherElements(int mouseX, int mouseY, float partialTicks) {
     }
@@ -291,7 +280,7 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to determine where's the top of the list
     public int getListY() {
 	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-	return sc.getScaledHeight() / 10 + SearchBar.HEIGHT + CONTAINER_SPACING * 5;
+	return (sc.getScaledHeight() / 10) + SearchBar.HEIGHT + (CONTAINER_SPACING * 5);
     }
 
     // USETHIS to determine the width of the list
@@ -302,11 +291,6 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to determine where's the bottom of the list
     public int getListHeight() {
 	return 250;
-    }
-
-    // USETHIS to determine if the backbutton should show up
-    public boolean isUseBackButton() {
-	return true;
     }
 
     public ArrayList<SettingContainer> getSettings() {

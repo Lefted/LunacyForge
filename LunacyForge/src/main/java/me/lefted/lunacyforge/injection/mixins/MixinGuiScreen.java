@@ -12,9 +12,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/*
- * Also see: CommandManager.java
- */
+/* Also see: CommandManager.java */
 @SideOnly(Side.CLIENT)
 @Mixin(GuiScreen.class)
 public class MixinGuiScreen {
@@ -27,7 +25,6 @@ public class MixinGuiScreen {
     private void chatMessage(String msg, boolean addToChat, CallbackInfo callbackInfo) {
 	if (msg.startsWith("\\") || msg.startsWith(".")) {
 	    LunacyForge.instance.commandManager.callCommand(msg);
-	    mc.ingameGUI.getChatGUI().addToSentMessages(msg);
 	    callbackInfo.cancel();
 	}
     }

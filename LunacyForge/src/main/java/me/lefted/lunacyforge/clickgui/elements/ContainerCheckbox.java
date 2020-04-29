@@ -58,6 +58,9 @@ public class ContainerCheckbox extends Element {
 	    utils.bindTexture(checked ? BUTTON_CHECKED : BUTTON);
 	    utils.drawTexturedRectangle(posX, posY, 0, 0, 16, 16);
 
+	    // reset color mask
+	    GL11.glColor4f(1F, 1F, 1F, 1F);
+	    
 	    // utils.drawRect(this.getPosX(), this.getPosY(), this.getPosX() + 16, this.getPosY() + 16, ColorUtils.toRGB(0, 0, 0, 255));
 	    // utils.drawRect(this.getPosX() + 1, this.getPosY() + 1, this.getPosX() + 16 - 1, this.getPosY() + 16 - 1, ColorUtils.toRGB(170, 170, 170, 255));
 	    // utils.drawRect(this.getPosX() + 2, this.getPosY() + 2, this.getPosX() + 16 - 2, this.getPosY() + 16 - 2, ColorUtils.toRGB(hover ? 100 : 120,
@@ -109,10 +112,5 @@ public class ContainerCheckbox extends Element {
 
     public void setConsumer(Consumer<Boolean> consumer) {
 	this.consumer = consumer;
-    }
-
-    @Override
-    public void setPosY(int posY) {
-	this.posY = posY + 7;
     }
 }
