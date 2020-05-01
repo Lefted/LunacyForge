@@ -39,9 +39,8 @@ public class SearchScreen extends SettingsScreen {
     // }
 
     // METHODS
-    // TODO is called twice
     @Override
-    public void addAllSettings(ArrayList<SettingContainer> settings) {
+    public void initOtherElements() {
 	// settings button
 	btnSettings = new ClientSettingsButton();
 	btnSettings.setCallback(() -> Minecraft.getMinecraft().displayGuiScreen(ClientSettingsScreen.instance));
@@ -50,8 +49,12 @@ public class SearchScreen extends SettingsScreen {
 	security = new GuiSecurity();
 
 	// searchbar
-	search = new SearchBar(settings, this);
+	search = new SearchBar(this.getSettings(), this);
+    }
 
+    // TODO is called twice
+    @Override
+    public void addAllSettings(ArrayList<SettingContainer> settings) {
 	// add all modules
 	addAllModules(settings);
     }
@@ -130,6 +133,7 @@ public class SearchScreen extends SettingsScreen {
 	// pass call to containers
 	super.updateScreen();
 
+	// TODO check if any text field is focused
 	// movement
 	if (!search.getTextfield().isFocused()) {
 	    // InventoryMove Credits @Andrew Saint 2.3

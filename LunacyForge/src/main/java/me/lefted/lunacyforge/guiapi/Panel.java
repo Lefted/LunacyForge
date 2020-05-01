@@ -88,7 +88,7 @@ public class Panel extends GuiScreen {
 		} else if (delta < 0) {
 		    delta = 1;
 		}
-		this.scrollVerticalByAmount(delta * this.scrollMultiplier);
+		this.scrollVerticalByAmount(-delta * this.scrollMultiplier);
 	    }
 	}
     }

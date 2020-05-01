@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.darkmagician6.eventapi.EventManager;
 
+import me.lefted.lunacyforge.clickgui.screens.ClientSettingsScreen;
 import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
 import me.lefted.lunacyforge.command.CommandManager;
 import me.lefted.lunacyforge.config.ClientConfig;
@@ -46,6 +47,7 @@ public final class LunacyForge {
 	}
 
 	SearchScreen.instance = new SearchScreen();
+	ClientSettingsScreen.instance = new ClientSettingsScreen();
     }
 
     public void stopClient() {

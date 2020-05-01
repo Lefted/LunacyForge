@@ -37,6 +37,7 @@ public abstract class SettingsScreen extends Panel {
 	super(0, 0);
 	setVerticalScrolling(true);
 	setVerticalWheelScrolling(true);
+	setScrollMultiplier(10);
 	setDrawDefaultBackground(false);
     }
 

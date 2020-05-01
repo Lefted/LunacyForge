@@ -4,7 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
 import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -111,7 +113,13 @@ public class SettingContainer extends Element {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	// TODO if click out of visible portions and setting is textfield, unfocus textfield
+	// TODO unfocus textfield instead if its a textfield
+	// prevent passing the call to the textfield if its not for unfocusing 
+	
+	// only pass click call if its visible of if the element is a text field
+	if (mouseY <= visibleTop && mouseY <= visibleBottom && !(settingElement instanceof Textfield)) {
+	    return;
+	}
 
 	if (settingElement != null) {
 	    settingElement.mouseClicked(mouseX, mouseY, mouseButton);
