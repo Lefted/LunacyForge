@@ -7,6 +7,8 @@ import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,7 +17,7 @@ public class SettingContainer extends Element {
 
     // CONSTANTS
     public static final int DEFAULT_WIDTH = 350;
-    public static final int DEFAULT_HEIGHT = 50;
+    public static final int DEFAULT_HEIGHT = 30;
     private static final int CORNER_RADIUS = 9;
     private static final ResourceLocation CONTAINER = new ResourceLocation("lunacyforge", "container.png");
 
@@ -29,6 +31,8 @@ public class SettingContainer extends Element {
     private int visibleLeft;
     private int visibleRight;
 
+    private int offsetY;
+    
     // CONSTRUCTOR
     public SettingContainer(int x, int y, int width, int height) {
 	this.posX = x;
@@ -163,15 +167,24 @@ public class SettingContainer extends Element {
 
     @Override
     public void setPosY(int posY) {
-	final int offset = posY - getPosY();
+//	final int offset = posY - getPosY();
 
 	// apply to own position
 	super.setPosY(posY);
 	// setting
 	if (settingElement != null) {
 	    // apply offset to setting
-	    settingElement.setPosY(settingElement.getPosY() + offset);
+	    settingElement.setPosY(posY + getSettingOffsetY());
 	}
+    }
+    
+    // USETHIS
+    public int getSettingOffsetY() {
+	return offsetY;
+    }
+    
+    public void setSettingOffsetY(int offsetY) {
+	this.offsetY = offsetY;
     }
 
     // update the coordinates of the visible portions of the container

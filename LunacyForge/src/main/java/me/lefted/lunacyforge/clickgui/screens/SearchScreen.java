@@ -14,6 +14,7 @@ import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
+import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 
@@ -71,7 +72,7 @@ public class SearchScreen extends SettingsScreen {
 	    // create new container
 	    final ModuleContainer container = new ModuleContainer(module);
 
-	    // and ad it
+	    // and add it
 	    settings.add(container);
 	}
     }
@@ -84,6 +85,8 @@ public class SearchScreen extends SettingsScreen {
 	security.draw(mouseX, mouseY, partialTicks);
 	// settings button
 	btnSettings.draw(mouseX, mouseY, partialTicks);
+	
+//	DrawUtils.INSTANCE.drawrec
     }
 
     @Override
@@ -161,6 +164,9 @@ public class SearchScreen extends SettingsScreen {
 	    mc.entityRenderer.stopUseShader();// = null;
 	}
 	initDone = false;
+
+	// pass call
+	super.onGuiClosed();
     }
 
     // @Override

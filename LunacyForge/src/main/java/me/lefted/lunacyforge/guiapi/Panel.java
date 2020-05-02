@@ -26,6 +26,7 @@ public class Panel extends GuiScreen {
     private int initialX;
     private int initialY;
     private Borders borders;
+    private boolean closedGui = false;
 
     // CONSTRUCTOR
     /*
@@ -111,6 +112,7 @@ public class Panel extends GuiScreen {
 	}
 
 	this.newClick = true;
+	this.closedGui = false; // reset flag because the user clicked
     }
 
     @Override
@@ -119,6 +121,7 @@ public class Panel extends GuiScreen {
 	    element.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 
+	// TODO des macht legit nix, da kommt ja nix mehr
 	boolean flag = true;
 	/* only drag if button should drag*/
 	for (int i : this.scrollMouseButtons) {
@@ -133,6 +136,11 @@ public class Panel extends GuiScreen {
 
     @Override
     public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceClick) {
+	// if the screen has been closed while scrolling, return
+	if (closedGui) {
+	    return;
+	}
+
 	for (Element element : this.elements) {
 	    element.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
 	}
@@ -149,17 +157,30 @@ public class Panel extends GuiScreen {
 	}
 
 	if (this.isVerticalScrolling()) {
-	    this.lastMouseY = (this.newClick) ? mouseY : this.lastMouseY;
-	    final int diffY = mouseY - this.lastMouseY;
-	    // this.setY(this.getY() + diffY);
-	    this.scrollVerticalByAmount(diffY);
+	    // TODO macht mehr sinn
+	    if (!this.newClick) {
+		final int diffY = mouseY - this.lastMouseY;
+		this.scrollVerticalByAmount(diffY);
+	    }
+
+	    // TODO des wurd auskommentiert
+	    // this.lastMouseY = (this.newClick) ? mouseY : this.lastMouseY;
+	    // final int diffY = mouseY - this.lastMouseY;
+	    // this.scrollVerticalByAmount(diffY);
 	}
 
 	if (this.isHorizontalScrolling()) {
-	    this.lastMouseX = (this.newClick) ? mouseX : this.lastMouseX;
-	    final int diffX = mouseX - this.lastMouseX;
-	    // this.setX(this.getX() + diffX);
-	    this.scrollHorizontalByAmount(diffX);
+
+	    // TODO
+	    if (!this.newClick) {
+		final int diffX = mouseX - this.lastMouseX;
+		this.scrollHorizontalByAmount(diffX);
+	    }
+
+	    // TODO
+	    // this.lastMouseX = (this.newClick) ? mouseX : this.lastMouseX;
+	    // final int diffX = mouseX - this.lastMouseX;
+	    // this.scrollHorizontalByAmount(diffX);
 	}
 
 	this.newClick = false;
@@ -183,6 +204,11 @@ public class Panel extends GuiScreen {
 	for (Element element : this.elements) {
 	    element.updateScreen();
 	}
+    }
+
+    @Override
+    public void onGuiClosed() {
+	closedGui = true;
     }
 
     public void setX(int x) {

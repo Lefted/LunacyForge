@@ -42,6 +42,12 @@ public class DrawUtils extends Gui {
 	GlStateManager.color(r, g, b, 1F);
     }
 
+    public float[] getGuiColor() {
+	final Color c = LunacyForge.instance.clientConfig.getGuiColor();
+	final float[] rgb = {c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F};
+	return rgb;
+    }
+    
     /**
      * best working
      */

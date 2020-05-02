@@ -67,6 +67,8 @@ public abstract class Module {
 	this.enabled = enabled;
 	if (enabled) {
 	    this.onEnable();
+	} else {
+	    this.onDisable();
 	}
 	if (ModuleConfig.initDone) {
 	    LunacyForge.instance.moduleConfig.saveModules();

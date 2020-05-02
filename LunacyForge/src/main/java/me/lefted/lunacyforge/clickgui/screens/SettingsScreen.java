@@ -258,6 +258,8 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS WITH SUPER CALL
     @Override
     public void onGuiClosed() {
+	// pass call
+	super.onGuiClosed();
 	initDone = false;
     }
 
