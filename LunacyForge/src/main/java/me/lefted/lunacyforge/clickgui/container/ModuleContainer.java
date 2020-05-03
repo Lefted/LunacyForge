@@ -38,7 +38,10 @@ public class ModuleContainer extends SettingContainer {
 	togglebox = new ContainerCheckbox(module.isEnabled());
 
 	// add callback
-	togglebox.setConsumer((state) -> module.setEnabled(state.booleanValue()));
+	togglebox.setConsumer((state) -> {
+	    module.setEnabled(state.booleanValue());
+	    System.out.println("changing module state from modulecontainer");
+	});
 
 	// set x position of togglebox
 	togglebox.setPosX(this.getPosX() + 350 - togglebox.WIDTH - 10);

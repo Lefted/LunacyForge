@@ -85,8 +85,6 @@ public class SearchScreen extends SettingsScreen {
 	security.draw(mouseX, mouseY, partialTicks);
 	// settings button
 	btnSettings.draw(mouseX, mouseY, partialTicks);
-	
-//	DrawUtils.INSTANCE.drawrec
     }
 
     @Override

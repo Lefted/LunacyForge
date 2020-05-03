@@ -13,6 +13,7 @@
 		"MixinItemStack",
 		"MixinMovementInputFromOptions",
 		"MixinGuiMainMenu",
-		"MixinGuiOptions"
+		"MixinGuiOptions",
+		"MixinEntityLivingBase"
 	]
 }
