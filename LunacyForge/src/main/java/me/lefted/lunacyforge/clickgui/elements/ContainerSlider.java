@@ -76,11 +76,10 @@ public class ContainerSlider extends Element {
 	    newValue = (int) (Math.round(newValue) / stepValue) * stepValue;
 
 	    // callback consumer
+	    value = newValue;
 	    if (oldValue != newValue && consumer != null) {
 		consumer.accept(newValue);
 	    }
-
-	    value = newValue;
 	}
     }
 
