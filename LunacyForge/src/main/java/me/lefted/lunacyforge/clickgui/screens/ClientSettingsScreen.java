@@ -82,7 +82,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	
 	colorRed = new SettingContainer();
 	colorRed.setSettingOffsetY(10);
-	colorRed.setDescription("Red:" + ClientConfig.getGuiColor().getRed());
+	colorRed.setDescription("Red: " + ClientConfig.getGuiColor().getRed());
 
 	colorRed.centerX();
 	sliderRed.setPosX(colorRed.getPosX() + colorRed.getWidth() - sliderRed.WIDTH - 10);

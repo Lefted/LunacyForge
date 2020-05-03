@@ -99,7 +99,16 @@ public abstract class SettingsScreen extends Panel {
 
 		// update container's y position
 		container.setPosY(startY + container.getHeight() * i + CONTAINER_SPACING * i + this.getY());
-		// and its visible coords
+		// if its the first one set it to startY + panels' y
+		if (i == 0) {
+		    container.setPosY(startY + this.getY());
+		} else {
+		    // set it to the y of the previous container + its height + spacing + panely
+		    final SettingContainer prevContainer = settings.get(i-1);
+		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING + this.getY());
+		}
+		
+		// and update its visible coords
 		container.updateVisibleCoords(scissorBox);
 
 		// if completly out of scissorbox make them invisible

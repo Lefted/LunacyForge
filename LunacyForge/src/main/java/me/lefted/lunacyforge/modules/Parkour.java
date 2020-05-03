@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 @ModuleInterpreter(description = "Jumps at the perfect moment; useful for jump and runs")
 public class Parkour extends Module {
 
+    // TODO FIXME jumping while parkour is jumping
     public Parkour() {
 	super("Parkour", Category.MOVEMENT);
     }
