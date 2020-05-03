@@ -42,6 +42,7 @@ public abstract class Module {
 
     public void toggle() {
 	this.enabled = !this.enabled;
+	
 	if (this.enabled) {
 	    this.onEnable();
 	} else {
@@ -64,8 +65,13 @@ public abstract class Module {
     }
 
     public void setEnabled(boolean enabled) {
+	// if nothing would change
+	if (enabled == this.isEnabled()) {
+	    return;
+	}
+	
 	this.enabled = enabled;
-	if (enabled) {
+	if (this.enabled) {
 	    this.onEnable();
 	} else {
 	    this.onDisable();
