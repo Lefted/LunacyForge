@@ -63,11 +63,12 @@ public class ClientSettingsScreen extends SettingsScreen {
     }
 
     private void addRGBContainer(ArrayList<SettingContainer> settings) {
-	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
+//	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
 	
 	// description
-	SettingContainer title = new SettingContainer();
-	title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
+	SettingContainer title = new SettingContainer(350, 50);
+	title.centerX();
+//	title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
 	title.setDescription("Gui color");
 	settings.add(title);
 
@@ -81,9 +82,9 @@ public class ClientSettingsScreen extends SettingsScreen {
 	
 	colorRed = new SettingContainer();
 	colorRed.setSettingOffsetY(10);
-	colorRed.setDescription("Red:" + DrawUtils.INSTANCE.getGuiColor()[0]);
+	colorRed.setDescription("Red:" + ClientConfig.getGuiColor().getRed());
 
-	colorRed.setPosX(sc.getScaledWidth() / 2 - colorRed.getWidth() / 2);
+	colorRed.centerX();
 	sliderRed.setPosX(colorRed.getPosX() + colorRed.getWidth() - sliderRed.WIDTH - 10);
 	colorRed.setSettingElement(sliderRed);
 	settings.add(colorRed);
@@ -98,9 +99,9 @@ public class ClientSettingsScreen extends SettingsScreen {
 	
 	colorGreen = new SettingContainer();
 	colorGreen.setSettingOffsetY(10);
-	colorGreen.setDescription("Green:" + DrawUtils.INSTANCE.getGuiColor()[1]);
+	colorGreen.setDescription("Green:" + ClientConfig.getGuiColor().getGreen());
 
-	colorGreen.setPosX(sc.getScaledWidth() / 2 - colorGreen.getWidth() / 2);
+	colorGreen.centerX();
 	sliderGreen.setPosX(colorGreen.getPosX() + colorGreen.getWidth() - sliderGreen.WIDTH - 10);
 	colorGreen.setSettingElement(sliderGreen);
 	settings.add(colorGreen);
@@ -115,9 +116,9 @@ public class ClientSettingsScreen extends SettingsScreen {
 	
 	colorBlue = new SettingContainer();
 	colorBlue.setSettingOffsetY(10);
-	colorBlue.setDescription("Blue:" + DrawUtils.INSTANCE.getGuiColor()[2]);
+	colorBlue.setDescription("Blue:" + ClientConfig.getGuiColor().getBlue());
 
-	colorBlue.setPosX(sc.getScaledWidth() / 2 - colorBlue.getWidth() / 2);
+	colorBlue.centerX();
 	sliderBlue.setPosX(colorBlue.getPosX() + colorBlue.getWidth() - sliderBlue.WIDTH - 10);
 	colorBlue.setSettingElement(sliderBlue);
 	settings.add(colorBlue);

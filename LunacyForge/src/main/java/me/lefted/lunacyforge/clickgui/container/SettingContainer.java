@@ -183,6 +183,12 @@ public class SettingContainer extends Element {
 	return offsetY;
     }
     
+    // USETHIS
+    public void centerX() {
+	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
+	posX = sc.getScaledWidth() / 2 - this.width / 2;
+    }
+    
     public void setSettingOffsetY(int offsetY) {
 	this.offsetY = offsetY;
     }
