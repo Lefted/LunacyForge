@@ -90,8 +90,8 @@ public class ContainerSlider extends Element {
 	    // updateHovered(mouseX, mouseY);
 
 	    if (dragging) {
-		dragging = false;
 		updateValue(mouseX, mouseY);
+		dragging = false;
 	    }
 	}
     }
