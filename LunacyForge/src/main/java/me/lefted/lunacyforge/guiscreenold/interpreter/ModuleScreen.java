@@ -1,10 +1,7 @@
 package me.lefted.lunacyforge.guiscreenold.interpreter;
 
 import me.lefted.lunacyforge.guiapi.Panel;
-import me.lefted.lunacyforge.guiscreenold.Interpreter;
-import me.lefted.lunacyforge.modules.Rectangle;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 /* The actual screen where you can change settings */
@@ -26,7 +23,7 @@ public class ModuleScreen extends Panel {
 	this.getElements().clear();
 
 	// adds all available modules
-	Interpreter.addInterpretedModules(this.getElements());
+//	Interpreter.addInterpretedModules(this.getElements());
     }
 
     // DEBUG
