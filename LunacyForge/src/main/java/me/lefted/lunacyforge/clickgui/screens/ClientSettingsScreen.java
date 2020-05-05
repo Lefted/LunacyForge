@@ -107,6 +107,8 @@ public class ClientSettingsScreen extends SettingsScreen {
 	sliderBlue.setPosX(colorBlue.getPosX() + colorBlue.getWidth() - sliderBlue.WIDTH - 10);
 	colorBlue.setSettingElement(sliderBlue);
 	settings.add(colorBlue);
+	
+	groupSettings(title, colorRed, colorGreen, colorBlue);
     }
 
     private void updateGuiColor() {

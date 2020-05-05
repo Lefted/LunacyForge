@@ -33,6 +33,8 @@ public class SettingContainer extends Element {
 
     private int offsetY;
 
+    private SettingsGroup settingGroup;
+
     // CONSTRUCTOR
     public SettingContainer(int x, int y, int width, int height) {
 	this.posX = x;
@@ -67,7 +69,9 @@ public class SettingContainer extends Element {
 	if (isVisible()) {
 
 	    // draw container background
-	    drawContainer();
+	    if (!isInGroup()) {
+		drawContainer();
+	    }
 	    // render description
 	    utils.drawString(description, posX + 10, posY + 12);
 	    if (settingElement != null) {
@@ -140,7 +144,7 @@ public class SettingContainer extends Element {
     }
 
     private void drawContainer() {
-	drawContainerTexture(posX, posY, width, height);
+	 drawContainerTexture(posX, posY, width, height);
     }
 
     // USETHIS to draw a container texture
@@ -233,5 +237,13 @@ public class SettingContainer extends Element {
 
     public int getHeight() {
 	return height;
+    }
+
+    public boolean isInGroup() {
+	return settingGroup != null && settingGroup.getSettings() != null && !settingGroup.getSettings().isEmpty();
+    }
+
+    public void setGroup(SettingsGroup group) {
+	this.settingGroup = group;
     }
 }

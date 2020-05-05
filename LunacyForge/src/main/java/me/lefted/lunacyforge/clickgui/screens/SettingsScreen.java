@@ -2,12 +2,15 @@ package me.lefted.lunacyforge.clickgui.screens;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.ToIntFunction;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.container.SettingsGroup;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
@@ -17,6 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
+import scala.actors.threadpool.Arrays;
 
 /* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
  * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
@@ -31,6 +35,7 @@ public abstract class SettingsScreen extends Panel {
     private BackButton btnBack;
     private ArrayList<SettingContainer> settings = new ArrayList<SettingContainer>();
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
+    private List<SettingsGroup> groupsList = new ArrayList<SettingsGroup>();
 
     /* should only be called once*/
     // CONSTRUCTOR
@@ -48,6 +53,8 @@ public abstract class SettingsScreen extends Panel {
     public void initGui() {
 	// clear already existing settingslist
 	settings.clear();
+	// clear settings groups
+	groupsList.clear();
 
 	// readd them
 	addAllSettings(settings);
@@ -94,12 +101,11 @@ public abstract class SettingsScreen extends Panel {
 	    // y position of the first container
 	    final int startY = scissorBox.getY();
 
-	    // for all containers
+	    // update all containers
 	    for (int i = 0; i < settings.size(); i++) {
 		final SettingContainer container = settings.get(i);
 
 		// update container's y position
-		container.setPosY(startY + container.getHeight() * i + CONTAINER_SPACING * i + this.getY());
 		// if its the first one set it to startY + panels' y
 		if (i == 0) {
 		    container.setPosY(startY + this.getY());
@@ -118,10 +124,15 @@ public abstract class SettingsScreen extends Panel {
 		} else {
 		    container.setVisible(true);
 		}
-
-		// finally draw container
-		container.draw(mouseX, mouseY, partialTicks);
 	    }
+
+	    // draw the groups
+	    if (groupsList != null && !groupsList.isEmpty()) {
+		groupsList.forEach(this::drawGroup);
+	    }
+
+	    // draw the containers
+	    settings.forEach(container -> container.draw(mouseX, mouseY, partialTicks));
 	}
 
 	// disable scissor test
@@ -233,6 +244,13 @@ public abstract class SettingsScreen extends Panel {
 	}
     }
 
+    // draws the group
+    private void drawGroup(SettingsGroup group) {
+	final int posY = group.getSettings().stream().min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
+
+	SettingContainer.drawContainerTexture(group.getPosX(), posY, group.getWidth(), group.getHeight());
+    }
+
     // fired by the back button
     private void back() {
 	// if screen is search, close gui
@@ -289,6 +307,19 @@ public abstract class SettingsScreen extends Panel {
 
     // USETHIS to add all settings, can also be used to initialize other elements
     public abstract void addAllSettings(ArrayList<SettingContainer> settings);
+
+    // USETHIS to group settings how the background looks
+    public void groupSettings(SettingContainer... settings) {
+	// create the group containing all settings
+	final List<SettingContainer> settingsList = Arrays.asList(settings);
+
+	final SettingsGroup group = new SettingsGroup(settingsList);
+
+	// set the group in every settings
+	settingsList.forEach(setting -> setting.setGroup(group));
+	// and add the group
+	groupsList.add(group);
+    }
 
     // USETHIS to initialize other elments
     public void initOtherElements() {
