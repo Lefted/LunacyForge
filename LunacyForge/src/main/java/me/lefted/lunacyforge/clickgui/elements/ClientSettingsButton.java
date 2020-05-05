@@ -6,7 +6,9 @@ import me.lefted.lunacyforge.guiapi.Button;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 
 public class ClientSettingsButton extends Button {
 
@@ -38,16 +40,23 @@ public class ClientSettingsButton extends Button {
 	    // background
 	    mc.getTextureManager().bindTexture(SETTINGS_BG);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
-	    
+
 	    if (hovered) {
 		utils.guiColor();
 	    }
 	    // gear
 	    mc.getTextureManager().bindTexture(SETTINGS_GEAR);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
-	    
+
 	    // reset color mask
 	    GL11.glColor4f(1F, 1F, 1F, 1F);
+
+	    if (hovered) {
+		String[] lines = { "Client settings" };
+
+		utils.drawTooltip(Arrays.asList(lines), mouseX, mouseY + 10);
+	    }
+
 	}
     }
 }

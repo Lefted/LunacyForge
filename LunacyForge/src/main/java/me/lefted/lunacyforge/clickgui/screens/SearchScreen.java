@@ -16,6 +16,7 @@ import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 
 public class SearchScreen extends SettingsScreen {
@@ -110,6 +111,9 @@ public class SearchScreen extends SettingsScreen {
 	search.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
+    // needed in order prevent the gui from instantly closing
+    boolean puffer = false;
+    
     @Override
     public void keyTyped(char typedChar, int keyCode) throws IOException {
 	// wait for searchbar, scissorbox to be setup
@@ -120,6 +124,19 @@ public class SearchScreen extends SettingsScreen {
 	// pass call to containers
 	super.keyTyped(typedChar, keyCode);
 
+	// close if keybind is pressed
+	if (keyCode == ModuleManager.getModule(ClickGui.class).getKeycode()) {
+	    if (puffer) {
+		puffer = false;
+		this.mc.displayGuiScreen((GuiScreen) null);
+		
+		if (this.mc.currentScreen == null) {
+		    this.mc.setIngameFocus();
+		}
+	    } else {
+		puffer = true;
+	    }
+	}
 	// searchbar
 	search.keyTyped(typedChar, keyCode);
     }
@@ -134,19 +151,19 @@ public class SearchScreen extends SettingsScreen {
 	// pass call to containers
 	super.updateScreen();
 
-//	// TODO check if any text field is focused
-//	// movement
-//	if (!search.getTextfield().isFocused()) {
-//	    // InventoryMove Credits @Andrew Saint 2.3
-//	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-//		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-//	    KeyBinding[] array = moveKeys;
-//	    int length = moveKeys.length;
-//	    for (int i = 0; i < length; ++i) {
-//		KeyBinding bind = array[i];
-//		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-//	    }
-//	}
+	// // TODO check if any text field is focused
+	// // movement
+	// if (!search.getTextfield().isFocused()) {
+	// // InventoryMove Credits @Andrew Saint 2.3
+	// KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+	// mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+	// KeyBinding[] array = moveKeys;
+	// int length = moveKeys.length;
+	// for (int i = 0; i < length; ++i) {
+	// KeyBinding bind = array[i];
+	// KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	// }
+	// }
 
 	// searchbar
 	search.updateScreen();
@@ -166,7 +183,7 @@ public class SearchScreen extends SettingsScreen {
 	// pass call
 	super.onGuiClosed();
     }
-    
+
     @Override
     public boolean isUseInventoryMove() {
 	return !search.getTextfield().isFocused();

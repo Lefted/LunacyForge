@@ -2,6 +2,7 @@ package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 
 public class BackButton extends Button {
 
@@ -46,18 +48,17 @@ public class BackButton extends Button {
 	    if (hovered) {
 		utils.guiColor();
 	    }
-	    // gear
+	    // back
 	    mc.getTextureManager().bindTexture(SETTINGS_BACK);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
 
-	    // DEBUG
+	    // reset color mask
+	    GL11.glColor4f(1F, 1F, 1F, 1F);
+
 	    if (hovered) {
-		List<String> line = new ArrayList<String>();
-		line.add("this is");
-		line.add("a text");
-		utils.drawTooltip(line, 200, 200);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		String[] lines = { "Go back" };
+
+		utils.drawTooltip(Arrays.asList(lines), mouseX, mouseY + 10);
 	    }
 	}
     }
