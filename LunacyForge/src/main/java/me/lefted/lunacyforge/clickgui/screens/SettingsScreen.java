@@ -16,6 +16,7 @@ import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.settings.KeyBinding;
 
 /* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
  * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
@@ -104,10 +105,10 @@ public abstract class SettingsScreen extends Panel {
 		    container.setPosY(startY + this.getY());
 		} else {
 		    // set it to the y of the previous container + its height + spacing + panely
-		    final SettingContainer prevContainer = settings.get(i-1);
+		    final SettingContainer prevContainer = settings.get(i - 1);
 		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING + this.getY());
 		}
-		
+
 		// and update its visible coords
 		container.updateVisibleCoords(scissorBox);
 
@@ -216,6 +217,20 @@ public abstract class SettingsScreen extends Panel {
 		setting.updateScreen();
 	    }
 	}
+
+	if (isUseInventoryMove()) {
+	    // TODO check if any text field is focused
+	    // movement
+	    // InventoryMove Credits @Andrew Saint 2.3
+	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+	    KeyBinding[] array = moveKeys;
+	    int length = moveKeys.length;
+	    for (int i = 0; i < length; ++i) {
+		KeyBinding bind = array[i];
+		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+	    }
+	}
     }
 
     // fired by the back button
@@ -303,6 +318,11 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to determine where's the bottom of the list
     public int getListHeight() {
 	return 250;
+    }
+
+    // USETHIS
+    public boolean isUseInventoryMove() {
+	return false;
     }
 
     public ArrayList<SettingContainer> getSettings() {

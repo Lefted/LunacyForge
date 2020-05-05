@@ -29,7 +29,6 @@ public class ClientSettingsScreen extends SettingsScreen {
     // METHODS
     @Override
     public void addAllSettings(ArrayList<SettingContainer> settings) {
-
 	// adds the settings that determine the client color
 	addRGBContainer(settings);
     }
@@ -39,36 +38,41 @@ public class ClientSettingsScreen extends SettingsScreen {
 	return false;
     }
 
+//    @Override
+//    public void updateScreen() {
+//	// wait for searchbar, scissorbox to be setup
+//	if (!initDone) {
+//	    return;
+//	}
+//
+//	// pass call to containers
+//	super.updateScreen();
+//
+//	// // TODO check if any text field is focused
+//	// // movement
+//	// // InventoryMove Credits @Andrew Saint 2.3
+//	// KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+//	// mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+//	// KeyBinding[] array = moveKeys;
+//	// int length = moveKeys.length;
+//	// for (int i = 0; i < length; ++i) {
+//	// KeyBinding bind = array[i];
+//	// KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+//	// }
+//    }
+
     @Override
-    public void updateScreen() {
-	// wait for searchbar, scissorbox to be setup
-	if (!initDone) {
-	    return;
-	}
-
-	// pass call to containers
-	super.updateScreen();
-
-	// TODO check if any text field is focused
-	// movement
-	// InventoryMove Credits @Andrew Saint 2.3
-	KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-		mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-	KeyBinding[] array = moveKeys;
-	int length = moveKeys.length;
-	for (int i = 0; i < length; ++i) {
-	    KeyBinding bind = array[i];
-	    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-	}
+    public boolean isUseInventoryMove() {
+	return true;
     }
 
     private void addRGBContainer(ArrayList<SettingContainer> settings) {
-//	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-	
+	// final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
+
 	// description
-	SettingContainer title = new SettingContainer(350, 50);
+	SettingContainer title = new SettingContainer();
 	title.centerX();
-//	title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
+	// title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
 	title.setDescription("Gui color");
 	settings.add(title);
 
@@ -79,7 +83,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    colorRed.setDescription("Red:" + sliderRed.getValueString());
 	    updateGuiColor();
 	});
-	
+
 	colorRed = new SettingContainer();
 	colorRed.setSettingOffsetY(10);
 	colorRed.setDescription("Red: " + ClientConfig.getGuiColor().getRed());
@@ -96,7 +100,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    colorGreen.setDescription("Green:" + sliderGreen.getValueString());
 	    updateGuiColor();
 	});
-	
+
 	colorGreen = new SettingContainer();
 	colorGreen.setSettingOffsetY(10);
 	colorGreen.setDescription("Green:" + ClientConfig.getGuiColor().getGreen());
@@ -113,7 +117,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    colorBlue.setDescription("Blue:" + sliderBlue.getValueString());
 	    updateGuiColor();
 	});
-	
+
 	colorBlue = new SettingContainer();
 	colorBlue.setSettingOffsetY(10);
 	colorBlue.setDescription("Blue:" + ClientConfig.getGuiColor().getBlue());
@@ -128,7 +132,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	final int red = (int) ((ContainerSlider) colorRed.getSettingElement()).getValue();
 	final int green = (int) ((ContainerSlider) colorGreen.getSettingElement()).getValue();
 	final int blue = (int) ((ContainerSlider) colorBlue.getSettingElement()).getValue();
-	
-	 ClientConfig.setGuiColor(new Color(red, green, blue));
+
+	ClientConfig.setGuiColor(new Color(red, green, blue));
     }
 }

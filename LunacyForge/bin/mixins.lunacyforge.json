@@ -12,7 +12,6 @@
 		"MixinEntityPlayerSP",
 		"MixinItemStack",
 		"MixinMovementInputFromOptions",
-		"MixinGuiMainMenu",
 		"MixinGuiOptions",
 		"MixinEntityLivingBase"
 	]

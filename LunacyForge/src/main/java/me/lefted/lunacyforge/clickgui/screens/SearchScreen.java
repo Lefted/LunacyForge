@@ -134,19 +134,19 @@ public class SearchScreen extends SettingsScreen {
 	// pass call to containers
 	super.updateScreen();
 
-	// TODO check if any text field is focused
-	// movement
-	if (!search.getTextfield().isFocused()) {
-	    // InventoryMove Credits @Andrew Saint 2.3
-	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-	    KeyBinding[] array = moveKeys;
-	    int length = moveKeys.length;
-	    for (int i = 0; i < length; ++i) {
-		KeyBinding bind = array[i];
-		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-	    }
-	}
+//	// TODO check if any text field is focused
+//	// movement
+//	if (!search.getTextfield().isFocused()) {
+//	    // InventoryMove Credits @Andrew Saint 2.3
+//	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
+//		    mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
+//	    KeyBinding[] array = moveKeys;
+//	    int length = moveKeys.length;
+//	    for (int i = 0; i < length; ++i) {
+//		KeyBinding bind = array[i];
+//		KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
+//	    }
+//	}
 
 	// searchbar
 	search.updateScreen();
@@ -165,6 +165,11 @@ public class SearchScreen extends SettingsScreen {
 
 	// pass call
 	super.onGuiClosed();
+    }
+    
+    @Override
+    public boolean isUseInventoryMove() {
+	return !search.getTextfield().isFocused();
     }
 
     // @Override

@@ -26,13 +26,13 @@ public class SettingContainer extends Element {
     private String description;
     private int width;
     private int height;
-    private int visibleTop;
-    private int visibleBottom;
-    private int visibleLeft;
-    private int visibleRight;
+    protected int visibleTop;
+    protected int visibleBottom;
+    protected int visibleLeft;
+    protected int visibleRight;
 
     private int offsetY;
-    
+
     // CONSTRUCTOR
     public SettingContainer(int x, int y, int width, int height) {
 	this.posX = x;
@@ -77,6 +77,7 @@ public class SettingContainer extends Element {
     }
 
     private void drawContainer(DrawUtils utils) {
+	// TODO FIXME if height is not 30 the corners are scaled wrong bottoms
 	// just draw the fucking container
 	utils.bindTexture(CONTAINER);
 
@@ -102,10 +103,10 @@ public class SettingContainer extends Element {
 	    * CORNER_RADIUS, width, height);
 
 	// top left corner
-	utils.drawModalRectWithCustomSizedTexture(posX, posY, 0, 0, CORNER_RADIUS, CORNER_RADIUS, width, height);
+	utils.drawModalRectWithCustomSizedTexture(posX, posY, 0, 0, CORNER_RADIUS, CORNER_RADIUS, width, 30);
 
 	// top right corner
-	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY, width - CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, width, height);
+	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY, width - CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, width, 30);
 
 	// bottom left
 	utils.drawModalRectWithCustomSizedTexture(posX, posY + height - CORNER_RADIUS, 0, height - CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS, width, height);
@@ -118,8 +119,8 @@ public class SettingContainer extends Element {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	// TODO unfocus textfield instead if its a textfield
-	// prevent passing the call to the textfield if its not for unfocusing 
-	
+	// prevent passing the call to the textfield if its not for unfocusing
+
 	// only pass click call if its visible of if the element is a text field
 	if (mouseY <= visibleTop && mouseY <= visibleBottom && !(settingElement instanceof Textfield)) {
 	    return;
@@ -167,7 +168,7 @@ public class SettingContainer extends Element {
 
     @Override
     public void setPosY(int posY) {
-//	final int offset = posY - getPosY();
+	// final int offset = posY - getPosY();
 
 	// apply to own position
 	super.setPosY(posY);
@@ -177,18 +178,18 @@ public class SettingContainer extends Element {
 	    settingElement.setPosY(posY + getSettingOffsetY());
 	}
     }
-    
+
     // USETHIS
     public int getSettingOffsetY() {
 	return offsetY;
     }
-    
+
     // USETHIS
     public void centerX() {
 	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
 	posX = sc.getScaledWidth() / 2 - this.width / 2;
     }
-    
+
     public void setSettingOffsetY(int offsetY) {
 	this.offsetY = offsetY;
     }
@@ -197,6 +198,9 @@ public class SettingContainer extends Element {
     public void updateVisibleCoords(ScissorBox scissorBox) {
 	visibleTop = (posY >= scissorBox.getY()) ? posY : scissorBox.getY();
 	visibleBottom = (posY + height <= (scissorBox.getY() + scissorBox.getHeight())) ? (posY + height) : (scissorBox.getY() + scissorBox.getHeight());
+
+	visibleLeft = (posX >= scissorBox.getX()) ? posX : scissorBox.getX();
+	visibleRight = (posX + width <= scissorBox.getX() + scissorBox.getWidth()) ? posX + width : scissorBox.getX() + scissorBox.getWidth();
     }
 
     public Element getSettingElement() {

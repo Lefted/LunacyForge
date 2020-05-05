@@ -27,7 +27,6 @@ public class Parkour extends Module {
 	    .getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0D, -0.5D, 0.0D).contract(0.001D, 0.0D, 0.001D)).isEmpty()
 	    && (mc.thePlayer.isCollidedVertically || !mc.thePlayer.isAirBorne)) {
 	    mc.thePlayer.jump();
-	    Logger.logChatMessage("ju");
 	    wasJumping = true;
 	} else if (wasJumping && mc.thePlayer.onGround && (mc.thePlayer.isCollidedVertically || !mc.thePlayer.isAirBorne)) {
 	    wasJumping = false;

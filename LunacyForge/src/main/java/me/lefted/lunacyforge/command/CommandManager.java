@@ -2,11 +2,9 @@ package me.lefted.lunacyforge.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import me.lefted.lunacyforge.command.commands.BindCommand;
 import me.lefted.lunacyforge.command.commands.ConfigCommand;
-import me.lefted.lunacyforge.command.commands.GuiCommand;
 import me.lefted.lunacyforge.command.commands.ToggleCommand;
 import me.lefted.lunacyforge.command.commands.ValueCommand;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +24,6 @@ public class CommandManager {
 	registerCommand(new ValueCommand());
 	registerCommand(new ToggleCommand());
 	registerCommand(new ConfigCommand());
-	registerCommand(new GuiCommand());
     }
 
     public void registerCommand(final Command command) {
