@@ -20,7 +20,7 @@ public class SearchBar extends Element {
     // CONSTANTS
     public static final int WIDTH = 350;
     public static final int HEIGHT = 30;
-    private static final ResourceLocation SEARCH = new ResourceLocation("lunacyforge", "search5.png");
+    private static final ResourceLocation SEARCH_ICON = new ResourceLocation("lunacyforge", "search_icon.png");
 
     // ATTRIBUTES
     private SearchBarTextfield textfield;
@@ -48,8 +48,29 @@ public class SearchBar extends Element {
     public void draw(int mouseX, int mouseY, float partialTicks) {
 	final DrawUtils utils = DrawUtils.INSTANCE;
 
-	utils.bindTexture(SEARCH);
-	utils.drawTexturedRectangle(posX, posY, 0, 0, WIDTH, HEIGHT);
+	SettingContainer.drawContainerTexture(posX, posY, 350, 30);
+
+	GL11.glEnable(GL11.GL_BLEND);
+	
+	utils.bindTexture(SEARCH_ICON);
+
+	final int offX = 13;
+	final int offY = 5;
+
+	final int ingameWidth = 22;
+	final int ingameHeight = 21;
+
+	final int texWidth = 96;
+	final int texHeight = 96;
+
+	final float scale = 1.0F;
+	final float scaledTexWidth = texWidth * scale;
+	final float scaledTexHeight = texHeight * scale;
+
+	utils.drawScaledCustomSizeModalRect(posX + offX, posY + offY, 0, 0, texWidth, texHeight, ingameWidth, ingameHeight, scaledTexWidth, scaledTexHeight);
+
+	// utils.bindTexture(SEARCH);
+	// utils.drawTexturedRectangle(posX, posY, 0, 0, WIDTH, HEIGHT);
 
 	// textfield
 	textfield.draw(mouseX, mouseY, partialTicks);

@@ -8,6 +8,7 @@ import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +19,6 @@ public class SettingContainer extends Element {
     // CONSTANTS
     public static final int DEFAULT_WIDTH = 350;
     public static final int DEFAULT_HEIGHT = 30;
-    private static final int CORNER_RADIUS = 9;
     private static final ResourceLocation CONTAINER = new ResourceLocation("lunacyforge", "container.png");
 
     // ATTRIBUTES
@@ -67,53 +67,13 @@ public class SettingContainer extends Element {
 	if (isVisible()) {
 
 	    // draw container background
-	    drawContainer(utils);
+	    drawContainer();
 	    // render description
 	    utils.drawString(description, posX + 10, posY + 12);
 	    if (settingElement != null) {
 		settingElement.draw(mouseX, mouseY, partialTicks);
 	    }
 	}
-    }
-
-    private void drawContainer(DrawUtils utils) {
-	// TODO FIXME if height is not 30 the corners are scaled wrong bottoms
-	// just draw the fucking container
-	utils.bindTexture(CONTAINER);
-
-	// blending
-	GlStateManager.enableBlend();
-	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-	// final int width = 350;
-	// final int height = 30;
-
-	/**
-	 * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
-	 */
-
-	// middle part
-	utils.drawModalRectWithCustomSizedTexture(posX + CORNER_RADIUS, posY, CORNER_RADIUS, CORNER_RADIUS, width - 2 * CORNER_RADIUS, height, width, height);
-
-	// left side
-	utils.drawModalRectWithCustomSizedTexture(posX, posY + CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, height - 2 * CORNER_RADIUS, width, height);
-
-	// right side
-	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY + CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, height - 2
-	    * CORNER_RADIUS, width, height);
-
-	// top left corner
-	utils.drawModalRectWithCustomSizedTexture(posX, posY, 0, 0, CORNER_RADIUS, CORNER_RADIUS, width, 30);
-
-	// top right corner
-	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY, width - CORNER_RADIUS, 0, CORNER_RADIUS, CORNER_RADIUS, width, 30);
-
-	// bottom left
-	utils.drawModalRectWithCustomSizedTexture(posX, posY + height - CORNER_RADIUS, 0, height - CORNER_RADIUS, CORNER_RADIUS, CORNER_RADIUS, width, height);
-
-	// bottom right
-	utils.drawModalRectWithCustomSizedTexture(posX + width - CORNER_RADIUS, posY + height - CORNER_RADIUS, width - CORNER_RADIUS, height - CORNER_RADIUS,
-	    CORNER_RADIUS, CORNER_RADIUS, width, height);
     }
 
     @Override
@@ -177,6 +137,50 @@ public class SettingContainer extends Element {
 	    // apply offset to setting
 	    settingElement.setPosY(posY + getSettingOffsetY());
 	}
+    }
+
+    private void drawContainer() {
+	drawContainerTexture(posX, posY, width, height);
+    }
+
+    // USETHIS to draw a container texture
+    public static void drawContainerTexture(int posX, int posY, int ingameWidth, int ingameHeight) {
+	final int texWidth = 700;
+	final int texHeight = 60;
+	final int radius = 8;
+
+	final float scale = 0.3F;
+	final float scaledTexWidth = texWidth * scale;
+	final float scaledTexHeight = texHeight * scale;
+
+	// blending
+	GlStateManager.enableBlend();
+	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+	DrawUtils.INSTANCE.bindTexture(SettingContainer.CONTAINER);
+
+	// middle part
+	Gui.drawScaledCustomSizeModalRect(posX + radius, posY, radius, radius, 1, 1, ingameWidth - 2 * radius, ingameHeight, scaledTexWidth, scaledTexHeight);
+
+	// left side
+	Gui.drawScaledCustomSizeModalRect(posX, posY + radius, radius, radius, 1, 1, radius, ingameHeight - 2 * radius, scaledTexWidth, scaledTexHeight);
+
+	// right side
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - radius, posY + radius, radius, radius, 1, 1, radius, ingameHeight - 2 * radius, scaledTexWidth,
+	    scaledTexHeight);
+
+	// top left
+	Gui.drawScaledCustomSizeModalRect(posX, posY, 0, 0, radius, radius, radius, radius, scaledTexWidth, scaledTexHeight);
+
+	// top right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - radius, posY, -radius, 0, radius, radius, radius, radius, scaledTexWidth, scaledTexHeight);
+
+	// bottom left
+	Gui.drawScaledCustomSizeModalRect(posX, posY + ingameHeight - radius, 0, -radius, radius, radius, radius, radius, scaledTexWidth, scaledTexHeight);
+
+	// bottom right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - radius, posY + ingameHeight - radius, -radius, -radius, radius, radius, radius, radius,
+	    scaledTexWidth, scaledTexHeight);
     }
 
     // USETHIS

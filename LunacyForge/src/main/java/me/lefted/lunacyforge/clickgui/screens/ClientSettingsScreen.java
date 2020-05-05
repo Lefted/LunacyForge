@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
@@ -11,8 +12,11 @@ import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.discovery.ContainerType;
 
 /* Menu that lets the user control client specific settings. */
@@ -37,29 +41,6 @@ public class ClientSettingsScreen extends SettingsScreen {
     public boolean doesGuiPauseGame() {
 	return false;
     }
-
-//    @Override
-//    public void updateScreen() {
-//	// wait for searchbar, scissorbox to be setup
-//	if (!initDone) {
-//	    return;
-//	}
-//
-//	// pass call to containers
-//	super.updateScreen();
-//
-//	// // TODO check if any text field is focused
-//	// // movement
-//	// // InventoryMove Credits @Andrew Saint 2.3
-//	// KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
-//	// mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSprint };
-//	// KeyBinding[] array = moveKeys;
-//	// int length = moveKeys.length;
-//	// for (int i = 0; i < length; ++i) {
-//	// KeyBinding bind = array[i];
-//	// KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
-//	// }
-//    }
 
     @Override
     public boolean isUseInventoryMove() {
