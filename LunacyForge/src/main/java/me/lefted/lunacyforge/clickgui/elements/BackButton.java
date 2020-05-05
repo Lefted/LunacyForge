@@ -49,7 +49,7 @@ public class BackButton extends Button {
 	    // gear
 	    mc.getTextureManager().bindTexture(SETTINGS_BACK);
 	    utils.drawTexturedRectangle(this.getPosX(), this.getPosY(), 0, 0, WIDTH, HEIGHT);
-	    
+
 	    // DEBUG
 	    if (hovered) {
 		List<String> line = new ArrayList<String>();

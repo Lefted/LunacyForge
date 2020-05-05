@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.ColorUtils;
@@ -30,11 +32,46 @@ public class ClientSettingsScreen extends SettingsScreen {
     private SettingContainer colorGreen;
     private SettingContainer colorBlue;
 
+    private BackButton backButton;
+
     // METHODS
     @Override
     public void addAllSettings(ArrayList<SettingContainer> settings) {
 	// adds the settings that determine the client color
 	addRGBContainer(settings);
+    }
+
+    @Override
+    public void initOtherElements() {
+	// pass call
+	super.initOtherElements();
+
+	// back button
+	backButton = new BackButton();
+	backButton.setCallback(() -> mc.displayGuiScreen(SearchScreen.instance));
+    }
+
+    @Override
+    public void drawOtherElements(int mouseX, int mouseY, float partialTicks) {
+	// pass call
+	super.drawOtherElements(mouseX, mouseY, partialTicks);
+
+	// back button
+	backButton.draw(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	// deals with nullpointerexceptions
+	if (!initDone) {
+	    return;
+	}
+
+	// pass call
+	super.mouseClicked(mouseX, mouseY, mouseButton);
+
+	// back button
+	backButton.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -107,7 +144,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	sliderBlue.setPosX(colorBlue.getPosX() + colorBlue.getWidth() - sliderBlue.WIDTH - 10);
 	colorBlue.setSettingElement(sliderBlue);
 	settings.add(colorBlue);
-	
+
 	groupSettings(title, colorRed, colorGreen, colorBlue);
     }
 
