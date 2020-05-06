@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
+import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.ColorUtils;
@@ -39,6 +40,15 @@ public class ClientSettingsScreen extends SettingsScreen {
     public void addAllSettings(ArrayList<SettingContainer> settings) {
 	// adds the settings that determine the client color
 	addRGBContainer(settings);
+
+	ContainerComobox box = new ContainerComobox(0, "nichts", "halbvoll", "voll");
+	SettingContainer container = new SettingContainer();
+	container.centerX();
+	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
+	container.setSettingOffsetY(4);
+	container.setDescription("glas");
+	container.setSettingElement(box);
+	settings.add(container);
     }
 
     @Override

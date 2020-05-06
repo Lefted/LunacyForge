@@ -34,8 +34,8 @@ public class ContainerSlider extends Element {
     private NumberType numberType;
     private Consumer<Double> consumer;
 
-    // CONSTRUCTOR
 
+    // CONSTRUCTOR
     /**
      * @param numberType
      * @param minValue

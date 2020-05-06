@@ -25,6 +25,7 @@ import scala.actors.threadpool.Arrays;
 /* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
  * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
  * super() to this class */
+// TODO FIXME closing conflicts when using escape then clickgui bind
 public abstract class SettingsScreen extends Panel {
 
     // CONSTANTS
