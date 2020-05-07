@@ -3,15 +3,30 @@ package me.lefted.lunacyforge.clickgui.elements;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+import javax.annotation.Resource;
+
+import org.lwjgl.opengl.GL11;
+
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import scala.actors.threadpool.Arrays;
 
 public class ContainerComobox extends Element {
 
     // CONSTANTS
-    public static int ENTRY_WIDTH = 128;
-    public static int ENTRY_HEIGHT = 20;
+    public static final int ENTRY_WIDTH = 128;
+    public static final int ENTRY_HEIGHT = 14;
+    public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge", "combobox.png");
+
+    private static final int TEX_WIDTH = 700;
+    private static final int TEX_HEIGHT = 60;
+    private static final int RADIUS = 8;
+    private static final float SCALE = 0.3F;
+    private static final float SCALED_TEX_WIDTH = TEX_WIDTH * SCALE;
+    private static final float SCALED_TEX_HEIGHT = TEX_HEIGHT * SCALE;
 
     // ATTRIBUTES
     private boolean opened;
@@ -37,15 +52,20 @@ public class ContainerComobox extends Element {
 	final String selectedEntry = entries.get(0);
 	if (!opened) {
 	    // draw selected entry
-	    drawEntry(posX, posY, selectedEntry);
+
+	    drawClosedEntry(mouseX, mouseY, posX, posY, selectedEntry);
 	} else {
 	    // draw selcted entry
-	    drawEntry(posX, posY, selectedEntry);
+	    drawEntryTop(mouseX, mouseY, posX, posY, selectedEntry);
 
 	    // draw other entries
 	    // do not draw the first one (selected one) again
 	    for (int i = 1; i < entries.size(); i++) {
-		drawEntry(posX, posY + ENTRY_HEIGHT * i, entries.get(i));
+		if (i == entries.size() - 1) {
+		    drawEntryBottom(mouseX, mouseY, posX, posY + ENTRY_HEIGHT * i, entries.get(i));
+		} else {
+		    drawEntryMiddle(mouseX, mouseY, posX, posY + ENTRY_HEIGHT * i, entries.get(i));
+		}
 	    }
 	}
     }
@@ -88,6 +108,10 @@ public class ContainerComobox extends Element {
 	}
     }
 
+    private boolean isMouseOverEntry(int mouseX, int mouseY, int posX, int posY) {
+	return mouseX >= posX && mouseX <= posX + ENTRY_WIDTH && mouseY >= posY && mouseY <= posY + ENTRY_HEIGHT;
+    }
+
     // returns the entry the mouse is hovering over
     private int getMouseOverEntryIndex(int mouseX, int mouseY) {
 	final int index = (mouseY - posY) / ENTRY_HEIGHT;
@@ -105,14 +129,131 @@ public class ContainerComobox extends Element {
 	}
     }
 
-    private void drawEntry(int posX, int posY, String entry) {
+    private void drawClosedEntry(int mouseX, int mouseY, int posX, int posY, String entry) {
 	final DrawUtils utils = DrawUtils.INSTANCE;
 
 	// background
-	utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
+	GlStateManager.enableBlend();
+	utils.bindTexture(COMBOBOX);
+
+	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
+	}
+
+	// middle part
+	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ENTRY_WIDTH - 2 * RADIUS, ENTRY_HEIGHT, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// left side
+	Gui.drawScaledCustomSizeModalRect(posX, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ENTRY_HEIGHT - 2 * RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// right side
+	Gui.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ENTRY_HEIGHT - 2 * RADIUS, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// top left
+	Gui.drawScaledCustomSizeModalRect(posX, posY, 0, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// top right
+	Gui.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom left
+	Gui.drawScaledCustomSizeModalRect(posX, posY + ENTRY_HEIGHT - RADIUS, 0, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom right
+	Gui.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY + ENTRY_HEIGHT - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
+	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	GlStateManager.disableBlend();
+	GL11.glColor4f(1F, 1F, 1F, 1F);
 
 	// text
-	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY, 0xffffff);
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+    }
+
+    private void drawEntryTop(int mouseX, int mouseY, int posX, int posY, String entry) {
+	final DrawUtils utils = DrawUtils.INSTANCE;
+
+	// background
+	GlStateManager.enableBlend();
+	utils.bindTexture(COMBOBOX);
+	
+	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
+	}
+	
+	// middle
+	utils.drawScaledCustomSizeModalRect(posX, posY + RADIUS, 0, RADIUS, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT - RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// middle top
+	utils.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, 0, 1, 1, ENTRY_WIDTH - 2 * RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// top left corner
+	utils.drawScaledCustomSizeModalRect(posX, posY, 0, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// top right corner
+	utils.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	GlStateManager.disableBlend();
+	GL11.glColor4f(1F, 1F, 1F, 1F);
+	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
+
+	// text
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+    }
+
+    private void drawEntryMiddle(int mouseX, int mouseY, int posX, int posY, String entry) {
+	final DrawUtils utils = DrawUtils.INSTANCE;
+
+	// background
+	GlStateManager.enableBlend();
+	utils.bindTexture(COMBOBOX);
+	
+	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
+	}
+	
+	utils.drawScaledCustomSizeModalRect(posX, posY, RADIUS + 1, RADIUS + 1, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+	GlStateManager.disableBlend();
+	GL11.glColor4f(1F, 1F, 1F, 1F);
+	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
+
+	// text
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+    }
+
+    private void drawEntryBottom(int mouseX, int mouseY, int posX, int posY, String entry) {
+	final DrawUtils utils = DrawUtils.INSTANCE;
+
+	// background
+	GlStateManager.enableBlend();
+	utils.bindTexture(COMBOBOX);
+
+	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
+	}
+	
+	// middle
+	utils.drawScaledCustomSizeModalRect(posX, posY, RADIUS, RADIUS, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT - RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom middle
+	utils.drawScaledCustomSizeModalRect(posX + RADIUS, posY + ENTRY_HEIGHT - RADIUS, RADIUS, RADIUS, 1, 1, ENTRY_WIDTH - 2 * RADIUS, RADIUS,
+	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom left
+	Gui.drawScaledCustomSizeModalRect(posX, posY + ENTRY_HEIGHT - RADIUS, 0, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom right
+	Gui.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY + ENTRY_HEIGHT - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
+	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	GlStateManager.disableBlend();
+	GL11.glColor4f(1F, 1F, 1F, 1F);
+
+	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
+
+	// text
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
     }
 
     public void setConsumer(Consumer<String> consumer) {

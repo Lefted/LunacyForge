@@ -28,6 +28,8 @@ public class SearchScreen extends SettingsScreen {
     private SearchBar search;
     private ClientSettingsButton btnSettings;
 
+    private boolean clickGuiBindCanClose; // prevents the gui from closing instantly
+
     // INSTANCE
     public static SearchScreen instance;
 
@@ -43,6 +45,8 @@ public class SearchScreen extends SettingsScreen {
     // METHODS
     @Override
     public void initOtherElements() {
+	clickGuiBindCanClose = false;
+
 	// settings button
 	btnSettings = new ClientSettingsButton();
 	btnSettings.setCallback(() -> Minecraft.getMinecraft().displayGuiScreen(ClientSettingsScreen.instance));
@@ -111,9 +115,6 @@ public class SearchScreen extends SettingsScreen {
 	search.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    // needed in order prevent the gui from instantly closing
-    boolean puffer = false;
-    
     @Override
     public void keyTyped(char typedChar, int keyCode) throws IOException {
 	// wait for searchbar, scissorbox to be setup
@@ -126,15 +127,12 @@ public class SearchScreen extends SettingsScreen {
 
 	// close if keybind is pressed
 	if (keyCode == ModuleManager.getModule(ClickGui.class).getKeycode()) {
-	    if (puffer) {
-		puffer = false;
+	    if (clickGuiBindCanClose) {
 		this.mc.displayGuiScreen((GuiScreen) null);
-		
+
 		if (this.mc.currentScreen == null) {
 		    this.mc.setIngameFocus();
 		}
-	    } else {
-		puffer = true;
 	    }
 	}
 	// searchbar
@@ -146,6 +144,11 @@ public class SearchScreen extends SettingsScreen {
 	// wait for searchbar, scissorbox to be setup
 	if (!initDone) {
 	    return;
+	}
+
+	// if key gui was released
+	if (!Keyboard.isKeyDown(ModuleManager.getModule(ClickGui.class).getKeycode())) {
+	    clickGuiBindCanClose = true;
 	}
 
 	// pass call to containers

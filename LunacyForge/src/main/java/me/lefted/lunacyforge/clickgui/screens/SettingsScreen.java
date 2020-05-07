@@ -215,7 +215,7 @@ public abstract class SettingsScreen extends Panel {
 	    }
 	}
     }
-
+    
     @Override
     public void updateScreen() {
 	// deals with nullpointerexceptions

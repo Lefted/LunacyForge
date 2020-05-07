@@ -14,6 +14,7 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -45,6 +46,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	SettingContainer container = new SettingContainer();
 	container.centerX();
 	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
+	box.setConsumer(str -> Logger.logChatMessage(str));
 	container.setSettingOffsetY(4);
 	container.setDescription("glas");
 	container.setSettingElement(box);
@@ -98,7 +100,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	// final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
 
 	// description
-	SettingContainer title = new SettingContainer();
+	SettingContainer title = new SettingContainer(350, 20);
 	title.centerX();
 	// title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
 	title.setDescription("Gui color");
@@ -112,7 +114,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    updateGuiColor();
 	});
 
-	colorRed = new SettingContainer();
+	colorRed = new SettingContainer(350, 20);
 	colorRed.setSettingOffsetY(10);
 	colorRed.setDescription("Red: " + ClientConfig.getGuiColor().getRed());
 
@@ -129,7 +131,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    updateGuiColor();
 	});
 
-	colorGreen = new SettingContainer();
+	colorGreen = new SettingContainer(350, 20);
 	colorGreen.setSettingOffsetY(10);
 	colorGreen.setDescription("Green:" + ClientConfig.getGuiColor().getGreen());
 
