@@ -49,42 +49,45 @@ public class ContainerKeybind extends Element {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	if (this.listening) {
-	    if (mouseButton == 0) {
-		this.keycode = -100;
-		this.button.setDisplayString(this.getKeybindName(this.keycode));
-		this.listening = false;
 
-		if (this.intConsumer != null) {
-		    this.intConsumer.accept(this.keycode);
-		}
-		if (this.stringConsumer != null) {
-		    this.stringConsumer.accept(this.button.getDisplayString());
-		}
-	    } else if (mouseButton == 1) {
-		this.keycode = -99;
-		this.button.setDisplayString(this.getKeybindName(this.keycode));
-		this.listening = false;
+	// TODO add functionality to add mouse keys as buttons
 
-		if (this.intConsumer != null) {
-		    this.intConsumer.accept(this.keycode);
-		}
-		if (this.stringConsumer != null) {
-		    this.stringConsumer.accept(this.button.getDisplayString());
-		}
-	    } else if (mouseButton == 2) {
-		this.keycode = -98;
-		this.button.setDisplayString(this.getKeybindName(this.keycode));
-		this.listening = false;
-
-		if (this.intConsumer != null) {
-		    this.intConsumer.accept(this.keycode);
-		}
-		if (this.stringConsumer != null) {
-		    this.stringConsumer.accept(this.button.getDisplayString());
-		}
-	    }
-	}
+	// if (this.listening) {
+	// if (mouseButton == 0) {
+	// this.keycode = -100;
+	// this.button.setDisplayString(this.getKeybindName(this.keycode));
+	// this.listening = false;
+	//
+	// if (this.intConsumer != null) {
+	// this.intConsumer.accept(this.keycode);
+	// }
+	// if (this.stringConsumer != null) {
+	// this.stringConsumer.accept(this.button.getDisplayString());
+	// }
+	// } else if (mouseButton == 1) {
+	// this.keycode = -99;
+	// this.button.setDisplayString(this.getKeybindName(this.keycode));
+	// this.listening = false;
+	//
+	// if (this.intConsumer != null) {
+	// this.intConsumer.accept(this.keycode);
+	// }
+	// if (this.stringConsumer != null) {
+	// this.stringConsumer.accept(this.button.getDisplayString());
+	// }
+	// } else if (mouseButton == 2) {
+	// this.keycode = -98;
+	// this.button.setDisplayString(this.getKeybindName(this.keycode));
+	// this.listening = false;
+	//
+	// if (this.intConsumer != null) {
+	// this.intConsumer.accept(this.keycode);
+	// }
+	// if (this.stringConsumer != null) {
+	// this.stringConsumer.accept(this.button.getDisplayString());
+	// }
+	// }
+	// }
 	this.button.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -119,11 +122,11 @@ public class ContainerKeybind extends Element {
     public Consumer<String> getStringConsumer() {
 	return stringConsumer;
     }
-    
+
     public void setStringConsumer(Consumer<String> stringConsumer) {
 	this.stringConsumer = stringConsumer;
     }
-    
+
     @Override
     public void setPosX(int posX) {
 	super.setPosX(posX);
