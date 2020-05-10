@@ -56,9 +56,7 @@ public class BackButton extends Button {
 	    GL11.glColor4f(1F, 1F, 1F, 1F);
 
 	    if (hovered) {
-		String[] lines = { "Go back" };
-
-		utils.drawTooltip(Arrays.asList(lines), mouseX, mouseY + 10);
+		utils.drawHoverText("Go back", 100, mouseX, mouseY + 10);
 	    }
 	}
     }

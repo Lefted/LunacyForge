@@ -1,6 +1,7 @@
 package me.lefted.lunacyforge.utils;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 
 public class DrawUtils extends Gui {
 
@@ -44,10 +46,23 @@ public class DrawUtils extends Gui {
 
     public float[] getGuiColor() {
 	final Color c = LunacyForge.instance.clientConfig.getGuiColor();
-	final float[] rgb = {c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F};
+	final float[] rgb = { c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F };
 	return rgb;
     }
-    
+
+    public void drawHoverText(String text, int charactersPerLine, int posX, int posY) {
+	drawTooltip(getParts(text, charactersPerLine), posX, posY);
+    }
+
+    private List<String> getParts(String string, int partitionSize) {
+	List<String> parts = new ArrayList<String>();
+	int len = string.length();
+	for (int i = 0; i < len; i += partitionSize) {
+	    parts.add(string.substring(i, Math.min(len, i + partitionSize)));
+	}
+	return parts;
+    }
+
     /**
      * best working
      */

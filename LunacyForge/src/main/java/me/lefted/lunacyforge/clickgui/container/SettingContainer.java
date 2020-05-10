@@ -12,6 +12,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StringUtils;
+import scala.actors.threadpool.Arrays;
 
 /* This class combines the container texture, a description and an element. */
 public class SettingContainer extends Element {
@@ -31,6 +33,7 @@ public class SettingContainer extends Element {
     // ATTRIBUTES
     private Element settingElement;
     private String description;
+    private String hoverText;
     private int width;
     private int height;
     protected int visibleTop;
@@ -84,6 +87,15 @@ public class SettingContainer extends Element {
 	    utils.drawString(description, posX + 10, posY + 12);
 	    if (settingElement != null) {
 		settingElement.draw(mouseX, mouseY, partialTicks);
+	    }
+	}
+    }
+
+    // draw hover
+    public void drawHoverText(int mouseX, int mouseY) {
+	if (hoverText != null && !hoverText.isEmpty()) {
+	    if (isMouseOver(mouseX, mouseY)) {
+		DrawUtils.INSTANCE.drawHoverText(hoverText, 100, mouseX, mouseY + 10);
 	    }
 	}
     }
@@ -204,6 +216,11 @@ public class SettingContainer extends Element {
 	this.backgroundLevel = backgroundLevel;
     }
 
+    // USETHIS to set the hovertext
+    public void setHoverText(String text) {
+	this.hoverText = text;
+    }
+
     public int getBackgroundLevel() {
 	return backgroundLevel;
     }
@@ -248,7 +265,7 @@ public class SettingContainer extends Element {
     public int getHeight() {
 	return height;
     }
-    
+
     public void setHeight(int height) {
 	this.height = height;
     }

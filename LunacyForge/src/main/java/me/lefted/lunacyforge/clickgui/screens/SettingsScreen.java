@@ -140,6 +140,11 @@ public abstract class SettingsScreen extends Panel {
 
 	// disable scissor test
 	GL11.glDisable(GL11.GL_SCISSOR_TEST);
+	
+	// draw the hover tips
+	settings.forEach(setting -> setting.drawHoverText(mouseX, mouseY));
+	
+	
 	// disable blending
 	GlStateManager.disableBlend();
     }

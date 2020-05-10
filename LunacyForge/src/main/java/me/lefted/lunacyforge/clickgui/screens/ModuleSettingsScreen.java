@@ -103,12 +103,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 
 	final String descriptionString = getModuleDescription(module);
 	if (!descriptionString.isEmpty()) {
-	    final SettingContainer description = new SettingContainer(350, 25);
-	    description.centerX();
-	    description.setDescription(descriptionString);
-	    settings.add(description);
-	    name.setHeight(15);
-	    groupSettings(name, description);
+	    name.setHoverText(descriptionString);
 	}
     }
 
