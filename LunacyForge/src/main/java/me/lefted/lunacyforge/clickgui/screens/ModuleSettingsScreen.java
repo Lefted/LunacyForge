@@ -3,6 +3,7 @@ package me.lefted.lunacyforge.clickgui.screens;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
+import me.lefted.lunacyforge.clickgui.container.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.utils.AnnotationUtils;
@@ -23,6 +24,9 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	if (module != null) {
 	    // add module name and description
 	    addModuleInfo(settings);
+
+	    // add the keybind setting
+	    addModuleKeybind(settings);
 
 	    // TODO add settings
 	    // if (module.has)
@@ -90,12 +94,22 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	this.module = module;
     }
 
+    // adds the name and the description
     private void addModuleInfo(ArrayList<SettingContainer> settings) {
-	final SettingContainer info = new SettingContainer();
-	info.centerX();
-	info.setDescription(module.getName() + " " + getModuleDescription(module));
+	final SettingContainer name = new SettingContainer();
+	name.centerX();
+	name.setDescription(module.getName());
+	settings.add(name);
 
-	settings.add(info);
+	final String descriptionString = getModuleDescription(module);
+	if (!descriptionString.isEmpty()) {
+	    final SettingContainer description = new SettingContainer(350, 25);
+	    description.centerX();
+	    description.setDescription(descriptionString);
+	    settings.add(description);
+	    name.setHeight(15);
+	    groupSettings(name, description);
+	}
     }
 
     // returns a description if the module has one
@@ -105,5 +119,20 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	    return info.description();
 	}
 	return "";
+    }
+
+    // adds the keybind settings
+    private void addModuleKeybind(ArrayList<SettingContainer> settings) {
+	final SettingContainer container = new SettingContainer();
+	container.centerX();
+	container.setDescription("Keybind");
+
+	final ContainerKeybind keybind = new ContainerKeybind(75, 15, module.getKeycode());
+	keybind.setPosX(container.getPosX() + container.getWidth() - keybind.getWidth() -  10);
+	keybind.setIntConsumer(keycode -> module.setKeycode(keycode));
+	container.setSettingElement(keybind);
+	container.setSettingOffsetY(6);
+
+	settings.add(container);
     }
 }
