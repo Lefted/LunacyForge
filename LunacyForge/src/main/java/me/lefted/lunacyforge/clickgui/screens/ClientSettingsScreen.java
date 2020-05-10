@@ -11,6 +11,7 @@ import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
+import me.lefted.lunacyforge.clickgui.elements.ContainerTextfield;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
@@ -47,10 +48,26 @@ public class ClientSettingsScreen extends SettingsScreen {
 	container.centerX();
 	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
 	box.setConsumer(str -> Logger.logChatMessage(str));
-	container.setSettingOffsetY(4);
+	container.setSettingOffsetY(8);
 	container.setDescription("glas");
 	container.setSettingElement(box);
 	settings.add(container);
+
+	ContainerTextfield text = new ContainerTextfield(129);
+	text.setMaxStringLength(30);
+
+	SettingContainer textContainer = new SettingContainer();
+	textContainer.centerX();
+	textContainer.setDescription("friend name");
+
+	text.setPosX(textContainer.getPosX() + textContainer.getWidth() - text.getWidth() - 17);
+	// text.setEnableBackgroundDrawing(false);
+	text.setConsumer(str -> Logger.logChatMessage(str));
+
+	textContainer.setSettingElement(text);
+	textContainer.setSettingOffsetY(5);
+
+	settings.add(textContainer);
     }
 
     @Override
