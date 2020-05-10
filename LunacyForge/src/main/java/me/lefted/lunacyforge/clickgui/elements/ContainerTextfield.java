@@ -2,6 +2,8 @@ package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.function.Consumer;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -95,6 +97,7 @@ public class ContainerTextfield extends Textfield {
 		this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
 	    }
 	}
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
 }

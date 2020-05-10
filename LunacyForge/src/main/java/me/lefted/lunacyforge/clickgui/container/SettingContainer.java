@@ -39,6 +39,7 @@ public class SettingContainer extends Element {
     protected int visibleRight;
 
     private int offsetY;
+    private int backgroundLevel = 0; // determines if this is drawn before other settings or after
 
     private SettingsGroup settingGroup;
 
@@ -163,7 +164,8 @@ public class SettingContainer extends Element {
 	DrawUtils.INSTANCE.bindTexture(SettingContainer.CONTAINER);
 
 	// middle part
-	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ingameWidth - 2 * RADIUS, ingameHeight, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ingameWidth - 2 * RADIUS, ingameHeight, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
 
 	// left side
 	Gui.drawScaledCustomSizeModalRect(posX, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
@@ -195,6 +197,15 @@ public class SettingContainer extends Element {
     public void centerX() {
 	final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
 	posX = sc.getScaledWidth() / 2 - this.width / 2;
+    }
+
+    // USETHIS to determine if the setting is in background/foreground
+    public void setBackgroundLevel(int backgroundLevel) {
+	this.backgroundLevel = backgroundLevel;
+    }
+
+    public int getBackgroundLevel() {
+	return backgroundLevel;
     }
 
     public void setSettingOffsetY(int offsetY) {
@@ -236,6 +247,10 @@ public class SettingContainer extends Element {
 
     public int getHeight() {
 	return height;
+    }
+    
+    public void setHeight(int height) {
+	this.height = height;
     }
 
     public boolean isInGroup() {

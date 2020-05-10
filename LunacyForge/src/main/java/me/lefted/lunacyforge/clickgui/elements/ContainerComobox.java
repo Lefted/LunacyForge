@@ -5,10 +5,13 @@ import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 
+import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +32,8 @@ public class ContainerComobox extends Element {
     private static final float SCALED_TEX_HEIGHT = TEX_HEIGHT * SCALE;
 
     // ATTRIBUTES
+    private SettingContainer parent; // needed to extend the container when this is opened
+    private int originalHeight;
     private boolean opened;
     private LinkedList<String> entries;
     private Consumer<String> consumer;
@@ -37,7 +42,8 @@ public class ContainerComobox extends Element {
     /**
      * @param entries The entries you want to be able to select
      */
-    public ContainerComobox(int selectedEntryIndex, String... entries) {
+    public ContainerComobox(SettingContainer parent, int selectedEntryIndex, String... entries) {
+	this.parent = parent;
 	this.entries = new LinkedList<>();
 	this.entries.addAll(Arrays.asList(entries));
 
@@ -90,7 +96,7 @@ public class ContainerComobox extends Element {
 		}
 	    } else {
 		if (isMouseOver(mouseX, mouseY)) {
-		    opened = true;
+		    openCombobox();
 		}
 	    }
 	} catch (Exception e) {
@@ -262,5 +268,15 @@ public class ContainerComobox extends Element {
 
     private void closeCombobox() {
 	opened = false;
+	parent.setHeight(originalHeight);
+    }
+    
+    private void openCombobox() {
+	originalHeight = parent.getHeight();
+	
+	int extraNeeded = (entries.size() - 1) * ENTRY_HEIGHT;
+	parent.setHeight(parent.getHeight() + extraNeeded);
+	
+	opened = true;
     }
 }

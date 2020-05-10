@@ -43,14 +43,15 @@ public class ClientSettingsScreen extends SettingsScreen {
 	// adds the settings that determine the client color
 	addRGBContainer(settings);
 
-	ContainerComobox box = new ContainerComobox(0, "nichts", "halbvoll", "voll");
 	SettingContainer container = new SettingContainer();
+	ContainerComobox box = new ContainerComobox(container, 0, "nichts", "halbvoll", "voll");
 	container.centerX();
 	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
 	box.setConsumer(str -> Logger.logChatMessage(str));
 	container.setSettingOffsetY(8);
 	container.setDescription("glas");
 	container.setSettingElement(box);
+	container.setBackgroundLevel(1);
 	settings.add(container);
 
 	ContainerTextfield text = new ContainerTextfield(129);

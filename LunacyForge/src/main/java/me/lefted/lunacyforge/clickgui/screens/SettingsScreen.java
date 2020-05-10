@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
 
 import org.lwjgl.input.Keyboard;
@@ -132,8 +133,9 @@ public abstract class SettingsScreen extends Panel {
 		groupsList.forEach(this::drawGroup);
 	    }
 
-	    // draw the containers
-	    settings.forEach(container -> container.draw(mouseX, mouseY, partialTicks));
+	    // draw the containers sorted by their backgroundLevel
+	    settings.stream().sorted((o1, o2) -> o1.getBackgroundLevel() - o2.getBackgroundLevel()).forEach(container -> container.draw(mouseX, mouseY,
+		partialTicks));
 	}
 
 	// disable scissor test
@@ -215,7 +217,7 @@ public abstract class SettingsScreen extends Panel {
 	    }
 	}
     }
-    
+
     @Override
     public void updateScreen() {
 	// deals with nullpointerexceptions
