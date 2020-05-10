@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.LunacyForge;
+import me.lefted.lunacyforge.clickgui.container.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
@@ -69,6 +70,23 @@ public class ClientSettingsScreen extends SettingsScreen {
 	textContainer.setSettingOffsetY(5);
 
 	settings.add(textContainer);
+	
+	
+	
+	ContainerKeybind keybind = new ContainerKeybind(126, 15, 0);
+	
+	SettingContainer keybindContainer = new SettingContainer();
+	keybindContainer.centerX();
+	keybindContainer.setDescription("keybind test");
+	keybindContainer.setSettingOffsetY(7);
+	
+	keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 5);
+	
+	keybind.setStringConsumer(str -> Logger.logChatMessage(str));
+	
+	keybindContainer.setSettingElement(keybind);
+	settings.add(keybindContainer);
+	
     }
 
     @Override

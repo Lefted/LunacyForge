@@ -1,0 +1,120 @@
+package me.lefted.lunacyforge.clickgui.container;
+
+import org.lwjgl.opengl.GL11;
+
+import me.lefted.lunacyforge.guiapi.Callback;
+import me.lefted.lunacyforge.guiapi.Element;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+
+public class ContainerButton extends Element {
+
+    // CONSTANTS
+    private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
+
+    // ATTRIBUTES
+    private int width;
+    private int height;
+    private String displayString;
+    private boolean enabled;
+    private Callback callback;
+
+    // CONSTRUCTOR
+    public ContainerButton(int width, int height, String buttonText) {
+	posX = 0;
+	posY = 0;
+	this.width = 200;
+	this.height = 20;
+	this.enabled = true;
+	this.setVisible(true);
+	this.width = width;
+	this.height = height;
+	this.displayString = buttonText;
+    }
+
+    // METHODS
+    public void playPressSound(SoundHandler soundHandlerIn) {
+	soundHandlerIn.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
+    }
+
+    public int getWidth() {
+	return this.width;
+    }
+
+    public int getHeight() {
+	return this.height;
+    }
+
+    public void setWidth(int width) {
+	this.width = width;
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY, float partialTicks) {
+	final Minecraft mc = Minecraft.getMinecraft();
+
+	if (this.isVisible()) {
+	    final boolean hovered = isMouseOver(mouseX, mouseY);
+
+	    // background texture
+	    if (hovered) {
+		GlStateManager.color(0.9F, 0.9F, 0.9F, 1F);
+	    }
+	    SettingContainer.drawContainerTexture(posX, posY, width, height);
+
+	    // text
+	    int textColor = 14737632;
+	    if (!this.enabled) {
+		textColor = 10526880;
+	    } else if (hovered) {
+		textColor = 16777120;
+	    }
+	    this.drawCenteredString(mc.fontRendererObj, this.displayString, this.getPosX() + this.width / 2, this.getPosY() + (this.height - 8) / 2, textColor);
+	    // reset color mask
+	    GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+    }
+
+    @Override
+    public boolean isMouseOver(int mouseX, int mouseY) {
+	return mouseX >= this.getPosX() && mouseY >= this.getPosY() && mouseX < this.getPosX() + this.width && mouseY < this.getPosY() + this.height;
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	if (this.enabled && this.isVisible() && isMouseOver(mouseX, mouseY)) {
+	    this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
+	    if (this.callback != null) {
+		this.callback.invoke();
+	    }
+	}
+    }
+
+    public Callback getCallback() {
+	return callback;
+    }
+
+    public void setCallback(Callback callback) {
+	this.callback = callback;
+    }
+
+    public String getDisplayString() {
+	return displayString;
+    }
+
+    public void setDisplayString(String displayString) {
+	this.displayString = displayString;
+    }
+
+    public boolean isEnabled() {
+	return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+	this.enabled = enabled;
+    }
+}

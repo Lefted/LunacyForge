@@ -1,24 +1,26 @@
-package me.lefted.lunacyforge.guiapi;
+package me.lefted.lunacyforge.clickgui.container;
 
 import java.util.function.Consumer;
 
 import org.lwjgl.input.Keyboard;
 
+import me.lefted.lunacyforge.guiapi.Element;
 import net.minecraft.util.EnumChatFormatting;
 
-public class KeybindButton extends Element {
+public class ContainerKeybind extends Element {
 
-    // ATTRIBUETS
-    private Button button;
+    // ATTRIBUTES
+    private ContainerButton button;
     private boolean listening = false;
     private int keycode;
-    private Consumer<Integer> consumer;
+    private Consumer<Integer> intConsumer;
+    private Consumer<String> stringConsumer;
 
     // CONSTRUCTOR
-    public KeybindButton(int x, int y, int width, int height, int keycode) {
-	this.button = new Button(x, y, width, height, getKeybindName(keycode));
-	this.setPosX(x);
-	this.setPosY(y);
+    public ContainerKeybind(int width, int height, int keycode) {
+	posX = 0;
+	posY = 0;
+	this.button = new ContainerButton(width, height, getKeybindName(keycode));
 	this.keycode = keycode;
 	this.button.setCallback(() -> {
 	    this.listening = true;
@@ -53,24 +55,33 @@ public class KeybindButton extends Element {
 		this.button.setDisplayString(this.getKeybindName(this.keycode));
 		this.listening = false;
 
-		if (this.consumer != null) {
-		    this.consumer.accept(this.keycode);
+		if (this.intConsumer != null) {
+		    this.intConsumer.accept(this.keycode);
+		}
+		if (this.stringConsumer != null) {
+		    this.stringConsumer.accept(this.button.getDisplayString());
 		}
 	    } else if (mouseButton == 1) {
 		this.keycode = -99;
 		this.button.setDisplayString(this.getKeybindName(this.keycode));
 		this.listening = false;
 
-		if (this.consumer != null) {
-		    this.consumer.accept(this.keycode);
+		if (this.intConsumer != null) {
+		    this.intConsumer.accept(this.keycode);
+		}
+		if (this.stringConsumer != null) {
+		    this.stringConsumer.accept(this.button.getDisplayString());
 		}
 	    } else if (mouseButton == 2) {
 		this.keycode = -98;
 		this.button.setDisplayString(this.getKeybindName(this.keycode));
 		this.listening = false;
 
-		if (this.consumer != null) {
-		    this.consumer.accept(this.keycode);
+		if (this.intConsumer != null) {
+		    this.intConsumer.accept(this.keycode);
+		}
+		if (this.stringConsumer != null) {
+		    this.stringConsumer.accept(this.button.getDisplayString());
 		}
 	    }
 	}
@@ -84,8 +95,11 @@ public class KeybindButton extends Element {
 	    this.button.setDisplayString(Keyboard.getKeyName(this.keycode));
 	    this.listening = false;
 
-	    if (this.consumer != null) {
-		this.consumer.accept(this.keycode);
+	    if (this.intConsumer != null) {
+		this.intConsumer.accept(this.keycode);
+	    }
+	    if (this.stringConsumer != null) {
+		this.stringConsumer.accept(this.button.getDisplayString());
 	    }
 	}
     }
@@ -94,14 +108,22 @@ public class KeybindButton extends Element {
     public void updateScreen() {
     }
 
-    public Consumer<Integer> getConsumer() {
-	return consumer;
+    public Consumer<Integer> getIntConsumer() {
+	return intConsumer;
     }
 
-    public void setConsumer(Consumer<Integer> consumer) {
-	this.consumer = consumer;
+    public void setIntConsumer(Consumer<Integer> consumer) {
+	this.intConsumer = consumer;
     }
 
+    public Consumer<String> getStringConsumer() {
+	return stringConsumer;
+    }
+    
+    public void setStringConsumer(Consumer<String> stringConsumer) {
+	this.stringConsumer = stringConsumer;
+    }
+    
     @Override
     public void setPosX(int posX) {
 	super.setPosX(posX);
@@ -112,5 +134,13 @@ public class KeybindButton extends Element {
     public void setPosY(int posY) {
 	super.setPosY(posY);
 	this.button.setPosY(posY);
+    }
+
+    public int getWidth() {
+	return button.getWidth();
+    }
+
+    public int getHeight() {
+	return button.getHeight();
     }
 }
