@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.guiapi.Callback;
 import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -37,8 +38,8 @@ public class ContainerButton extends Element {
     }
 
     // METHODS
-    public void playPressSound(SoundHandler soundHandlerIn) {
-	soundHandlerIn.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
+    public void playPressSound(SoundHandler soundHandler) {
+	soundHandler.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
     }
 
     public int getWidth() {
@@ -63,8 +64,10 @@ public class ContainerButton extends Element {
 	    // background texture
 	    if (hovered) {
 		GlStateManager.color(0.9F, 0.9F, 0.9F, 1F);
+	    } else {
+		GlStateManager.color(0.95F, 0.95F, 0.95F, 1F);
 	    }
-	    SettingContainer.drawContainerTexture(posX, posY, width, height);
+	    DrawUtils.INSTANCE.drawLightContainer(posX, posY, width, height);
 
 	    // text
 	    int textColor = 14737632;

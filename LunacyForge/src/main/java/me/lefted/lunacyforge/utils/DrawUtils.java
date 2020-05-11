@@ -21,6 +21,16 @@ import scala.actors.threadpool.Arrays;
 
 public class DrawUtils extends Gui {
 
+    // CONSTANTS
+    private static final ResourceLocation CONTAINER_DARK = new ResourceLocation("lunacyforge", "container_dark.png");
+    private static final ResourceLocation CONTAINER_LIGHT = new ResourceLocation("lunacyforge", "container_light.png");
+    private static final int TEX_WIDTH = 700;
+    private static final int TEX_HEIGHT = 60;
+    private static final int RADIUS = 8;
+    private static final float SCALE = 0.3F;
+    private static final float SCALED_TEX_WIDTH = TEX_WIDTH * SCALE;
+    private static final float SCALED_TEX_HEIGHT = TEX_HEIGHT * SCALE;
+
     // INSTANCE
     public static final DrawUtils INSTANCE = new DrawUtils();
 
@@ -34,6 +44,72 @@ public class DrawUtils extends Gui {
 	this.mc.getTextureManager().bindTexture(resourceLocation);
     }
 
+    // USETHIS to draw a container texture
+    public static void drawDarkContainer(int posX, int posY, int ingameWidth, int ingameHeight) {
+	// blending
+	GlStateManager.enableBlend();
+	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+	DrawUtils.INSTANCE.bindTexture(CONTAINER_DARK);
+
+	// middle part
+	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ingameWidth - 2 * RADIUS, ingameHeight, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// left side
+	Gui.drawScaledCustomSizeModalRect(posX, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// right side
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// top left
+	Gui.drawScaledCustomSizeModalRect(posX, posY, 0, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// top right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom left
+	Gui.drawScaledCustomSizeModalRect(posX, posY + ingameHeight - RADIUS, 0, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + ingameHeight - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
+	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+    }
+    
+    // USETHIS to draw a light container texture
+    public static void drawLightContainer(int posX, int posY, int ingameWidth, int ingameHeight) {
+	// blending
+	GlStateManager.enableBlend();
+	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+	DrawUtils.INSTANCE.bindTexture(CONTAINER_LIGHT);
+
+	// middle part
+	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ingameWidth - 2 * RADIUS, ingameHeight, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// left side
+	Gui.drawScaledCustomSizeModalRect(posX, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// right side
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH,
+	    SCALED_TEX_HEIGHT);
+
+	// top left
+	Gui.drawScaledCustomSizeModalRect(posX, posY, 0, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// top right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom left
+	Gui.drawScaledCustomSizeModalRect(posX, posY + ingameHeight - RADIUS, 0, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+
+	// bottom right
+	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + ingameHeight - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
+	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+    }
+
     /* guicolor
      */
     public void guiColor() {
@@ -41,6 +117,14 @@ public class DrawUtils extends Gui {
 	final float r = c.getRed() / 255F;
 	final float g = c.getGreen() / 255F;
 	final float b = c.getBlue() / 255F;
+	GlStateManager.color(r, g, b, 1F);
+    }
+
+    public void guiColor(float offset) {
+	final Color c = LunacyForge.instance.clientConfig.getGuiColor();
+	final float r = c.getRed() / 255F + offset;
+	final float g = c.getGreen() / 255F + offset;
+	final float b = c.getBlue() / 255F + offset;
 	GlStateManager.color(r, g, b, 1F);
     }
 

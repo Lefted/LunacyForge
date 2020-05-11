@@ -34,6 +34,7 @@ public abstract class SettingsScreen extends Panel {
 
     // ATTRIBUTES
     protected boolean initDone = false; // if true, initGui() has been finished
+    public boolean dontClose = false; // if true the gui closes on esc
     private BackButton btnBack;
     private ArrayList<SettingContainer> settings = new ArrayList<SettingContainer>();
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
@@ -140,11 +141,10 @@ public abstract class SettingsScreen extends Panel {
 
 	// disable scissor test
 	GL11.glDisable(GL11.GL_SCISSOR_TEST);
-	
+
 	// draw the hover tips
 	settings.forEach(setting -> setting.drawHoverText(mouseX, mouseY));
-	
-	
+
 	// disable blending
 	GlStateManager.disableBlend();
     }
@@ -210,17 +210,19 @@ public abstract class SettingsScreen extends Panel {
 	    return;
 	}
 
-	// closing the gui
-	if (keyCode == Keyboard.KEY_ESCAPE) {
-	    super.keyTyped(typedChar, keyCode);
-	}
-
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
 		setting.keyTyped(typedChar, keyCode);
 	    }
 	}
+
+	// closing the gui
+	if (!dontClose && keyCode == Keyboard.KEY_ESCAPE) {
+	    super.keyTyped(typedChar, keyCode);
+	}
+
+	dontClose = false;
     }
 
     @Override
@@ -256,7 +258,7 @@ public abstract class SettingsScreen extends Panel {
     private void drawGroup(SettingsGroup group) {
 	final int posY = group.getSettings().stream().min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
 
-	SettingContainer.drawContainerTexture(group.getPosX(), posY, group.getWidth(), group.getHeight());
+	DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), posY, group.getWidth(), group.getHeight());
     }
 
     // fired by the back button

@@ -1,17 +1,24 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import javax.annotation.Resource;
+import javax.swing.plaf.ColorUIResource;
 
 import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.HSLColor;
 import me.lefted.lunacyforge.utils.Logger;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -21,9 +28,10 @@ public class ContainerComobox extends Element {
 
     // CONSTANTS
     public static final int ENTRY_WIDTH = 128;
-    public static final int ENTRY_HEIGHT = 14;
-    public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge", "combobox.png");
-
+    public static final int ENTRY_HEIGHT = 16;
+    public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge", "container_light.png");
+    private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
+    
     private static final int TEX_WIDTH = 700;
     private static final int TEX_HEIGHT = 60;
     private static final int RADIUS = 8;
@@ -142,7 +150,10 @@ public class ContainerComobox extends Element {
 	GlStateManager.enableBlend();
 	utils.bindTexture(COMBOBOX);
 
+	int textColor = 14737632;
 	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    textColor = 16777120;
+	    // tint();
 	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
 	}
 
@@ -174,7 +185,7 @@ public class ContainerComobox extends Element {
 	GL11.glColor4f(1F, 1F, 1F, 1F);
 
 	// text
-	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
     }
 
     private void drawEntryTop(int mouseX, int mouseY, int posX, int posY, String entry) {
@@ -183,11 +194,14 @@ public class ContainerComobox extends Element {
 	// background
 	GlStateManager.enableBlend();
 	utils.bindTexture(COMBOBOX);
-	
+
+	int textColor = 14737632;
 	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    textColor = 16777120;
+	    // tint();
 	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
 	}
-	
+
 	// middle
 	utils.drawScaledCustomSizeModalRect(posX, posY + RADIUS, 0, RADIUS, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT - RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
 
@@ -201,11 +215,11 @@ public class ContainerComobox extends Element {
 	utils.drawScaledCustomSizeModalRect(posX + ENTRY_WIDTH - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
 
 	GlStateManager.disableBlend();
-	GL11.glColor4f(1F, 1F, 1F, 1F);
 	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
 
 	// text
-	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     private void drawEntryMiddle(int mouseX, int mouseY, int posX, int posY, String entry) {
@@ -214,18 +228,20 @@ public class ContainerComobox extends Element {
 	// background
 	GlStateManager.enableBlend();
 	utils.bindTexture(COMBOBOX);
-	
+
+	int textColor = 14737632;
 	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    textColor = 16777120;
+	    // tint();
 	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
 	}
-	
+
 	utils.drawScaledCustomSizeModalRect(posX, posY, RADIUS + 1, RADIUS + 1, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
 	GlStateManager.disableBlend();
-	GL11.glColor4f(1F, 1F, 1F, 1F);
-	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
 
 	// text
-	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     private void drawEntryBottom(int mouseX, int mouseY, int posX, int posY, String entry) {
@@ -235,10 +251,13 @@ public class ContainerComobox extends Element {
 	GlStateManager.enableBlend();
 	utils.bindTexture(COMBOBOX);
 
+	int textColor = 14737632;
 	if (isMouseOverEntry(mouseX, mouseY, posX, posY)) {
+	    textColor = 16777120;
+	    // tint();
 	    GL11.glColor4f(0.9F, 0.9F, 0.9F, 1F);
 	}
-	
+
 	// middle
 	utils.drawScaledCustomSizeModalRect(posX, posY, RADIUS, RADIUS, 1, 1, ENTRY_WIDTH, ENTRY_HEIGHT - RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
 
@@ -254,12 +273,25 @@ public class ContainerComobox extends Element {
 	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
 
 	GlStateManager.disableBlend();
-	GL11.glColor4f(1F, 1F, 1F, 1F);
 
 	// utils.drawRectWidthHeight(posX, posY, ENTRY_WIDTH, ENTRY_HEIGHT, 0xFF767676);
 
 	// text
-	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 3, 0xffffff);
+	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
+	GL11.glColor4f(1F, 1F, 1F, 1F);
+    }
+
+    private void tint() {
+	// get hue
+	HSLColor co = new HSLColor(ClientConfig.getGuiColor());
+
+	Color coo = HSLColor.toRGB(co.getHue(), 100, 90);
+
+	float r = coo.getRed() / 255F;
+	float g = coo.getGreen() / 255F;
+	float b = coo.getBlue() / 255F;
+
+	GL11.glColor4f(r, g, b, 1F);
     }
 
     public void setConsumer(Consumer<String> consumer) {
@@ -267,16 +299,22 @@ public class ContainerComobox extends Element {
     }
 
     private void closeCombobox() {
+	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
     }
-    
+
     private void openCombobox() {
+	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	originalHeight = parent.getHeight();
-	
+
 	int extraNeeded = (entries.size() - 1) * ENTRY_HEIGHT;
 	parent.setHeight(parent.getHeight() + extraNeeded);
-	
+
 	opened = true;
+    }
+    
+    public void playPressSound(SoundHandler soundHandler) {
+	soundHandler.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
     }
 }

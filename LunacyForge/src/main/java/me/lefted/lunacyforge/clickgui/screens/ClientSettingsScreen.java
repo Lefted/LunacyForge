@@ -45,12 +45,12 @@ public class ClientSettingsScreen extends SettingsScreen {
 	addRGBContainer(settings);
 
 	SettingContainer container = new SettingContainer();
-	ContainerComobox box = new ContainerComobox(container, 0, "nichts", "halbvoll", "voll");
+	ContainerComobox box = new ContainerComobox(container, 0, "Nichts", "Halbvoll", "Voll");
 	container.centerX();
 	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
 	box.setConsumer(str -> Logger.logChatMessage(str));
 	container.setSettingOffsetY(8);
-	container.setDescription("glas");
+	container.setDescription("Glas");
 	container.setSettingElement(box);
 	container.setBackgroundLevel(1);
 	settings.add(container);
@@ -60,7 +60,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 
 	SettingContainer textContainer = new SettingContainer();
 	textContainer.centerX();
-	textContainer.setDescription("friend name");
+	textContainer.setDescription("Friendname");
 
 	text.setPosX(textContainer.getPosX() + textContainer.getWidth() - text.getWidth() - 17);
 	// text.setEnableBackgroundDrawing(false);
@@ -70,23 +70,21 @@ public class ClientSettingsScreen extends SettingsScreen {
 	textContainer.setSettingOffsetY(5);
 
 	settings.add(textContainer);
-	
-	
-	
-	ContainerKeybind keybind = new ContainerKeybind(126, 15, 0);
-	
+
+	ContainerKeybind keybind = new ContainerKeybind(this, 130, 15, 0);
+
 	SettingContainer keybindContainer = new SettingContainer();
 	keybindContainer.centerX();
-	keybindContainer.setDescription("keybind test");
+	keybindContainer.setDescription("Keybind");
 	keybindContainer.setSettingOffsetY(7);
-	
-	keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 5);
-	
+
+	keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 8);
+
 	keybind.setStringConsumer(str -> Logger.logChatMessage(str));
-	
+
 	keybindContainer.setSettingElement(keybind);
 	settings.add(keybindContainer);
-	
+
     }
 
     @Override
@@ -139,14 +137,14 @@ public class ClientSettingsScreen extends SettingsScreen {
 	SettingContainer title = new SettingContainer(350, 20);
 	title.centerX();
 	// title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
-	title.setDescription("Gui color");
+	title.setDescription("Colors");
 	settings.add(title);
 
 	// red
 	ContainerSlider sliderRed = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderRed.setValue(ClientConfig.getGuiColor().getRed());
 	sliderRed.setConsumer((d) -> {
-	    colorRed.setDescription("Red:" + sliderRed.getValueString());
+	    colorRed.setDescription("Red: " + sliderRed.getValueString());
 	    updateGuiColor();
 	});
 
@@ -163,13 +161,13 @@ public class ClientSettingsScreen extends SettingsScreen {
 	ContainerSlider sliderGreen = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderGreen.setValue(ClientConfig.getGuiColor().getGreen());
 	sliderGreen.setConsumer((d) -> {
-	    colorGreen.setDescription("Green:" + sliderGreen.getValueString());
+	    colorGreen.setDescription("Green: " + sliderGreen.getValueString());
 	    updateGuiColor();
 	});
 
 	colorGreen = new SettingContainer(350, 20);
 	colorGreen.setSettingOffsetY(10);
-	colorGreen.setDescription("Green:" + ClientConfig.getGuiColor().getGreen());
+	colorGreen.setDescription("Green: " + ClientConfig.getGuiColor().getGreen());
 
 	colorGreen.centerX();
 	sliderGreen.setPosX(colorGreen.getPosX() + colorGreen.getWidth() - sliderGreen.WIDTH - 10);
@@ -180,13 +178,13 @@ public class ClientSettingsScreen extends SettingsScreen {
 	ContainerSlider sliderBlue = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderBlue.setValue(ClientConfig.getGuiColor().getBlue());
 	sliderBlue.setConsumer((d) -> {
-	    colorBlue.setDescription("Blue:" + sliderBlue.getValueString());
+	    colorBlue.setDescription("Blue: " + sliderBlue.getValueString());
 	    updateGuiColor();
 	});
 
 	colorBlue = new SettingContainer();
 	colorBlue.setSettingOffsetY(10);
-	colorBlue.setDescription("Blue:" + ClientConfig.getGuiColor().getBlue());
+	colorBlue.setDescription("Blue: " + ClientConfig.getGuiColor().getBlue());
 
 	colorBlue.centerX();
 	sliderBlue.setPosX(colorBlue.getPosX() + colorBlue.getWidth() - sliderBlue.WIDTH - 10);

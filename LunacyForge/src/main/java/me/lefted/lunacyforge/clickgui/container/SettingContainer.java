@@ -16,12 +16,12 @@ import net.minecraft.util.StringUtils;
 import scala.actors.threadpool.Arrays;
 
 /* This class combines the container texture, a description and an element. */
+// TODO mouseClick is not passed to all containers when not a container was clicked
 public class SettingContainer extends Element {
 
     // CONSTANTS
     public static final int DEFAULT_WIDTH = 350;
     public static final int DEFAULT_HEIGHT = 30;
-    private static final ResourceLocation CONTAINER = new ResourceLocation("lunacyforge", "container.png");
 
     private static final int TEX_WIDTH = 700;
     private static final int TEX_HEIGHT = 60;
@@ -164,40 +164,7 @@ public class SettingContainer extends Element {
     }
 
     private void drawContainer() {
-	drawContainerTexture(posX, posY, width, height);
-    }
-
-    // USETHIS to draw a container texture
-    public static void drawContainerTexture(int posX, int posY, int ingameWidth, int ingameHeight) {
-	// blending
-	GlStateManager.enableBlend();
-	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-	DrawUtils.INSTANCE.bindTexture(SettingContainer.CONTAINER);
-
-	// middle part
-	Gui.drawScaledCustomSizeModalRect(posX + RADIUS, posY, RADIUS, RADIUS, 1, 1, ingameWidth - 2 * RADIUS, ingameHeight, SCALED_TEX_WIDTH,
-	    SCALED_TEX_HEIGHT);
-
-	// left side
-	Gui.drawScaledCustomSizeModalRect(posX, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
-
-	// right side
-	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + RADIUS, RADIUS, RADIUS, 1, 1, RADIUS, ingameHeight - 2 * RADIUS, SCALED_TEX_WIDTH,
-	    SCALED_TEX_HEIGHT);
-
-	// top left
-	Gui.drawScaledCustomSizeModalRect(posX, posY, 0, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
-
-	// top right
-	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY, -RADIUS, 0, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
-
-	// bottom left
-	Gui.drawScaledCustomSizeModalRect(posX, posY + ingameHeight - RADIUS, 0, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
-
-	// bottom right
-	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + ingameHeight - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
-	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
+	DrawUtils.INSTANCE.drawDarkContainer(posX, posY, width, height);
     }
 
     // USETHIS

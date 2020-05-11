@@ -48,7 +48,7 @@ public class SearchBar extends Element {
     public void draw(int mouseX, int mouseY, float partialTicks) {
 	final DrawUtils utils = DrawUtils.INSTANCE;
 
-	SettingContainer.drawContainerTexture(posX, posY, 350, 30);
+	utils.drawDarkContainer(posX, posY, 350, 30);
 
 	GL11.glEnable(GL11.GL_BLEND);
 	

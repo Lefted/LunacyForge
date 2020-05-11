@@ -4,12 +4,15 @@ import java.util.function.Consumer;
 
 import org.lwjgl.input.Keyboard;
 
+import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
 import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ContainerKeybind extends Element {
 
     // ATTRIBUTES
+    private SettingsScreen parent;
     private ContainerButton button;
     private boolean listening = false;
     private int keycode;
@@ -17,7 +20,8 @@ public class ContainerKeybind extends Element {
     private Consumer<String> stringConsumer;
 
     // CONSTRUCTOR
-    public ContainerKeybind(int width, int height, int keycode) {
+    public ContainerKeybind(SettingsScreen parent, int width, int height, int keycode) {
+	this.parent = parent;
 	posX = 0;
 	posY = 0;
 	this.button = new ContainerButton(width, height, getKeybindName(keycode));
@@ -94,15 +98,21 @@ public class ContainerKeybind extends Element {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
 	if (this.listening) {
-	    this.keycode = keyCode;
-	    this.button.setDisplayString(Keyboard.getKeyName(this.keycode));
-	    this.listening = false;
 
-	    if (this.intConsumer != null) {
-		this.intConsumer.accept(this.keycode);
+	    if (keyCode == Keyboard.KEY_ESCAPE) {
+		keyCode = 0;
+		parent.dontClose = true;
 	    }
-	    if (this.stringConsumer != null) {
-		this.stringConsumer.accept(this.button.getDisplayString());
+
+	    this.keycode = keyCode;
+	    button.setDisplayString(Keyboard.getKeyName(keycode));
+	    listening = false;
+
+	    if (intConsumer != null) {
+		intConsumer.accept(keycode);
+	    }
+	    if (stringConsumer != null) {
+		stringConsumer.accept(button.getDisplayString());
 	    }
 	}
     }

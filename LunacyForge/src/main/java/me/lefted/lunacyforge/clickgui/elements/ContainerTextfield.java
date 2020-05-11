@@ -9,6 +9,8 @@ import com.google.common.base.Predicates;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.guiapi.Textfield;
+import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -44,11 +46,8 @@ public class ContainerTextfield extends Textfield {
     public void draw(int mouseX, int mouseY, float partialTicks) {
 	if (this.isVisible()) {
 	    if (this.getEnableBackgroundDrawing()) {
-		
-		SettingContainer.drawContainerTexture(posX, posY, width, height);
-		
-//		drawRect(this.getPosX() - 1, this.getPosY() - 1, this.getPosX() + this.width + 1, this.getPosY() + this.height + 1, -6250336);
-//		drawRect(this.getPosX(), this.getPosY(), this.getPosX() + this.width, this.getPosY() + this.height, -16777216);
+
+		DrawUtils.INSTANCE.drawLightContainer(posX, posY, width, height);
 	    }
 
 	    int i = this.isEnabled ? this.enabledColor : this.disabledColor;
@@ -92,12 +91,23 @@ public class ContainerTextfield extends Textfield {
 		}
 	    }
 
+	    if (!this.isFocused && isMouseOver(mouseX, mouseY)) {
+		if (this.cursorCounter / 6 % 2 == 0 && flag) {
+		    this.fontRendererInstance.drawStringWithShadow("_", (float) k1, (float) i1, i);
+		}
+	    }
+
 	    if (k != j) {
 		int l1 = l + this.fontRendererInstance.getStringWidth(s.substring(0, k));
 		this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
 	    }
 	}
 	GL11.glColor4f(1F, 1F, 1F, 1F);
+    }
+
+    @Override
+    public boolean isMouseOver(int mouseX, int mouseY) {
+	return mouseX <= posX + width && mouseX >= posX && mouseY <= posY + height && mouseY >= posY;
     }
 
 }

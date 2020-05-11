@@ -122,7 +122,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	container.centerX();
 	container.setDescription("Keybind");
 
-	final ContainerKeybind keybind = new ContainerKeybind(75, 15, module.getKeycode());
+	final ContainerKeybind keybind = new ContainerKeybind(this, 75, 15, module.getKeycode());
 	keybind.setPosX(container.getPosX() + container.getWidth() - keybind.getWidth() -  10);
 	keybind.setIntConsumer(keycode -> module.setKeycode(keycode));
 	container.setSettingElement(keybind);
