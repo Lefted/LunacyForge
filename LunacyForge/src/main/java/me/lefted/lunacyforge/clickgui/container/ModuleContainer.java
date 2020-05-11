@@ -5,7 +5,9 @@ import me.lefted.lunacyforge.clickgui.screens.ModuleSettingsScreen;
 import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.Reach;
+import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class ModuleContainer extends SettingContainer {
@@ -55,7 +57,7 @@ public class ModuleContainer extends SettingContainer {
 	if (module instanceof Reach) {
 	    System.out.println("reach");
 	}
-	
+
 	// if rightlick show further info
 	if (isMouseOver(mouseX, mouseY) && mouseButton == 1) {
 	    ModuleSettingsScreen.instance.changeModule(module);
@@ -64,6 +66,7 @@ public class ModuleContainer extends SettingContainer {
 	    super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
     }
+
     //
     // @Override
     // public void setPosY(int posY) {

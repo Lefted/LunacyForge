@@ -113,6 +113,11 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    return;
 	}
 
+	if (mouseButton == 1) {
+	    backButton.getCallback().invoke();
+	    return;
+	}
+	
 	// pass call
 	super.mouseClicked(mouseX, mouseY, mouseButton);
 

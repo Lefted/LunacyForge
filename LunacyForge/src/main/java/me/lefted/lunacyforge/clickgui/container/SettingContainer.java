@@ -35,7 +35,7 @@ public class SettingContainer extends Element {
     private String description;
     private String hoverText;
     private int width;
-    private int height;
+    protected int height;
     protected int visibleTop;
     protected int visibleBottom;
     protected int visibleLeft;
@@ -94,7 +94,7 @@ public class SettingContainer extends Element {
     // draw hover
     public void drawHoverText(int mouseX, int mouseY) {
 	if (hoverText != null && !hoverText.isEmpty()) {
-	    if (isMouseOver(mouseX, mouseY)) {
+	    if (isMouseOverHoverArea(mouseX, mouseY)) {
 		DrawUtils.INSTANCE.drawHoverText(hoverText, 100, mouseX, mouseY + 10);
 	    }
 	}
@@ -129,6 +129,10 @@ public class SettingContainer extends Element {
 	}
     }
 
+    public boolean isMouseOverHoverArea(int mouseX, int mouseY) {
+	return isMouseOver(mouseX, mouseY);
+    }
+    
     @Override
     public boolean isMouseOver(int mouseX, int mouseY) {
 	boolean flag1 = mouseX <= visibleRight && mouseX >= visibleLeft;
