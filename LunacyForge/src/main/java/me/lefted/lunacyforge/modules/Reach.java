@@ -8,7 +8,7 @@ import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 /* Also see: MixinEntityRenderer.java */
-@ModuleInfo(description = "Extends the distance from where you can hit things")
+@ModuleInfo(description = "Extends the distance from where you can hit things", tags = {"range", "hitdistance"})
 public class Reach extends Module {
 
     // ATTRIBUTES
@@ -19,7 +19,6 @@ public class Reach extends Module {
     // CONSTRUCTOR
     public Reach() {
 	super("Reach", Category.COMBAT);
-	setTags("range", "hitdistance");
     }
 
     // METHODS

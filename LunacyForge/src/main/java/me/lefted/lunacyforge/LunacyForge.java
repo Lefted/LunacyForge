@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
  *  	other hover design
  *  	add default values to hover tips
  *  	slider in ios slider umändern
+ *  	color picker
  */
 
 @Mod(modid = "lunacyforge")

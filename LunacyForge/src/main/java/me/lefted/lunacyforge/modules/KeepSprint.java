@@ -25,7 +25,7 @@ public class KeepSprint extends Module {
     private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", Boolean.valueOf(true));
 
     @ContainerInfo(hoverText = "The seconds that need to pass without hitting someone in order for the next hit to count as the firsthit")
-    @SliderInfo(min = 1, max = 10, step = 1, description = "What counts as 'firsthit'", numberType = NumberType.INTEGER)
+    @SliderInfo(min = 1, max = 10, step = 1, description = "What counts as 'firsthit'", numberType = NumberType.SECONDS)
     private Value<Integer> firstHitDelayValue = new Value<Integer>("firstHitDelay", Integer.valueOf(2));
 
     // ATTRIBUTES

@@ -11,4 +11,6 @@ public @interface ModuleInfo {
 
     String description();
 
+    String[] tags() default {};
+    
 }

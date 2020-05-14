@@ -26,20 +26,20 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.MathHelper;
 
-@ModuleInfo(description = "Gradually aims at the nearest target\nLike a magnet which pulls your crosshair to the enemey")
+@ModuleInfo(description = "Gradually aims at the nearest target\nLike a magnet which pulls your crosshair to the enemey", tags = { "SmoothAimbot" })
 public class AimAssist extends Module {
 
     // VALUES
     @ContainerInfo(hoverText = "Intensity the crosshair locks to the target")
     @SliderInfo(min = 1, max = 8, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
     private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5.0F));
-    
+
     @CheckboxInfo(description = "Target Animals")
     private Value<Boolean> targetAnimals = new Value<Boolean>("targetAnimals", Boolean.valueOf(true));
-    
+
     @CheckboxInfo(description = "Target Hostiles")
     private Value<Boolean> targetHostiles = new Value<Boolean>("targetHostiles", Boolean.valueOf(true));
-    
+
     @CheckboxInfo(description = "Target Players")
     private Value<Boolean> targetPlayers = new Value<Boolean>("targetPlayers", Boolean.valueOf(true));
 
@@ -51,13 +51,12 @@ public class AimAssist extends Module {
     public AimAssist() {
 	super("AimAssist", Category.COMBAT);
 	this.intensityValue.setConsumer(new Consumer<Float>() {
-	    
+
 	    @Override
 	    public void accept(Float t) {
 		((ILunacyTimer) Minecraft.getMinecraft()).getAimAssistTimer().timerSpeed = t.floatValue();
 	    }
 	});
-	setTags("SmoothAimbot");
     }
 
     @EventTarget

@@ -21,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 /* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
 // TODO sneaks in water
-@ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars")
+@ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars", tags = {"Ninjabridge", "Eaglen"})
 public class FastBridge extends Module {
 
     // VALUES
@@ -29,7 +29,7 @@ public class FastBridge extends Module {
     @SliderInfo(description = "Speed", min = 0, max = 4, step = 1D, numberType = ContainerSlider.NumberType.INTEGER)
     private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
 
-    @ContainerInfo(hoverText = "Time you keep sneaking in case your blocks go out")
+    @ContainerInfo(hoverText = "Time in ticks you keep sneaking in case your blocks go out")
     @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
     private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));
 

@@ -36,7 +36,6 @@ public class ModuleContainer extends SettingContainer {
 	// add callback
 	togglebox.setConsumer((state) -> {
 	    module.setEnabled(state.booleanValue());
-	    System.out.println("changing module state from modulecontainer");
 	});
 
 	// set x position of togglebox

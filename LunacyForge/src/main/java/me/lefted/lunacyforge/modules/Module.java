@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.lefted.lunacyforge.LunacyForge;
+import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.utils.Logger;
@@ -20,7 +21,6 @@ public abstract class Module {
     private boolean enabled;
     private boolean rage;
     private Category category;
-    private String[] tags;
 
     // ACCESS
     protected Minecraft mc = Minecraft.getMinecraft();
@@ -145,14 +145,14 @@ public abstract class Module {
     }
 
     public String[] getTags() {
-	return tags;
-    }
-
-    public void setTags(String... tags) {
-	this.tags = tags;
+	final ModuleInfo info = this.getClass().getAnnotation(ModuleInfo.class);
+	return info.tags();
+	// return tags;
     }
 
     public boolean hasTags() {
-	return tags != null && tags.length != 0;
+	final ModuleInfo info = this.getClass().getAnnotation(ModuleInfo.class);
+	return info != null && info.tags() != null && info.tags().length != 0;
+	// return tags != null && tags.length != 0;
     }
 }

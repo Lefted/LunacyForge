@@ -201,7 +201,8 @@ public class ContainerSlider extends Element {
     // INNER CLASS
     public enum NumberType {
 	PERCENT(number -> String.format(Locale.ENGLISH, "%.1f%%", number.floatValue())), DECIMAL(number -> String.format(Locale.ENGLISH, "%." + StringUtils
-	    .getNotNullDecimalCount(number + "") + "f", number.floatValue())), INTEGER(number -> Long.toString(number.longValue()));
+	    .getNotNullDecimalCount(number + "") + "f", number.floatValue())), INTEGER(number -> Long.toString(number.longValue())), SECONDS(number -> Long
+		.toString(number.longValue()) + " seconds");
 
 	private Function<Number, String> formatter;
 
