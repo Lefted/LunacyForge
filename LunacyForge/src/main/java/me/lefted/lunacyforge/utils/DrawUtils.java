@@ -12,12 +12,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import scala.actors.threadpool.Arrays;
 
 public class DrawUtils extends Gui {
 
@@ -198,21 +196,11 @@ public class DrawUtils extends Gui {
 	    if (i2 + k + 6 > sc.getScaledHeight()) {
 		i2 = sc.getScaledHeight() - k - 6;
 	    }
-
 	    this.zLevel = 300.0F;
-	    // this.itemRender.zLevel = 300.0F;
-	    int l = -267386864;
-	    this.drawGradientRect(l1 - 3, i2 - 4, l1 + i + 3, i2 - 3, l, l);
-	    this.drawGradientRect(l1 - 3, i2 + k + 3, l1 + i + 3, i2 + k + 4, l, l);
-	    this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 + k + 3, l, l);
-	    this.drawGradientRect(l1 - 4, i2 - 3, l1 - 3, i2 + k + 3, l, l);
-	    this.drawGradientRect(l1 + i + 3, i2 - 3, l1 + i + 4, i2 + k + 3, l, l);
-	    int i1 = 1347420415;
-	    int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
-	    this.drawGradientRect(l1 - 3, i2 - 3 + 1, l1 - 3 + 1, i2 + k + 3 - 1, i1, j1);
-	    this.drawGradientRect(l1 + i + 2, i2 - 3 + 1, l1 + i + 3, i2 + k + 3 - 1, i1, j1);
-	    this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 - 3 + 1, i1, i1);
-	    this.drawGradientRect(l1 - 3, i2 + k + 2, l1 + i + 3, i2 + k + 3, j1, j1);
+
+	    GL11.glColor4f(0.4F, 0.4F, 0.4F, 1.0F);
+	    drawDarkContainer(l1 - 3, i2 - 3, i + 6, k + 6);
+	    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 	    for (int k1 = 0; k1 < textLines.size(); ++k1) {
 		String s1 = (String) textLines.get(k1);

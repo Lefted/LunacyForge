@@ -46,10 +46,12 @@ public class FastBridge extends Module {
     private boolean sneak = false;
     private boolean inAir;
 
+    // CONSTRUCTOR
     public FastBridge() {
 	super("FastBridge", Category.MOVEMENT);
     }
 
+    // METHODS
     @EventTarget
     public void onUpdate(UpdateEvent event) {
 	if (this.isEnabled()) {

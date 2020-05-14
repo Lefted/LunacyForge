@@ -28,8 +28,13 @@ public class ContainerKeybind extends Element {
 	this.keycode = keycode;
 	this.button.setCallback(() -> {
 	    this.listening = true;
-	    this.button.setDisplayString(EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.getKeybindName(this.keycode)
+	    if (this.keycode == 0) {
+		this.button.setDisplayString(EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.getKeybindName(this.keycode)
 		+ EnumChatFormatting.WHITE + " <");
+	    } else {
+		this.button.setDisplayString(EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.getKeybindName(this.keycode)
+		+ EnumChatFormatting.WHITE + " <");
+	    }
 	});
     }
 
