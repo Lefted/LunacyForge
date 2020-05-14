@@ -5,19 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
-
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SliderInfo {
+public @interface KeybindInfo {
 
     String description();
     
-    ContainerSlider.NumberType numberType();
-    
-    int min();
-
-    int max();
-
-    double step();
 }

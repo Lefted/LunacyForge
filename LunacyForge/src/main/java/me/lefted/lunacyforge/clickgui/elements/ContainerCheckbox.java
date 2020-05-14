@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.clickgui.container.ContainerButton;
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.ColorUtils;
@@ -13,6 +14,7 @@ import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.ContainerBeacon;
 import net.minecraft.util.ResourceLocation;
 
 public class ContainerCheckbox extends Element {
@@ -22,7 +24,6 @@ public class ContainerCheckbox extends Element {
     public static final int HEIGHT = 16;
     private static final ResourceLocation BUTTON_CHECKED = new ResourceLocation("lunacyforge", "material_checkbox_checked.png");
     private static final ResourceLocation BUTTON = new ResourceLocation("lunacyforge", "material_checkbox.png");
-    private static final ResourceLocation CLICK_SOUND = new ResourceLocation("gui.button.press");
 
     // ATTRIBUTES
     private boolean checked;
@@ -99,7 +100,7 @@ public class ContainerCheckbox extends Element {
     }
 
     private void playPressSound() {
-	Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(CLICK_SOUND, 1.0F));
+	Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(ContainerButton.PRESS_SOUND, 1.0F));
     }
 
     public String toString() {

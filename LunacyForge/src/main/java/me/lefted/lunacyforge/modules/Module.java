@@ -42,7 +42,7 @@ public abstract class Module {
 
     public void toggle() {
 	this.enabled = !this.enabled;
-	
+
 	if (this.enabled) {
 	    this.onEnable();
 	} else {
@@ -69,7 +69,7 @@ public abstract class Module {
 	if (enabled == this.isEnabled()) {
 	    return;
 	}
-	
+
 	this.enabled = enabled;
 	if (this.enabled) {
 	    this.onEnable();
@@ -145,13 +145,13 @@ public abstract class Module {
     }
 
     public String[] getTags() {
-        return tags;
+	return tags;
     }
 
     public void setTags(String... tags) {
-        this.tags = tags;
+	this.tags = tags;
     }
-    
+
     public boolean hasTags() {
 	return tags != null && tags.length != 0;
     }

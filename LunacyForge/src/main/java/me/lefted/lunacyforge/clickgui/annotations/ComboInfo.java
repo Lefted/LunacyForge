@@ -5,19 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
-
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SliderInfo {
+public @interface ComboInfo {
 
     String description();
     
-    ContainerSlider.NumberType numberType();
-    
-    int min();
+    /**
+     * @return The list of entries the combobox has. Every value must have one entry.
+     */
+    String[] entryNames();
 
-    int max();
-
-    double step();
 }

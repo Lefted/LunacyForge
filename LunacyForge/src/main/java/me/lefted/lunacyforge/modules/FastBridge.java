@@ -3,9 +3,14 @@ package me.lefted.lunacyforge.modules;
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
+import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
+import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
+import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
+import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
-import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;
@@ -15,16 +20,30 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 /* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
-@ModuleInterpreter(description = "Sneaks/Unsneaks at the end of a block to build bridges faster")
+// TODO sneaks in water
+@ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars")
 public class FastBridge extends Module {
 
+    // VALUES
+    @ContainerInfo(hoverText = "Adjusts the rightclick timer")
+    @SliderInfo(description = "Speed", min = 0, max = 4, step = 1D, numberType = ContainerSlider.NumberType.INTEGER)
     private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
+
+    @ContainerInfo(hoverText = "Time you keep sneaking in case your blocks go out")
+    @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
     private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));
+
+    @ContainerInfo(hoverText = "Useful for onestacks")
+    @CheckboxInfo(description = "Sneak when jumping")
     private Value<Boolean> useOnestackValue = new Value("useOnestack", Boolean.valueOf(false));
+
+    @ContainerInfo(hoverText = "If enabled, you can fall off when you're not holding blocks")
+    @CheckboxInfo(description = "Only sneak when holding blocks")
     private Value<Boolean> useBlockSneakValue = new Value("useBlockSneak", Boolean.valueOf(false));
 
-    private boolean sneak = false;
+    // ATTRIBUTES
     public int safeSneakDelay;
+    private boolean sneak = false;
     private boolean inAir;
 
     public FastBridge() {

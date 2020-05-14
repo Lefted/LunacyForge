@@ -5,6 +5,11 @@ import java.util.function.Consumer;
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
+import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
+import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
+import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
@@ -21,13 +26,21 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.MathHelper;
 
-@ModuleInterpreter(description = "Gradually aims at the nearest target")
+@ModuleInfo(description = "Gradually aims at the nearest target\nLike a magnet which pulls your crosshair to the enemey")
 public class AimAssist extends Module {
 
     // VALUES
+    @ContainerInfo(hoverText = "Intensity the crosshair locks to the target")
+    @SliderInfo(min = 1, max = 8, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
     private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5.0F));
+    
+    @CheckboxInfo(description = "Target Animals")
     private Value<Boolean> targetAnimals = new Value<Boolean>("targetAnimals", Boolean.valueOf(true));
+    
+    @CheckboxInfo(description = "Target Hostiles")
     private Value<Boolean> targetHostiles = new Value<Boolean>("targetHostiles", Boolean.valueOf(true));
+    
+    @CheckboxInfo(description = "Target Players")
     private Value<Boolean> targetPlayers = new Value<Boolean>("targetPlayers", Boolean.valueOf(true));
 
     // ATTRIBUTES

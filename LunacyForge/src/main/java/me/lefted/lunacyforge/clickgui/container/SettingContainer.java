@@ -1,5 +1,7 @@
 package me.lefted.lunacyforge.clickgui.container;
 
+import java.util.function.Predicate;
+
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
@@ -45,6 +47,7 @@ public class SettingContainer extends Element {
     private int backgroundLevel = 0; // determines if this is drawn before other settings or after
 
     private SettingsGroup settingGroup;
+    private Predicate<int[]> isMouseOverHoverArea;
 
     // CONSTRUCTOR
     public SettingContainer(int x, int y, int width, int height) {
@@ -95,7 +98,7 @@ public class SettingContainer extends Element {
     public void drawHoverText(int mouseX, int mouseY) {
 	if (hoverText != null && !hoverText.isEmpty()) {
 	    if (isMouseOverHoverArea(mouseX, mouseY)) {
-		DrawUtils.INSTANCE.drawHoverText(hoverText, 100, mouseX, mouseY + 10);
+		DrawUtils.INSTANCE.drawHoverText(hoverText, 50, mouseX, mouseY + 10);
 	    }
 	}
     }
@@ -129,10 +132,15 @@ public class SettingContainer extends Element {
 	}
     }
 
-    public boolean isMouseOverHoverArea(int mouseX, int mouseY) {
-	return isMouseOver(mouseX, mouseY);
+    private boolean isMouseOverHoverArea(int mouseX, int mouseY) {
+	if (isMouseOverHoverArea != null) {
+	    final int[] pos = { mouseX, mouseY };
+	    return isMouseOverHoverArea.test(pos);
+	}
+	return mouseX >= posX && mouseX <= posX + Math.min(90, DrawUtils.INSTANCE.getStringWidth(description)) + 20 && mouseY >= posY && mouseY <= posY
+	    + height;
     }
-    
+
     @Override
     public boolean isMouseOver(int mouseX, int mouseY) {
 	boolean flag1 = mouseX <= visibleRight && mouseX >= visibleLeft;
@@ -239,6 +247,10 @@ public class SettingContainer extends Element {
 
     public void setHeight(int height) {
 	this.height = height;
+    }
+
+    public void setIsMouseOverHoverAreaPredicate(Predicate<int[]> predicate) {
+	this.isMouseOverHoverArea = predicate;
     }
 
     public boolean isInGroup() {

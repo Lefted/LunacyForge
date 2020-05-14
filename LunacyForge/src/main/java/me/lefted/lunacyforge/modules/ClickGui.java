@@ -21,5 +21,4 @@ public class ClickGui extends Module {
     @Override
     public void onDisable() {
     }
-
 }

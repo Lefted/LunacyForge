@@ -1,14 +1,17 @@
 package me.lefted.lunacyforge.modules;
 
-import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
+import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 
-@ModuleInterpreter(description = "Makes everything brighter")
+// FEATUREREQUEST add brightness value
+@ModuleInfo(description = "Makes everything brighter")
 public class Fullbright extends Module{
 
+    // CONSTRUCTOR
     public Fullbright() {
 	super("Fullbright", Category.RENDER);
     }
 
+    // METHODS
     @Override
     public void onEnable() {
 	this.mc.gameSettings.gammaSetting = 100F;

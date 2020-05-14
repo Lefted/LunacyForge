@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class ContainerButton extends Element {
 
     // CONSTANTS
-    private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
+    public static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
 
     // ATTRIBUTES
     private int width;

@@ -1,17 +1,18 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.lwjgl.opengl.GL11;
 
-import java.util.Locale;
-
+import me.lefted.lunacyforge.clickgui.container.ContainerButton;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
+import me.lefted.lunacyforge.utils.StringUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,7 +34,6 @@ public class ContainerSlider extends Element {
     private double value;
     private NumberType numberType;
     private Consumer<Double> consumer;
-
 
     // CONSTRUCTOR
     /**
@@ -58,6 +58,7 @@ public class ContainerSlider extends Element {
 	    if (isMouseOver(mouseX, mouseY)) {
 		dragging = true;
 		updateValue(mouseX, mouseY);
+		playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	    }
 	}
     }
@@ -73,7 +74,7 @@ public class ContainerSlider extends Element {
 	    double newValue = Math.max(Math.min((mouseX - this.posX) / (double) WIDTH * (maxValue - minValue) + minValue, maxValue), minValue);
 
 	    // this makes the value snap according to the stepValue
-	    newValue = (int) (Math.round(newValue) / stepValue) * stepValue;
+	    newValue = closestMultiple(newValue, stepValue);
 
 	    // callback consumer
 	    value = newValue;
@@ -81,6 +82,39 @@ public class ContainerSlider extends Element {
 		consumer.accept(newValue);
 	    }
 	}
+    }
+
+    // function to find the number closest to n
+    // and divisible by m
+    private double closestNumber(double n, double m) {
+	// find the quotient
+	double q = n / m;
+
+	// 1st possible closest number
+	double n1 = m * q;
+
+	// 2nd possible closest number
+	double n2 = (n * m) > 0 ? (m * (q + 1)) : (m * (q - 1));
+
+	// if true, then n1 is the required closest number
+	if (Math.abs(n - n1) < Math.abs(n - n2))
+	    return n1;
+
+	// else n2 is the required closest number
+	return n2;
+    }
+
+    // Function to calculate the smallest multiple
+    private double closestMultiple(double n, double x) {
+	if (x > n) {
+	    if (n > x / 2) {
+		return x;
+	    }
+	    return 0;
+	}
+	n = n + x / 2;
+	n = n - (n % x);
+	return n;
     }
 
     @Override
@@ -142,10 +176,10 @@ public class ContainerSlider extends Element {
 	GL11.glColor4f(1F, 1F, 1F, 1F);
 
 	GlStateManager.disableBlend();
+    }
 
-	// String text = numberType.getFormatter().apply(value);
-	// drawString(Minecraft.getMinecraft().fontRendererObj, text, posX + WIDTH / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2, posY
-	// + 1, 0xffffff);
+    private void playPressSound(SoundHandler soundHandler) {
+	soundHandler.playSound(PositionedSoundRecord.create(ContainerButton.PRESS_SOUND, 1.0F));
     }
 
     public String getValueString() {
@@ -155,19 +189,19 @@ public class ContainerSlider extends Element {
     public double getValue() {
 	return value;
     }
-    
+
     public void setValue(double value) {
 	this.value = value;
     }
-    
+
     public void setConsumer(Consumer<Double> consumer) {
 	this.consumer = consumer;
     }
 
     // INNER CLASS
     public enum NumberType {
-	PERCENT(number -> String.format(Locale.ENGLISH, "%.1f%%", number.floatValue())), DECIMAL(number -> String.format(Locale.ENGLISH, "%.4f", number
-	    .floatValue())), INTEGER(number -> Long.toString(number.longValue()));
+	PERCENT(number -> String.format(Locale.ENGLISH, "%.1f%%", number.floatValue())), DECIMAL(number -> String.format(Locale.ENGLISH, "%." + StringUtils
+	    .getNotNullDecimalCount(number + "") + "f", number.floatValue())), INTEGER(number -> Long.toString(number.longValue()));
 
 	private Function<Number, String> formatter;
 

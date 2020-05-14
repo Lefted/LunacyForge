@@ -9,13 +9,12 @@ import com.darkmagician6.eventapi.EventManager;
 
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.events.UpdateEvent;
-import me.lefted.lunacyforge.utils.Logger;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mixin(EntityPlayer.class)
+@Mixin(EntityPlayerSP.class)
 public class MixinEntityPlayerSP {
 
     /* dispatches UpdateEvent*/

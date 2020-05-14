@@ -54,10 +54,6 @@ public class ModuleContainer extends SettingContainer {
 	    return;
 	}
 
-	if (module instanceof Reach) {
-	    System.out.println("reach");
-	}
-
 	// if rightlick show further info
 	if (isMouseOver(mouseX, mouseY) && mouseButton == 1) {
 	    ModuleSettingsScreen.instance.changeModule(module);

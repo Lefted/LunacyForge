@@ -1,7 +1,9 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import javax.annotation.Resource;
@@ -31,7 +33,7 @@ public class ContainerComobox extends Element {
     public static final int ENTRY_HEIGHT = 16;
     public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge", "container_light.png");
     private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
-    
+
     private static final int TEX_WIDTH = 700;
     private static final int TEX_HEIGHT = 60;
     private static final int RADIUS = 8;
@@ -43,15 +45,25 @@ public class ContainerComobox extends Element {
     private SettingContainer parent; // needed to extend the container when this is opened
     private int originalHeight;
     private boolean opened;
-    private LinkedList<String> entries;
-    private Consumer<String> consumer;
+    private LinkedList<String> entries; // used for sorting the entries
+    private Map<String, Integer> entryValueMap; // used for determining the value
+    private Consumer<String> stringConsumer;
+    private Consumer<Integer> intConsumer;
 
     // CONSTRUCTOR
     /**
-     * @param entries The entries you want to be able to select
+     * @param entries The entries you want to be able to select. Corresponding to the value (first entry = 0)
      */
     public ContainerComobox(SettingContainer parent, int selectedEntryIndex, String... entries) {
 	this.parent = parent;
+
+	entryValueMap = new HashMap<String, Integer>();
+
+	// fill entry to value map
+	for (int i = 0; i < entries.length; i++) {
+	    entryValueMap.put(entries[i], i);
+	}
+
 	this.entries = new LinkedList<>();
 	this.entries.addAll(Arrays.asList(entries));
 
@@ -135,11 +147,15 @@ public class ContainerComobox extends Element {
     private void updateSelectedEntry(int newSelectedEntryIndex) {
 	final String newSelectedEntrySave = entries.get(newSelectedEntryIndex);
 
+	// add the selcted entry at the top of the list
 	entries.remove(newSelectedEntryIndex);
 	entries.addFirst(newSelectedEntrySave);
 
-	if (consumer != null) {
-	    consumer.accept(newSelectedEntrySave);
+	if (stringConsumer != null) {
+	    stringConsumer.accept(newSelectedEntrySave);
+	}
+	if (intConsumer != null) {
+	    intConsumer.accept(entryValueMap.get(newSelectedEntrySave));
 	}
     }
 
@@ -294,8 +310,12 @@ public class ContainerComobox extends Element {
 	GL11.glColor4f(r, g, b, 1F);
     }
 
-    public void setConsumer(Consumer<String> consumer) {
-	this.consumer = consumer;
+    public void setStringConsumer(Consumer<String> consumer) {
+	this.stringConsumer = consumer;
+    }
+    
+    public void setIntConsumer(Consumer<Integer> consumer) {
+	this.intConsumer = consumer;
     }
 
     private void closeCombobox() {
@@ -313,7 +333,7 @@ public class ContainerComobox extends Element {
 
 	opened = true;
     }
-    
+
     public void playPressSound(SoundHandler soundHandler) {
 	soundHandler.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
     }

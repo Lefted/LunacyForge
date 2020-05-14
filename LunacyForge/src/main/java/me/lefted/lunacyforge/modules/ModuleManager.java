@@ -49,7 +49,11 @@ public final class ModuleManager {
 	if (ClientConfig.isEnabled()) {
 	    for (Module module : getModuleList()) {
 		if (module.getKeycode() == event.getKey()) {
-		    module.toggle();
+		    if (true) {
+			if (module == ModuleManager.getModule(ClickGui.class)) {
+			}
+			module.toggle();
+		    }
 		}
 	    }
 	}

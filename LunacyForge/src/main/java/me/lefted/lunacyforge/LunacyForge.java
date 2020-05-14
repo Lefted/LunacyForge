@@ -14,6 +14,16 @@ import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
+/*
+ *  FEATUREREQUEST
+ *  
+ *  	color in sliders
+ *  	seconds as formatter for sliders
+ *  	other hover design
+ *  	add default values to hover tips
+ *  	slider in ios slider umändern
+ */
+
 @Mod(modid = "lunacyforge")
 public final class LunacyForge {
 
@@ -24,10 +34,10 @@ public final class LunacyForge {
     public static LunacyForge instance;
 
     // ATTRIBUTES
-    public final ModuleManager moduleManager = new ModuleManager();
-    public final ModuleConfig moduleConfig = new ModuleConfig();
-    public final ClientConfig clientConfig = new ClientConfig();
-    public final CommandManager commandManager = new CommandManager();
+    public ModuleManager moduleManager;
+    public ModuleConfig moduleConfig;
+    public ClientConfig clientConfig;
+    public CommandManager commandManager;
 
     // CONSTRUCTOR
     public LunacyForge() {
@@ -36,6 +46,11 @@ public final class LunacyForge {
 
     // METHODS
     public void startClient() {
+	moduleManager = new ModuleManager();
+	moduleConfig = new ModuleConfig();
+	clientConfig = new ClientConfig();
+	commandManager = new CommandManager();
+	
 	this.moduleManager.registerAllModules();
 	this.commandManager.registerCommands();
 

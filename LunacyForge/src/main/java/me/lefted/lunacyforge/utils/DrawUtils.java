@@ -76,7 +76,7 @@ public class DrawUtils extends Gui {
 	Gui.drawScaledCustomSizeModalRect(posX + ingameWidth - RADIUS, posY + ingameHeight - RADIUS, -RADIUS, -RADIUS, RADIUS, RADIUS, RADIUS, RADIUS,
 	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
     }
-    
+
     // USETHIS to draw a light container texture
     public static void drawLightContainer(int posX, int posY, int ingameWidth, int ingameHeight) {
 	// blending
@@ -135,15 +135,17 @@ public class DrawUtils extends Gui {
     }
 
     public void drawHoverText(String text, int charactersPerLine, int posX, int posY) {
-	drawTooltip(getParts(text, charactersPerLine), posX, posY);
+	drawTooltip(StringUtils.getParts(text, charactersPerLine), posX, posY);
     }
 
-    private List<String> getParts(String string, int partitionSize) {
+    public static List<String> getPartsOld(String string, int partitionSize) {
 	List<String> parts = new ArrayList<String>();
 	int len = string.length();
+
 	for (int i = 0; i < len; i += partitionSize) {
 	    parts.add(string.substring(i, Math.min(len, i + partitionSize)));
 	}
+
 	return parts;
     }
 

@@ -48,7 +48,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	ContainerComobox box = new ContainerComobox(container, 0, "Nichts", "Halbvoll", "Voll");
 	container.centerX();
 	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
-	box.setConsumer(str -> Logger.logChatMessage(str));
+	box.setStringConsumer(str -> Logger.logChatMessage(str));
 	container.setSettingOffsetY(8);
 	container.setDescription("Glas");
 	container.setSettingElement(box);

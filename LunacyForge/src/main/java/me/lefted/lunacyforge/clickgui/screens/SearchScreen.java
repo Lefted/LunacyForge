@@ -8,16 +8,13 @@ import org.lwjgl.input.Keyboard;
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.ClientSettingsButton;
-import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
 import me.lefted.lunacyforge.clickgui.elements.GuiSecurity;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
-import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.settings.KeyBinding;
 
 public class SearchScreen extends SettingsScreen {
 

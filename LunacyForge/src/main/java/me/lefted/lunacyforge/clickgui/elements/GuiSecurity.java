@@ -1,12 +1,7 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
-import com.darkmagician6.eventapi.EventManager;
-import com.darkmagician6.eventapi.EventTarget;
-
-import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;

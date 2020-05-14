@@ -2,9 +2,10 @@ package me.lefted.lunacyforge.clickgui.utils;
 
 import java.lang.annotation.Annotation;
 
+import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
-import me.lefted.lunacyforge.guiscreenold.interpreter.ModuleInterpreter;
 import me.lefted.lunacyforge.modules.Module;
+import me.lefted.lunacyforge.valuesystem.Value;
 
 public class AnnotationUtils {
 
@@ -19,5 +20,4 @@ public class AnnotationUtils {
 	}
 	return null;
     }
-
 }
