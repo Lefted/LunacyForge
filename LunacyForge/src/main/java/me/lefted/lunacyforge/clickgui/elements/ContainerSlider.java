@@ -134,7 +134,6 @@ public class ContainerSlider extends Element {
 	updateValue(mouseX, mouseY);
     }
 
-    // TODO use textures
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
 	final DrawUtils utils = DrawUtils.INSTANCE;
@@ -144,8 +143,6 @@ public class ContainerSlider extends Element {
 	// thumb
 	int thumbWidth = 10;
 	double thumbPos = (value - minValue) / (maxValue - minValue) * (WIDTH - thumbWidth);
-
-	// utils.drawRectWidthHeight(posX, posY, WIDTH, HEIGHT, (isMouseOver(mouseX, mouseY) || dragging) ? 0xFF515151 : 0xFF404040);
 
 	GlStateManager.enableBlend();
 

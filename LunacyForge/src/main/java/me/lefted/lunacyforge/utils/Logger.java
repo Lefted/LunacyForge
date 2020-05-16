@@ -1,6 +1,7 @@
 package me.lefted.lunacyforge.utils;
 
 import me.lefted.lunacyforge.LunacyForge;
+import me.lefted.lunacyforge.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer.EnumChatVisibility;
 import net.minecraft.util.ChatComponentText;
@@ -16,8 +17,7 @@ public class Logger {
     }
 
     public static void logChatMessage(String message) {
-	// TODO check for enabled Lunacy
-	if (Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null && Minecraft
+	if (ClientConfig.isEnabled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null && Minecraft
 	    .getMinecraft().gameSettings.chatVisibility != EnumChatVisibility.HIDDEN) {
 	    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("§8[§6Lunacy§8] §r" + message));
 	}

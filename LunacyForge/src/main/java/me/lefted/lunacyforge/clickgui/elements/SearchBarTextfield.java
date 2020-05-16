@@ -18,7 +18,6 @@ public class SearchBarTextfield extends Textfield {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
 	super.keyTyped(typedChar, keyCode);
-	// TODO update resulting list
     }
     
     @Override

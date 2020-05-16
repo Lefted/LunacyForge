@@ -20,7 +20,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 /* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
-// TODO sneaks in water
 @ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars", tags = {"Ninjabridge", "Eaglen"})
 public class FastBridge extends Module {
 
@@ -63,11 +62,12 @@ public class FastBridge extends Module {
 	    }
 	    if (this.mc.gameSettings.keyBindSneak.isKeyDown()) {
 		this.sneak = true;
-	    } else if (this.mc.thePlayer != null && this.mc.theWorld != null) {
+	    } else if (this.mc.thePlayer != null && this.mc.theWorld != null && !mc.thePlayer.isInWater() && !mc.thePlayer.isInLava()) {
 
 		final ItemStack stack = this.mc.thePlayer.getCurrentEquippedItem();
 		final BlockPos pos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1D, mc.thePlayer.posZ);
 
+		// bridging
 		if (this.mc.thePlayer.onGround) {
 		    if (stack != null || (!(Boolean) this.useBlockSneakValue.getObject())) {
 			if (mc.theWorld.getBlockState(pos).getBlock() == Blocks.air) {

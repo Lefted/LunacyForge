@@ -105,9 +105,6 @@ public class SettingContainer extends Element {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-	// TODO unfocus textfield instead if its a textfield
-	// prevent passing the call to the textfield if its not for unfocusing
-
 	// only pass click call if its visible of if the element is a text field
 	if (mouseY <= visibleTop && mouseY <= visibleBottom && !(settingElement instanceof Textfield)) {
 	    return;

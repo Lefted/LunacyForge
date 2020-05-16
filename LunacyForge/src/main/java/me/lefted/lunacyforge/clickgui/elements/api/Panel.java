@@ -120,18 +120,6 @@ public class Panel extends GuiScreen {
 	for (Element element : this.elements) {
 	    element.mouseReleased(mouseX, mouseY, mouseButton);
 	}
-
-	// TODO des macht legit nix, da kommt ja nix mehr
-	boolean flag = true;
-	/* only drag if button should drag*/
-	for (int i : this.scrollMouseButtons) {
-	    if (i == mouseButton) {
-		flag = false;
-	    }
-	}
-	if (flag) {
-	    return;
-	}
     }
 
     @Override
@@ -157,30 +145,17 @@ public class Panel extends GuiScreen {
 	}
 
 	if (this.isVerticalScrolling()) {
-	    // TODO macht mehr sinn
 	    if (!this.newClick) {
 		final int diffY = mouseY - this.lastMouseY;
 		this.scrollVerticalByAmount(diffY);
 	    }
-
-	    // TODO des wurd auskommentiert
-	    // this.lastMouseY = (this.newClick) ? mouseY : this.lastMouseY;
-	    // final int diffY = mouseY - this.lastMouseY;
-	    // this.scrollVerticalByAmount(diffY);
 	}
 
 	if (this.isHorizontalScrolling()) {
-
-	    // TODO
 	    if (!this.newClick) {
 		final int diffX = mouseX - this.lastMouseX;
 		this.scrollHorizontalByAmount(diffX);
 	    }
-
-	    // TODO
-	    // this.lastMouseX = (this.newClick) ? mouseX : this.lastMouseX;
-	    // final int diffX = mouseX - this.lastMouseX;
-	    // this.scrollHorizontalByAmount(diffX);
 	}
 
 	this.newClick = false;

@@ -26,7 +26,6 @@ import scala.actors.threadpool.Arrays;
 /* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
  * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
  * super() to this class */
-// TODO FIXME closing conflicts when using escape then clickgui bind
 public abstract class SettingsScreen extends Panel {
 
     // CONSTANTS
@@ -241,6 +240,7 @@ public abstract class SettingsScreen extends Panel {
 
 	if (isUseInventoryMove()) {
 	    // TODO check if any text field is focused
+	    
 	    // movement
 	    // InventoryMove Credits @Andrew Saint 2.3
 	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
