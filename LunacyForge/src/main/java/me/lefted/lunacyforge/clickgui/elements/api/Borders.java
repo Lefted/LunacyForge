@@ -54,18 +54,18 @@ public class Borders {
     }
 
     public boolean isMaxXDefined() {
-        return maxXDefined;
+	return maxXDefined;
     }
 
     public boolean isMinXDefined() {
-        return minXDefined;
+	return minXDefined;
     }
 
     public boolean isMaxYDefined() {
-        return maxYDefined;
+	return maxYDefined;
     }
 
     public boolean isMinYDefined() {
-        return minYDefined;
+	return minYDefined;
     }
 }
