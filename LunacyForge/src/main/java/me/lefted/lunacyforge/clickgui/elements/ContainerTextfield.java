@@ -8,7 +8,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
-import me.lefted.lunacyforge.guiapi.Textfield;
+import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;

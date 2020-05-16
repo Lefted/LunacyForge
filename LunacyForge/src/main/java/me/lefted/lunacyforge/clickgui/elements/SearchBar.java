@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
-import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.DrawUtils;

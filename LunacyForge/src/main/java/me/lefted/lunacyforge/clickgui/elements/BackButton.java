@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.guiapi.Button;
+import me.lefted.lunacyforge.clickgui.elements.api.Button;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

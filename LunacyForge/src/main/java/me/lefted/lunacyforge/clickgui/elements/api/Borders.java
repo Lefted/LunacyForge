@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiapi;
+package me.lefted.lunacyforge.clickgui.elements.api;
 
 public class Borders {
 

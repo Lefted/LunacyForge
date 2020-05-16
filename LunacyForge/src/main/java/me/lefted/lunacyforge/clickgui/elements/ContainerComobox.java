@@ -13,8 +13,8 @@ import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.config.ClientConfig;
-import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.HSLColor;
 import me.lefted.lunacyforge.utils.Logger;

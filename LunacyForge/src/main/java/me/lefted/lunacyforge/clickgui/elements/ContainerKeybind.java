@@ -1,11 +1,11 @@
-package me.lefted.lunacyforge.clickgui.container;
+package me.lefted.lunacyforge.clickgui.elements;
 
 import java.util.function.Consumer;
 
 import org.lwjgl.input.Keyboard;
 
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
-import me.lefted.lunacyforge.guiapi.Element;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.util.EnumChatFormatting;
 

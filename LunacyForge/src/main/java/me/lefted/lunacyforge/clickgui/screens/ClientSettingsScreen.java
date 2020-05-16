@@ -7,10 +7,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.LunacyForge;
-import me.lefted.lunacyforge.clickgui.container.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
+import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.clickgui.elements.ContainerTextfield;
 import me.lefted.lunacyforge.config.ClientConfig;

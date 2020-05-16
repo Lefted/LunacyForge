@@ -1,6 +1,6 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
-import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

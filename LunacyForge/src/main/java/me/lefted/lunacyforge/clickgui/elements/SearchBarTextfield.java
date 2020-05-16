@@ -1,6 +1,6 @@
 package me.lefted.lunacyforge.clickgui.elements;
 
-import me.lefted.lunacyforge.guiapi.Textfield;
+import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import net.minecraft.client.gui.Gui;
 
 public class SearchBarTextfield extends Textfield {

@@ -1,8 +1,8 @@
 package me.lefted.lunacyforge.clickgui.container;
 
 import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
+import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import me.lefted.lunacyforge.clickgui.screens.ModuleSettingsScreen;
-import me.lefted.lunacyforge.guiapi.Textfield;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.Reach;
 import me.lefted.lunacyforge.utils.DrawUtils;

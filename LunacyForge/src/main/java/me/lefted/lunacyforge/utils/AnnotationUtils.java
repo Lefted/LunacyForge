@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.clickgui.utils;
+package me.lefted.lunacyforge.utils;
 
 import java.lang.annotation.Annotation;
 

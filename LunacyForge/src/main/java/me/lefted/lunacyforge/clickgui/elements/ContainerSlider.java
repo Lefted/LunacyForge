@@ -6,8 +6,7 @@ import java.util.function.Function;
 
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.clickgui.container.ContainerButton;
-import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.StringUtils;
 import net.minecraft.client.Minecraft;

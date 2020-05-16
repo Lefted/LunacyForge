@@ -4,11 +4,11 @@ import java.util.function.Predicate;
 
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.clickgui.utils.ScissorBox;
-import me.lefted.lunacyforge.guiapi.Element;
-import me.lefted.lunacyforge.guiapi.Textfield;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
+import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
+import me.lefted.lunacyforge.utils.ScissorBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;

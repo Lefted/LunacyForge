@@ -10,14 +10,14 @@ import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.KeybindInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
-import me.lefted.lunacyforge.clickgui.container.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
+import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
-import me.lefted.lunacyforge.clickgui.utils.AnnotationUtils;
 import me.lefted.lunacyforge.modules.Module;
+import me.lefted.lunacyforge.utils.AnnotationUtils;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 public class ModuleSettingsScreen extends SettingsScreen {

@@ -1,6 +1,6 @@
 package me.lefted.lunacyforge.modules;
 
-import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
 
 public class Rectangle extends Element {

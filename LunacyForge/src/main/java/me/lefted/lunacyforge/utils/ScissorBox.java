@@ -1,11 +1,10 @@
-package me.lefted.lunacyforge.clickgui.utils;
+package me.lefted.lunacyforge.utils;
 
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 

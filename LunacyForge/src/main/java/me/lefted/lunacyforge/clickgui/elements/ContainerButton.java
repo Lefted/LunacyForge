@@ -1,9 +1,9 @@
-package me.lefted.lunacyforge.clickgui.container;
+package me.lefted.lunacyforge.clickgui.elements;
 
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.guiapi.Callback;
-import me.lefted.lunacyforge.guiapi.Element;
+import me.lefted.lunacyforge.clickgui.elements.api.Callback;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

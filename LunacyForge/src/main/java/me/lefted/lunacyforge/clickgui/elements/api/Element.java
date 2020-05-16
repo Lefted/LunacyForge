@@ -1,4 +1,4 @@
-package me.lefted.lunacyforge.guiapi;
+package me.lefted.lunacyforge.clickgui.elements.api;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.Tessellator;
