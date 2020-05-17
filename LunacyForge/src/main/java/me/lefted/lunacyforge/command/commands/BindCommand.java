@@ -12,10 +12,12 @@ import me.lefted.lunacyforge.utils.Logger;
  */
 public class BindCommand extends Command {
 
+    // CONSTRUCTOR
     public BindCommand() {
 	super("bind");
     }
 
+    // METHODS
     @Override
     public void execute(String[] strings) {
 	if (strings.length > 2) {

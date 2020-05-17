@@ -10,6 +10,7 @@ import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
 import me.lefted.lunacyforge.command.CommandManager;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
+import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
@@ -57,6 +58,7 @@ public final class LunacyForge {
 	moduleConfig = new ModuleConfig();
 	clientConfig = new ClientConfig();
 	commandManager = new CommandManager();
+	FriendManager.instance = new FriendManager();
 	
 	this.moduleManager.registerAllModules();
 	this.commandManager.registerCommands();
