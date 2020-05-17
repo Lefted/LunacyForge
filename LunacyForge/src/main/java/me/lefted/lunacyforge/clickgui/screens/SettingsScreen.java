@@ -141,6 +141,9 @@ public abstract class SettingsScreen extends Panel {
 	// disable scissor test
 	GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
+	// draw other elements
+	drawOtherElementsAfter(mouseX, mouseY, partialTicks);
+
 	// draw the hover tips
 	settings.forEach(setting -> setting.drawHoverText(mouseX, mouseY));
 
@@ -240,7 +243,7 @@ public abstract class SettingsScreen extends Panel {
 
 	if (isUseInventoryMove()) {
 	    // TODO check if any text field is focused
-	    
+
 	    // movement
 	    // InventoryMove Credits @Andrew Saint 2.3
 	    KeyBinding[] moveKeys = new KeyBinding[] { mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
@@ -337,6 +340,10 @@ public abstract class SettingsScreen extends Panel {
 
     // USETHIS to draw elements which are no settingcontainers
     public void drawOtherElements(int mouseX, int mouseY, float partialTicks) {
+    }
+
+    // USETHIS to draw elements after the settingscontainers
+    public void drawOtherElementsAfter(int mouseX, int mouseY, float partialTicks) {
     }
 
     // USETHIS to determine where's the left of the list

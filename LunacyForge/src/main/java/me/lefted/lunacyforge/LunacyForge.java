@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import com.darkmagician6.eventapi.EventManager;
 
+import me.lefted.lunacyforge.clickgui.screens.AddFriendScreen;
 import me.lefted.lunacyforge.clickgui.screens.ClientSettingsScreen;
+import me.lefted.lunacyforge.clickgui.screens.FriendSettingsScreen;
 import me.lefted.lunacyforge.clickgui.screens.ModuleSettingsScreen;
 import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
 import me.lefted.lunacyforge.command.CommandManager;
@@ -15,22 +17,13 @@ import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
-/*
- *  FEATUREREQUEST
- *  
- *  	color in sliders
- *  	seconds as formatter for sliders
- *  	other hover design
- *  	add default values to hover tips
- *  	slider in ios slider umändern
- *  	color picker
- *  	mouseclicks should be picked up by keybind buttons
- *  
- *  
- *  	FriendManager
- *  	
- *  
- */
+/* FEATUREREQUEST
+ * 
+ * color in sliders seconds as formatter for sliders other hover design add default values to hover tips slider in ios slider umändern color picker mouseclicks
+ * should be picked up by keybind buttons
+ * 
+ * 
+ * FriendManager */
 
 @Mod(modid = "lunacyforge")
 public final class LunacyForge {
@@ -59,7 +52,7 @@ public final class LunacyForge {
 	clientConfig = new ClientConfig();
 	commandManager = new CommandManager();
 	FriendManager.instance = new FriendManager();
-	
+
 	this.moduleManager.registerAllModules();
 	this.commandManager.registerCommands();
 
@@ -74,6 +67,8 @@ public final class LunacyForge {
 	SearchScreen.instance = new SearchScreen();
 	ClientSettingsScreen.instance = new ClientSettingsScreen();
 	ModuleSettingsScreen.instance = new ModuleSettingsScreen();
+	FriendSettingsScreen.instance = new FriendSettingsScreen();
+	AddFriendScreen.instance = new AddFriendScreen();
     }
 
     public void stopClient() {

@@ -128,4 +128,8 @@ public class FriendManager {
     public boolean isPlayerFriend(String name) {
 	return friendList.contains(name);
     }
+    
+    public List<String> getFriendlist() {
+	return friendList;
+    }
 }

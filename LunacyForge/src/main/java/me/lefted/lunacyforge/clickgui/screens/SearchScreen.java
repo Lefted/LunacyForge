@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.ClientSettingsButton;
+import me.lefted.lunacyforge.clickgui.elements.FriendSettingsButton;
 import me.lefted.lunacyforge.clickgui.elements.GuiSecurity;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.modules.ClickGui;
@@ -20,10 +21,10 @@ public class SearchScreen extends SettingsScreen {
 
     // ATTRIBUTES
     private boolean shouldBlur = false;
-    // private ArrayList<ModuleContainer> resultingContainers; // list of all modules depending on the searchcontext
     private GuiSecurity security;
     private SearchBar search;
     private ClientSettingsButton btnSettings;
+    private FriendSettingsButton btnFriends;
 
     private boolean clickGuiBindCanClose; // prevents the gui from closing instantly
 
@@ -37,7 +38,11 @@ public class SearchScreen extends SettingsScreen {
 
 	// settings button
 	btnSettings = new ClientSettingsButton();
-	btnSettings.setCallback(() -> Minecraft.getMinecraft().displayGuiScreen(ClientSettingsScreen.instance));
+	btnSettings.setCallback(() -> mc.displayGuiScreen(ClientSettingsScreen.instance));
+
+	// friends button
+	btnFriends = new FriendSettingsButton();
+	btnFriends.setCallback(() -> mc.displayGuiScreen(FriendSettingsScreen.instance));
 
 	// security
 	security = new GuiSecurity();
@@ -77,6 +82,8 @@ public class SearchScreen extends SettingsScreen {
 	security.draw(mouseX, mouseY, partialTicks);
 	// settings button
 	btnSettings.draw(mouseX, mouseY, partialTicks);
+	// friends button
+	btnFriends.draw(mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -98,6 +105,9 @@ public class SearchScreen extends SettingsScreen {
 	security.mouseClicked(mouseX, mouseY, mouseButton);
 	// settings button
 	btnSettings.mouseClicked(mouseX, mouseY, mouseButton);
+	// friends button
+	btnFriends.mouseClicked(mouseX, mouseY, mouseButton);
+	
 	// search
 	search.mouseClicked(mouseX, mouseY, mouseButton);
     }
