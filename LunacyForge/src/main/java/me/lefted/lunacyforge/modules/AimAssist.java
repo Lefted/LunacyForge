@@ -10,6 +10,7 @@ import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
+import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
@@ -19,6 +20,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -92,7 +95,20 @@ public class AimAssist extends Module {
 	// if (!(entity instanceof EntityPlayer) && (Boolean) this.onlyPlayers.getValue()) {
 	// return false;
 	// }
+
+	if (entity instanceof EntityAnimal && !targetAnimals.getObject().booleanValue()) {
+	    return false;
+	}
+	
+	if (entity instanceof EntityMob && !targetHostiles.getObject().booleanValue()) {
+	    return false;
+	}
+
 	if (entity instanceof EntityPlayer) {
+	    if (!targetPlayers.getObject().booleanValue()) {
+		return false;
+	    }
+	    // TODO
 	    // if (!ModuleManager.getModule(NoFriends.class).isEnabled() && FriendManager.isPlayerFriendly(((EntityPlayer) entity).getGameProfile().getName()))
 	    // {
 	    // return false;
@@ -110,6 +126,7 @@ public class AimAssist extends Module {
 	if (!player.canEntityBeSeen(entity)) {
 	    return false;
 	}
+
 	float dist = 4.0F;
 	final Reach reach = (Reach) ModuleManager.getModule(Reach.class);
 	if (reach.isEnabled()) {
@@ -125,6 +142,7 @@ public class AimAssist extends Module {
 	if (!(entity instanceof EntityLivingBase)) {
 	    return false;
 	}
+
 	float[] yawAndPitch = getRotationsNeeded((EntityLivingBase) entity);
 	float yaw = yawAndPitch[0];
 	float pitch = yawAndPitch[1];
