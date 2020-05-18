@@ -42,6 +42,7 @@ public final class ModuleManager {
 	this.registerModule(new Fullbright());
 	this.registerModule(new FastBridge());
 	this.registerModule(new ClickGui());
+	this.registerModule(new NoFriends());
     }
 
     // listens for key inputs

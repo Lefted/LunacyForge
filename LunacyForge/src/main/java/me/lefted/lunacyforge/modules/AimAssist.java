@@ -10,8 +10,8 @@ import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
-import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
+import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.Minecraft;
@@ -99,7 +99,7 @@ public class AimAssist extends Module {
 	if (entity instanceof EntityAnimal && !targetAnimals.getObject().booleanValue()) {
 	    return false;
 	}
-	
+
 	if (entity instanceof EntityMob && !targetHostiles.getObject().booleanValue()) {
 	    return false;
 	}
@@ -108,11 +108,9 @@ public class AimAssist extends Module {
 	    if (!targetPlayers.getObject().booleanValue()) {
 		return false;
 	    }
-	    // TODO
-	    // if (!ModuleManager.getModule(NoFriends.class).isEnabled() && FriendManager.isPlayerFriendly(((EntityPlayer) entity).getGameProfile().getName()))
-	    // {
-	    // return false;
-	    // }
+	    if (!ModuleManager.getModule(NoFriends.class).isEnabled() && FriendManager.instance.isPlayerFriend(((EntityPlayer) entity).getGameProfile().getName())) {
+		return false;
+	    }
 	}
 	if (!(player.getCurrentEquippedItem().getItem() instanceof Item)) {
 	    return false;
