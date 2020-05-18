@@ -22,8 +22,6 @@ import net.minecraftforge.fml.common.Mod;
  * color in sliders add default values to hover tips slider in ios slider umändern color picker mouseclicks
  * should be picked up by keybind buttons
  * 
- * 
- * ArrayList
  * Hotbar
  * AimAssist
  * 

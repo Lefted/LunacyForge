@@ -15,6 +15,7 @@ import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,13 +47,13 @@ public final class ModuleManager {
     // listens for key inputs
     @EventTarget
     public void onKeyPress(KeyPressEvent event) {
-	    for (Module module : getModuleList()) {
-		if (module.getKeycode() == event.getKey()) {
-		    if (ClientConfig.isEnabled() || module == ModuleManager.getModule(ClickGui.class)) {
-			module.toggle();
-		    }
+	for (Module module : getModuleList()) {
+	    if (module.getKeycode() == event.getKey()) {
+		if (ClientConfig.isEnabled() || module == ModuleManager.getModule(ClickGui.class)) {
+		    module.toggle();
 		}
 	    }
+	}
     }
 
     // renders non-module specific stuff
@@ -100,10 +101,16 @@ public final class ModuleManager {
 	// RENDER
 	int i = 0;
 	for (String string : display) {
-	    int mWidth = resolution.getScaledWidth() - fr.getStringWidth(string) - 2;
-	    int mHeight = 10 * i + 2;
+	    int width = fr.getStringWidth(string);
+	    int posX = resolution.getScaledWidth() - width - 1;
+	    int posY = 10 * i + 2;
 
-	    fr.drawStringWithShadow(string, mWidth, mHeight, ColorUtils.rainbowEffect(200000000L, 1.0F).getRGB());
+	    if (i == 0) {
+		Gui.drawRect(posX-2, posY - 2, posX + width + 2, posY + 9, 0xDD222A35);
+	    } else {
+		Gui.drawRect(posX-2, posY-1, posX + width + 2, posY + 9, 0xDD222A35);
+	    }
+	    fr.drawString(string, posX, posY, ColorUtils.rainbowEffect(200000000L, 1.0F).getRGB());
 	    i++;
 	}
 	display.clear();
