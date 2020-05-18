@@ -64,7 +64,7 @@ public final class ModuleManager {
 	GlStateManager.enableBlend();
 
 	// LUNACY
-	if (ClientConfig.isEnabled() && ClientConfig.isRenderArrayList()) {
+	if (ClientConfig.isEnabled() && ClientConfig.getArraylistMode() != 0) {
 
 	    // ARRAY LIST
 	    renderArrayList(scaledresolution);
@@ -102,15 +102,21 @@ public final class ModuleManager {
 	int i = 0;
 	for (String string : display) {
 	    int width = fr.getStringWidth(string);
-	    int posX = resolution.getScaledWidth() - width - 1;
+	    int posX = resolution.getScaledWidth() - width - 2;
 	    int posY = 10 * i + 2;
 
-	    if (i == 0) {
-		Gui.drawRect(posX-2, posY - 2, posX + width + 2, posY + 9, 0xDD222A35);
-	    } else {
-		Gui.drawRect(posX-2, posY-1, posX + width + 2, posY + 9, 0xDD222A35);
+	    if (ClientConfig.getArraylistMode() >= 3) {
+		if (i == 0) {
+		    Gui.drawRect(posX - 2, posY - 2, posX + width + 2, posY + 9, 0xEE252838);
+		} else {
+		    Gui.drawRect(posX - 2, posY - 1, posX + width + 2, posY + 9, 0xEE252838);
+		}
 	    }
-	    fr.drawString(string, posX, posY, ColorUtils.rainbowEffect(200000000L, 1.0F).getRGB());
+	    if (ClientConfig.getArraylistMode() == 1 || ClientConfig.getArraylistMode() == 3) {
+		fr.drawString(string, posX, posY, ColorUtils.rainbowEffect(200000000L, 1.0F).getRGB());
+	    } else if (ClientConfig.getArraylistMode() == 2 || ClientConfig.getArraylistMode() == 4) {
+		fr.drawStringWithShadow(string, posX, posY, ColorUtils.rainbowEffect(200000000L, 1.0F).getRGB());
+	    }
 	    i++;
 	}
 	display.clear();

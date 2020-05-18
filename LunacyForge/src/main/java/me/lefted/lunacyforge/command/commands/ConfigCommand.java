@@ -18,7 +18,7 @@ public class ConfigCommand extends Command {
 		return;
 	    }
 	}
-	
+
 	if (strings.length >= 3) {
 
 	    final String setting = strings[1];
@@ -36,17 +36,13 @@ public class ConfigCommand extends Command {
 		ClientConfig.setEnabled(Boolean.valueOf(value));
 		Logger.logChatMessage("§cThe value of §a§l" + setting + "§c was set to §a§l" + value + "§c.");
 		return;
-	    } else if (setting.equalsIgnoreCase("renderarraylist")) {
-		ClientConfig.setRenderArrayList(Boolean.valueOf(value));
-		Logger.logChatMessage("§cThe value of §a§l" + setting + "§c was set to §a§l" + value + "§c.");
-		return;
 	    } else if (setting.equalsIgnoreCase("showragemods")) {
 		ClientConfig.setShowRageMods(Boolean.valueOf(value));
 		Logger.logChatMessage("§cThe value of §a§l" + setting + "§c was set to §a§l" + value + "§c.");
 		return;
 	    }
 	}
-	
+
 	Logger.logChatMessage("§c§lSyntax: §r§a.config <valuename> <new_value>");
 	Logger.logChatMessage("§r§a.config list §r to list all available settings");
     }

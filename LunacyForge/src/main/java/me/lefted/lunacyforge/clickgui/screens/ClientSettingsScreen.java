@@ -78,22 +78,39 @@ public class ClientSettingsScreen extends SettingsScreen {
 	modeContainer.setBackgroundLevel(1);
 	settings.add(modeContainer);
 
-	// arraylist
-	SettingContainer arraylistContainer = new SettingContainer();
-	arraylistContainer.centerX();
-	arraylistContainer.setDescription("Render Arraylist");
+//	// arraylist
+//	SettingContainer arraylistContainer = new SettingContainer();
+//	arraylistContainer.centerX();
+//	arraylistContainer.setDescription("Render Arraylist");
+//
+//	ContainerCheckbox arraylistCheckbox = new ContainerCheckbox(ClientConfig.isRenderArrayList());
+//	arraylistCheckbox.setPosX(arraylistContainer.getPosX() + arraylistContainer.getWidth() - arraylistCheckbox.WIDTH - 10);
+//	arraylistCheckbox.setConsumer(newValue -> {
+//	    ClientConfig.setRenderArrayList(newValue);
+//	    ClientConfig.saveConfig();
+//	});
+//
+//	arraylistContainer.setSettingOffsetY(7);
+//	arraylistContainer.setSettingElement(arraylistCheckbox);
+//	settings.add(arraylistContainer);
 
-	ContainerCheckbox arraylistCheckbox = new ContainerCheckbox(ClientConfig.isRenderArrayList());
-	arraylistCheckbox.setPosX(arraylistContainer.getPosX() + arraylistContainer.getWidth() - arraylistCheckbox.WIDTH - 10);
-	arraylistCheckbox.setConsumer(newValue -> {
-	    ClientConfig.setRenderArrayList(newValue);
+	// arraylist mode
+	SettingContainer arraylistBgContainer = new SettingContainer();
+	arraylistBgContainer.centerX();
+	arraylistBgContainer.setDescription("Arraylist Background");
+
+	ContainerComobox arraylistBgCombobox = new ContainerComobox(arraylistBgContainer, ClientConfig.getArraylistMode(), "None", "Normal", "Shadow", "Normal+Rect", "Shadow+Rect");
+	arraylistBgCombobox.setPosX(arraylistBgContainer.getPosX() + arraylistBgContainer.getWidth() - arraylistBgCombobox.ENTRY_WIDTH - 10);
+	arraylistBgCombobox.setIntConsumer(newValue -> {
+	    ClientConfig.setArraylistMode(newValue);
 	    ClientConfig.saveConfig();
 	});
-
-	arraylistContainer.setSettingOffsetY(7);
-	arraylistContainer.setSettingElement(arraylistCheckbox);
-	settings.add(arraylistContainer);
-
+	
+	arraylistBgContainer.setSettingOffsetY(8);
+	arraylistBgContainer.setBackgroundLevel(1);
+	arraylistBgContainer.setSettingElement(arraylistBgCombobox);
+	settings.add(arraylistBgContainer);
+	
 	// announce module toggle
 	SettingContainer chatContainer = new SettingContainer();
 	chatContainer.centerX();
@@ -123,36 +140,6 @@ public class ClientSettingsScreen extends SettingsScreen {
 
 	keybindContainer.setSettingElement(keybind);
 	settings.add(keybindContainer);
-
-	// ContainerTextfield text = new ContainerTextfield(129);
-	// text.setMaxStringLength(30);
-	//
-	// SettingContainer textContainer = new SettingContainer();
-	// textContainer.centerX();
-	// textContainer.setDescription("Friendname");
-	//
-	// text.setPosX(textContainer.getPosX() + textContainer.getWidth() - text.getWidth() - 17);
-	// // text.setEnableBackgroundDrawing(false);
-	// text.setConsumer(str -> Logger.logChatMessage(str));
-	//
-	// textContainer.setSettingElement(text);
-	// textContainer.setSettingOffsetY(5);
-	//
-	// settings.add(textContainer);
-	//
-	// ContainerKeybind keybind = new ContainerKeybind(this, 130, 15, 0);
-	//
-	// SettingContainer keybindContainer = new SettingContainer();
-	// keybindContainer.centerX();
-	// keybindContainer.setDescription("Keybind");
-	// keybindContainer.setSettingOffsetY(7);
-	//
-	// keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 8);
-	//
-	// keybind.setStringConsumer(str -> Logger.logChatMessage(str));
-	//
-	// keybindContainer.setSettingElement(keybind);
-	// settings.add(keybindContainer);
     }
 
     @Override

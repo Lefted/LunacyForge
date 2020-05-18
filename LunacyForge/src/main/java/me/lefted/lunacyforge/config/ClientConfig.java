@@ -19,6 +19,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * @author Gartn
+ *
+ */
 @SideOnly(Side.CLIENT)
 public final class ClientConfig {
 
@@ -30,7 +34,10 @@ public final class ClientConfig {
     // SETTINGS AND DEFAULT VALUES
     private boolean enabled = false;
     private boolean announceModuleToggle = false;
-    private boolean renderArrayList = false;
+    /**
+     * 0 off, 1 normal, 2 shadow, 3 normal rect, 4 shadow rect
+     */
+    private int arraylistMode = 3;
     private boolean showRageMods = false;
     private Color guiColor = new Color(0x017AFF);
 
@@ -53,7 +60,9 @@ public final class ClientConfig {
 
 	jsonObject.addProperty("enabled", isEnabled());
 	jsonObject.addProperty("announceModuleToggle", isAnnounceModuleToggle());
-	jsonObject.addProperty("renderArrayList", isRenderArrayList());
+	// jsonObject.addProperty("renderArrayList", isRenderArrayList());
+	// jsonObject.addProperty("renderArrayListBg", isRenderArrayListBg());
+	jsonObject.addProperty("arraylistMode", getArraylistMode());
 	jsonObject.addProperty("showRageMods", isShowRageMods());
 	jsonObject.addProperty("guicolor", getGuiColor().getRGB());
 
@@ -94,9 +103,15 @@ public final class ClientConfig {
 	    if (jsonObject.has("announceModuleToggle")) {
 		setAnnounceModuleToggle(jsonObject.get("announceModuleToggle").getAsBoolean());
 	    }
-	    if (jsonObject.has("renderArrayList")) {
-		setRenderArrayList(jsonObject.get("renderArrayList").getAsBoolean());
+	    if (jsonObject.has("arraylistMode")) {
+		setArraylistMode(jsonObject.get("arraylistMode").getAsInt());
 	    }
+	    // if (jsonObject.has("renderArrayList")) {
+	    // setRenderArrayList(jsonObject.get("renderArrayList").getAsBoolean());
+	    // }
+	    // if (jsonObject.has("renderArrayListBg")) {
+	    // setRenderArrayListBg(jsonObject.get("renderArrayListBg").getAsBoolean());
+	    // }
 	    if (jsonObject.has("showRageMods")) {
 		setShowRageMods(jsonObject.get("showRageMods").getAsBoolean());
 	    }
@@ -126,12 +141,35 @@ public final class ClientConfig {
 	LunacyForge.instance.clientConfig.announceModuleToggle = announceModuleToggle;
     }
 
-    public static boolean isRenderArrayList() {
-	return LunacyForge.instance.clientConfig.renderArrayList;
+    // public static boolean isRenderArrayList() {
+    // return LunacyForge.instance.clientConfig.renderArrayList;
+    // }
+    //
+    // public static boolean isRenderArrayListBg() {
+    // return LunacyForge.instance.clientConfig.renderArrayListBg;
+    // }
+    //
+    // public static void setRenderArrayList(boolean renderArrayList) {
+    // LunacyForge.instance.clientConfig.renderArrayList = renderArrayList;
+    // }
+    //
+    // public static void setRenderArrayListBg(boolean renderArrayListBg) {
+    // LunacyForge.instance.clientConfig.renderArrayListBg = renderArrayListBg;
+    // }
+
+    /**
+     * @return 0 off, 1 normal, 2 shadow, 3 normal rect, 4 shadow rect
+     */
+    public static int getArraylistMode() {
+	return LunacyForge.instance.clientConfig.arraylistMode;
     }
 
-    public static void setRenderArrayList(boolean renderArrayList) {
-	LunacyForge.instance.clientConfig.renderArrayList = renderArrayList;
+    /**
+     * @param arraylistMode 0 off, 1 normal, 2 shadow, 3 normal rect, 4 shadow rect
+     * 
+     */
+    public static void setArraylistMode(int arraylistMode) {
+	LunacyForge.instance.clientConfig.arraylistMode = arraylistMode;
     }
 
     public static boolean isShowRageMods() {
@@ -149,7 +187,7 @@ public final class ClientConfig {
     public static void setGuiColor(Color guiColor) {
 	LunacyForge.instance.clientConfig.guiColor = guiColor;
     }
-    
+
     public static void saveConfig() {
 	LunacyForge.instance.clientConfig.save();
     }
