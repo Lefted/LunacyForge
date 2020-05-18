@@ -50,6 +50,10 @@ public class Panel extends GuiScreen {
 
 	if (flag && flag1) {
 	    this.setY(this.getY() + amount);
+	} else if (borders.isMaxYDefined() && futurePosY >= borders.getMaxY()) {
+	    setY(borders.getMaxY());
+	} else if (borders.isMinYDefined() && futurePosY <= borders.getMinY()) {
+	    setY(borders.getMinY());
 	}
     }
 

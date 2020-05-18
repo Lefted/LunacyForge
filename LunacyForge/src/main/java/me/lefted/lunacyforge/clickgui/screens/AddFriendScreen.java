@@ -2,6 +2,8 @@ package me.lefted.lunacyforge.clickgui.screens;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerButton;
@@ -52,7 +54,18 @@ public class AddFriendScreen extends SettingsScreen {
 	container.centerX();
 	container.setDescription("Friend name");
 
-	field = new ContainerTextfield(129);
+	field = new ContainerTextfield(129) {
+	    @Override
+	    public void keyTyped(char typedChar, int keyCode) {
+		// pass call
+	        super.keyTyped(typedChar, keyCode);
+	        
+	        // enter check
+	        if (keyCode == Keyboard.KEY_RETURN) {
+	            doneButton.getCallback().invoke();
+	        }
+	    }
+	};
 	field.setPosX(container.getPosX() + container.getWidth() - field.getWidth() - 17);
 
 	container.setSettingElement(field);
