@@ -84,7 +84,6 @@ public class ClientSettingsScreen extends SettingsScreen {
 
 	keybindContainer.setSettingElement(keybind);
 	settings.add(keybindContainer);
-
     }
 
     @Override

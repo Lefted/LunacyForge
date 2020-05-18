@@ -114,7 +114,7 @@ public abstract class SettingsScreen extends Panel {
 		} else {
 		    // set it to the y of the previous container + its height + spacing + panely
 		    final SettingContainer prevContainer = settings.get(i - 1);
-		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING + this.getY());
+		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING);
 		}
 
 		// and update its visible coords

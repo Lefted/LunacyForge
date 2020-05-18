@@ -19,11 +19,18 @@ import net.minecraftforge.fml.common.Mod;
 
 /* FEATUREREQUEST
  * 
- * color in sliders seconds as formatter for sliders other hover design add default values to hover tips slider in ios slider umändern color picker mouseclicks
+ * color in sliders add default values to hover tips slider in ios slider umändern color picker mouseclicks
  * should be picked up by keybind buttons
  * 
  * 
- * FriendManager */
+ * Client Settings
+ * ArrayList
+ * Hotbar
+ * AimAssist
+ * 
+ * 
+ * 
+ * */
 
 @Mod(modid = "lunacyforge")
 public final class LunacyForge {
