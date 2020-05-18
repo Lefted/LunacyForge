@@ -9,11 +9,14 @@ import org.lwjgl.opengl.GL11;
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
+import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.clickgui.elements.ContainerTextfield;
 import me.lefted.lunacyforge.config.ClientConfig;
+import me.lefted.lunacyforge.modules.ClickGui;
+import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.ColorUtils;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.Logger;
@@ -41,49 +44,115 @@ public class ClientSettingsScreen extends SettingsScreen {
     // METHODS
     @Override
     public void addAllSettings(ArrayList<SettingContainer> settings) {
+	// use client
+	SettingContainer enabledContainer = new SettingContainer();
+	enabledContainer.centerX();
+	enabledContainer.setDescription("Use client");
+
+	ContainerCheckbox enabledCheckbox = new ContainerCheckbox(ClientConfig.isEnabled());
+	enabledCheckbox.setPosX(enabledContainer.getPosX() + enabledContainer.getWidth() - enabledCheckbox.WIDTH - 10);
+	enabledCheckbox.setConsumer(newValue -> {
+	    ClientConfig.setEnabled(newValue);
+	    ClientConfig.saveConfig();
+	});
+
+	enabledContainer.setSettingOffsetY(7);
+	enabledContainer.setSettingElement(enabledCheckbox);
+	settings.add(enabledContainer);
+
 	// adds the settings that determine the client color
 	addRGBContainer(settings);
 
-	SettingContainer container = new SettingContainer();
-	ContainerComobox box = new ContainerComobox(container, 0, "Nichts", "Halbvoll", "Voll");
-	container.centerX();
-	box.setPosX(container.getPosX() + container.getWidth() - box.ENTRY_WIDTH - 10);
-	box.setStringConsumer(str -> Logger.logChatMessage(str));
-	container.setSettingOffsetY(8);
-	container.setDescription("Glas");
-	container.setSettingElement(box);
-	container.setBackgroundLevel(1);
-	settings.add(container);
+	// mode
+	SettingContainer modeContainer = new SettingContainer();
+	ContainerComobox modeCombobox = new ContainerComobox(modeContainer, ClientConfig.isShowRageMods() ? 0 : 1, "All", "Invis");
+	modeContainer.centerX();
+	modeCombobox.setPosX(modeContainer.getPosX() + modeContainer.getWidth() - modeCombobox.ENTRY_WIDTH - 10);
+	modeCombobox.setIntConsumer(newValue -> {
+	    ClientConfig.setShowRageMods(newValue == 0);
+	    ClientConfig.saveConfig();
+	});
+	modeContainer.setSettingOffsetY(8);
+	modeContainer.setDescription("Client Mode");
+	modeContainer.setSettingElement(modeCombobox);
+	modeContainer.setBackgroundLevel(1);
+	settings.add(modeContainer);
 
-	ContainerTextfield text = new ContainerTextfield(129);
-	text.setMaxStringLength(30);
+	// arraylist
+	SettingContainer arraylistContainer = new SettingContainer();
+	arraylistContainer.centerX();
+	arraylistContainer.setDescription("Render Arraylist");
 
-	SettingContainer textContainer = new SettingContainer();
-	textContainer.centerX();
-	textContainer.setDescription("Friendname");
+	ContainerCheckbox arraylistCheckbox = new ContainerCheckbox(ClientConfig.isRenderArrayList());
+	arraylistCheckbox.setPosX(arraylistContainer.getPosX() + arraylistContainer.getWidth() - arraylistCheckbox.WIDTH - 10);
+	arraylistCheckbox.setConsumer(newValue -> {
+	    ClientConfig.setRenderArrayList(newValue);
+	    ClientConfig.saveConfig();
+	});
 
-	text.setPosX(textContainer.getPosX() + textContainer.getWidth() - text.getWidth() - 17);
-	// text.setEnableBackgroundDrawing(false);
-	text.setConsumer(str -> Logger.logChatMessage(str));
+	arraylistContainer.setSettingOffsetY(7);
+	arraylistContainer.setSettingElement(arraylistCheckbox);
+	settings.add(arraylistContainer);
 
-	textContainer.setSettingElement(text);
-	textContainer.setSettingOffsetY(5);
+	// announce module toggle
+	SettingContainer chatContainer = new SettingContainer();
+	chatContainer.centerX();
+	chatContainer.setDescription("Print in chat if enabling/disabling a module");
 
-	settings.add(textContainer);
+	ContainerCheckbox chatCheckbox = new ContainerCheckbox(ClientConfig.isAnnounceModuleToggle());
+	chatCheckbox.setPosX(chatContainer.getPosX() + chatContainer.getWidth() - chatCheckbox.WIDTH - 10);
+	chatCheckbox.setConsumer(newValue -> {
+	    ClientConfig.setAnnounceModuleToggle(newValue);
+	    ClientConfig.saveConfig();
+	});
 
-	ContainerKeybind keybind = new ContainerKeybind(this, 130, 15, 0);
+	chatContainer.setSettingOffsetY(7);
+	chatContainer.setSettingElement(chatCheckbox);
+	settings.add(chatContainer);
 
+	// clickgui keybind
 	SettingContainer keybindContainer = new SettingContainer();
 	keybindContainer.centerX();
-	keybindContainer.setDescription("Keybind");
+	keybindContainer.setDescription("Clickgui Keybind");
 	keybindContainer.setSettingOffsetY(7);
 
+	ContainerKeybind keybind = new ContainerKeybind(this, 130, 15, ModuleManager.getModule(ClickGui.class).getKeycode());
 	keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 8);
 
-	keybind.setStringConsumer(str -> Logger.logChatMessage(str));
+	keybind.setIntConsumer(newValue -> ModuleManager.getModule(ClickGui.class).setKeycode(newValue));
 
 	keybindContainer.setSettingElement(keybind);
 	settings.add(keybindContainer);
+
+	// ContainerTextfield text = new ContainerTextfield(129);
+	// text.setMaxStringLength(30);
+	//
+	// SettingContainer textContainer = new SettingContainer();
+	// textContainer.centerX();
+	// textContainer.setDescription("Friendname");
+	//
+	// text.setPosX(textContainer.getPosX() + textContainer.getWidth() - text.getWidth() - 17);
+	// // text.setEnableBackgroundDrawing(false);
+	// text.setConsumer(str -> Logger.logChatMessage(str));
+	//
+	// textContainer.setSettingElement(text);
+	// textContainer.setSettingOffsetY(5);
+	//
+	// settings.add(textContainer);
+	//
+	// ContainerKeybind keybind = new ContainerKeybind(this, 130, 15, 0);
+	//
+	// SettingContainer keybindContainer = new SettingContainer();
+	// keybindContainer.centerX();
+	// keybindContainer.setDescription("Keybind");
+	// keybindContainer.setSettingOffsetY(7);
+	//
+	// keybind.setPosX(keybindContainer.getPosX() + keybindContainer.getWidth() - keybind.getWidth() - 8);
+	//
+	// keybind.setStringConsumer(str -> Logger.logChatMessage(str));
+	//
+	// keybindContainer.setSettingElement(keybind);
+	// settings.add(keybindContainer);
     }
 
     @Override
@@ -116,7 +185,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	    backButton.getCallback().invoke();
 	    return;
 	}
-	
+
 	// pass call
 	super.mouseClicked(mouseX, mouseY, mouseButton);
 

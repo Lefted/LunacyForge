@@ -17,6 +17,8 @@ import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.implementations.ILunacyTimer;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
+import me.lefted.lunacyforge.modules.ClickGui;
+import me.lefted.lunacyforge.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -83,9 +85,10 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
     /* dispatch KeyPressEvent*/
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
     private void keyPress(CallbackInfo callbackInfo) {
-	if (ClientConfig.isEnabled()) {
-	    if (Keyboard.getEventKeyState() && currentScreen == null) {
-		final KeyPressEvent event = new KeyPressEvent(Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey());
+	if (Keyboard.getEventKeyState() && currentScreen == null) {
+	    final int key = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
+	    if (ClientConfig.isEnabled() || key == ModuleManager.getModule(ClickGui.class).getKeycode()) {
+		final KeyPressEvent event = new KeyPressEvent(key);
 		EventManager.call(event);
 	    }
 	}

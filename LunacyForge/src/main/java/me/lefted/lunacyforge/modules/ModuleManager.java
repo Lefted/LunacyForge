@@ -42,21 +42,17 @@ public final class ModuleManager {
 	this.registerModule(new FastBridge());
 	this.registerModule(new ClickGui());
     }
-    
+
     // listens for key inputs
     @EventTarget
     public void onKeyPress(KeyPressEvent event) {
-	if (ClientConfig.isEnabled()) {
 	    for (Module module : getModuleList()) {
 		if (module.getKeycode() == event.getKey()) {
-		    if (true) {
-			if (module == ModuleManager.getModule(ClickGui.class)) {
-			}
+		    if (ClientConfig.isEnabled() || module == ModuleManager.getModule(ClickGui.class)) {
 			module.toggle();
 		    }
 		}
 	    }
-	}
     }
 
     // renders non-module specific stuff
@@ -112,7 +108,6 @@ public final class ModuleManager {
 	}
 	display.clear();
     }
-
 
     private void registerModule(Module module) {
 	if (!this.modules.contains(module)) {

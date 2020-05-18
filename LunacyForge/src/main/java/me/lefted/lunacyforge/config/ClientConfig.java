@@ -149,4 +149,8 @@ public final class ClientConfig {
     public static void setGuiColor(Color guiColor) {
 	LunacyForge.instance.clientConfig.guiColor = guiColor;
     }
+    
+    public static void saveConfig() {
+	LunacyForge.instance.clientConfig.save();
+    }
 }

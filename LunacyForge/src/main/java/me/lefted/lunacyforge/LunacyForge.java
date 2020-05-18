@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.Mod;
  * should be picked up by keybind buttons
  * 
  * 
- * Client Settings
  * ArrayList
  * Hotbar
  * AimAssist
