@@ -202,6 +202,8 @@ public class ContainerComobox extends Element {
 
 	// text
 	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
+	
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     private void drawEntryTop(int mouseX, int mouseY, int posX, int posY, String entry) {
