@@ -79,6 +79,11 @@ public class ContainerButton extends Element {
 	    this.drawCenteredString(mc.fontRendererObj, this.displayString, this.getPosX() + this.width / 2, this.getPosY() + (this.height - 8) / 2, textColor);
 	    // reset color mask
 	    GL11.glColor4f(1F, 1F, 1F, 1F);
+	    
+	    
+	    DrawUtils.INSTANCE.drawRect(posX, posY, posX + width, posY + height, 0xffffffff);
+	    DrawUtils.INSTANCE.drawGradientRect4(posX, posY, posX + width, posY + height, 0xffFF0000, 0xffFFFFFF, 0xff000000, 0xff000000);
+	    
 	}
     }
 

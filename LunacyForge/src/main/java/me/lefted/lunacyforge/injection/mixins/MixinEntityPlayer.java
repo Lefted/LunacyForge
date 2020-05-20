@@ -20,10 +20,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mixin(EntityPlayer.class)
 public abstract class MixinEntityPlayer extends EntityLivingBase {
 
+    // CONSTRUCTOR
     public MixinEntityPlayer(World p_i1594_1_) {
 	super(p_i1594_1_);
     }
 
+    // PROXIES
     /* aslong as KeepSpring is enabled preserve motionX*/
     @Redirect(method = "attackTargetEntityWithCurrentItem", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;motionX:D", opcode = Opcodes.PUTFIELD, ordinal = 0, args = "log=false"))
     private void setFieldValue(EntityPlayer owner, double value) {

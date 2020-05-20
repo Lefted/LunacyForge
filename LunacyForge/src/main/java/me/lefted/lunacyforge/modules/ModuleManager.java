@@ -43,6 +43,7 @@ public final class ModuleManager {
 	this.registerModule(new FastBridge());
 	this.registerModule(new ClickGui());
 	this.registerModule(new NoFriends());
+	this.registerModule(new OutlineESP());
     }
 
     // listens for key inputs

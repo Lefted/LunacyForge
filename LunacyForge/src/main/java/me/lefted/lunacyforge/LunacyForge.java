@@ -23,6 +23,8 @@ import net.minecraftforge.fml.common.Mod;
  * should be picked up by keybind buttons
  * 
  * Hotbar
+ * Grouping for modules
+ * Blur for ui
  * 
  * */
 

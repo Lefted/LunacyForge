@@ -108,6 +108,50 @@ public class DrawUtils extends Gui {
 	    SCALED_TEX_WIDTH, SCALED_TEX_HEIGHT);
     }
 
+    public void drawGradientRect4(int left, int top, int right, int bottom, int colorTopRight, int colorTopLeft, int colorBottomLeft, int colorBottomRight) {
+	// top right
+	float a1 = (float) (colorTopRight >> 24 & 255) / 255.0F;
+	float r1 = (float) (colorTopRight >> 16 & 255) / 255.0F;
+	float g1 = (float) (colorTopRight >> 8 & 255) / 255.0F;
+	float b1 = (float) (colorTopRight & 255) / 255.0F;
+
+	// top left
+	float a2 = (float) (colorTopLeft >> 24 & 255) / 255.0F;
+	float r2 = (float) (colorTopLeft >> 16 & 255) / 255.0F;
+	float g2 = (float) (colorTopLeft >> 8 & 255) / 255.0F;
+	float b2 = (float) (colorTopLeft & 255) / 255.0F;
+
+	// bottom left
+	float a3 = (float) (colorBottomLeft >> 24 & 255) / 255.0F;
+	float r3 = (float) (colorBottomLeft >> 16 & 255) / 255.0F;
+	float g3 = (float) (colorBottomLeft >> 8 & 255) / 255.0F;
+	float b3 = (float) (colorBottomLeft & 255) / 255.0F;
+
+	// bottom right
+	float a4 = (float) (colorBottomRight >> 24 & 255) / 255.0F;
+	float r4 = (float) (colorBottomRight >> 16 & 255) / 255.0F;
+	float g4 = (float) (colorBottomRight >> 8 & 255) / 255.0F;
+	float b4 = (float) (colorBottomRight & 255) / 255.0F;
+
+	GlStateManager.disableTexture2D();
+	GlStateManager.enableBlend();
+	GlStateManager.disableAlpha();
+	GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+	GlStateManager.shadeModel(7425);
+	Tessellator tessellator = Tessellator.getInstance();
+	WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+	worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+	worldrenderer.pos((double) right, (double) top, (double) this.zLevel).color(r1, g1, b1, a1).endVertex();
+	worldrenderer.pos((double) left, (double) top, (double) this.zLevel).color(r2, g2, b2, a2).endVertex();
+	worldrenderer.pos((double) left, (double) bottom, (double) this.zLevel).color(r3, g3, b3, a3).endVertex();
+	worldrenderer.pos((double) right, (double) bottom, (double) this.zLevel).color(r4, g4, b4, a4).endVertex();
+	tessellator.draw();
+	GlStateManager.shadeModel(7424);
+	GlStateManager.disableBlend();
+	GlStateManager.enableAlpha();
+	GlStateManager.enableTexture2D();
+    }
+
     /* guicolor
      */
     public void guiColor() {
