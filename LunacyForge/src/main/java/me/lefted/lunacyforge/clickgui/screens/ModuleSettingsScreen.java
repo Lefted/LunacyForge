@@ -1,10 +1,12 @@
 package me.lefted.lunacyforge.clickgui.screens;
 
+import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ColorInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ComboInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.KeybindInfo;
@@ -13,6 +15,7 @@ import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.ContainerCheckbox;
+import me.lefted.lunacyforge.clickgui.elements.ContainerColorpicker;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
@@ -174,6 +177,11 @@ public class ModuleSettingsScreen extends SettingsScreen {
 			addKeybind(info, (KeybindInfo) annotation, value, settings);
 		    }
 
+		    // color pickers
+		    if (annotation instanceof ColorInfo && value.getObject() instanceof Number) {
+			addColorPicker(info, (ColorInfo) annotation, value, settings);
+		    }
+
 		}
 
 	    } catch (Exception e) {
@@ -246,6 +254,24 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	    container.setHoverText(cInfo.hoverText());
 	}
 	container.setSettingElement(keybind);
+	settings.add(container);
+    }
+
+    // adds the value as colorpicker to the settingslist
+    private void addColorPicker(ContainerInfo cInfo, ColorInfo info, Value value, ArrayList<SettingContainer> settings) {
+	final SettingContainer container = new SettingContainer();
+	final ContainerColorpicker picker = new ContainerColorpicker(this, container, new Color(((Number) value.getObject()).intValue()));
+	container.centerX();
+	picker.setPosX(container.getPosX() + container.getWidth() - picker.getWidth() - 71);
+	container.setDescription(info.description());
+	
+	// TODO do this with int instead of color object
+	picker.setRGBAConsumer(newColor -> consumeIntegerValue(newColor.getRGB(), value));
+	container.setSettingOffsetY(10);
+	if (cInfo != null) {
+	    container.setHoverText(cInfo.hoverText());
+	}
+	container.setSettingElement(picker);
 	settings.add(container);
     }
 

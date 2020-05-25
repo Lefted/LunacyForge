@@ -8,6 +8,8 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
 
+import me.lefted.lunacyforge.modules.ModuleManager;
+import me.lefted.lunacyforge.modules.OutlineESP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
@@ -46,7 +48,12 @@ public class OutlineUtils {
 
     public static void renderFour(EntityLivingBase entityLivingBaseIn) {
 	// TODO add color
-	setColor(new Color(255, 255, 255));
+	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
+
+	if (esp.outlineColor.getObject() != null) {
+	    setColor(new Color(((Number) esp.outlineColor.getObject()).intValue()));
+	}
+	// setColor(new Color(255, 255, 255));
 	GL11.glDepthMask(false);
 	GL11.glDisable(GL11.GL_DEPTH_TEST);
 	GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);

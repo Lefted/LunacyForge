@@ -6,6 +6,7 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ColorInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ComboInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
@@ -49,6 +50,10 @@ public class OutlineESP extends Module {
     @SliderInfo(description = "Friend color blue", min = 0, max = 255, step = 1, numberType = NumberType.INTEGER)
     private Value<Integer> friendColorBlue = new Value<Integer>("friendColorBlue", 255);
 
+    // DEBUG
+    @ColorInfo(description = "Outline color", hasAlpha = true)
+    public Value<Integer> outlineColor = new Value<Integer>("outlineColor", 0xffffffff);
+    
     // CONSTRUCTOR
     public OutlineESP() {
 	super("OutlineEPS", Category.RENDER);
