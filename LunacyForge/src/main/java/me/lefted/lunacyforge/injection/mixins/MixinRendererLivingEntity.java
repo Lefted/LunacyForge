@@ -30,7 +30,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
     // PROXIES
     /* renders HEXCEPTION outline esp*/
-    @Redirect(method = "doRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/RendererLivingEntity;renderModel(Lnet/minecraft/entity/EntityLivingBase;FFFFFF)V", ordinal = 1, args = "log=true"))
+    @Redirect(method = "doRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/RendererLivingEntity;renderModel(Lnet/minecraft/entity/EntityLivingBase;FFFFFF)V", ordinal = 1, args = "log=false"))
     private void renderModelProxy(RendererLivingEntity<T> owner, T entity, float f6, float f5, float f7, float f2, float f8, float scaleFactor) {
 
 	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);

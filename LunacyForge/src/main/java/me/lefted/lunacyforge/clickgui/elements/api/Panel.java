@@ -27,6 +27,7 @@ public class Panel extends GuiScreen {
     private int initialY;
     private Borders borders;
     private boolean closedGui = false;
+    private boolean disabledScrolling = false;
 
     // CONSTRUCTOR
     /*
@@ -43,6 +44,9 @@ public class Panel extends GuiScreen {
 
     // METHODS
     public void scrollVerticalByAmount(int amount) {
+	if (disabledScrolling) {
+	    return;
+	}
 	final int futurePosY = this.getY() + amount;
 
 	boolean flag = !this.borders.isMaxYDefined() || futurePosY <= this.borders.getMaxY();
@@ -58,6 +62,9 @@ public class Panel extends GuiScreen {
     }
 
     public void scrollHorizontalByAmount(int amount) {
+	if (disabledScrolling) {
+	    return;
+	}
 	final int futurePosX = this.getX() + amount;
 
 	boolean flag = !this.borders.isMaxXDefined() || futurePosX <= this.borders.getMaxX();
@@ -272,6 +279,10 @@ public class Panel extends GuiScreen {
 
     public Borders getBorders() {
 	return borders;
+    }
+
+    public void setDisabledScrolling(boolean disabled) {
+	this.disabledScrolling = disabled;
     }
 
     /**

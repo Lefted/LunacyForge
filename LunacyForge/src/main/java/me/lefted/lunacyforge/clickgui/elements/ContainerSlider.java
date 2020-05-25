@@ -52,8 +52,6 @@ public class ContainerSlider extends Element {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	if (mouseButton == 0) {
-	    // updateHovered(mouseX, mouseY);
-
 	    if (isMouseOver(mouseX, mouseY)) {
 		dragging = true;
 		updateValue(mouseX, mouseY);

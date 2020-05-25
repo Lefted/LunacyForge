@@ -25,7 +25,8 @@ import net.minecraftforge.fml.common.Mod;
  * Hotbar
  * Grouping for modules
  * Blur for ui
- * 
+ * Spritze Animation Booststreifen dann
+ * ContainerSlider dragging -> disable panel
  * */
 
 @Mod(modid = "lunacyforge")
