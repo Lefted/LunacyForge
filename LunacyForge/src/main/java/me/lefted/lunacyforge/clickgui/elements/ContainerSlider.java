@@ -7,7 +7,9 @@ import java.util.function.Function;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
+import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.utils.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -33,6 +35,7 @@ public class ContainerSlider extends Element {
     private double value;
     private NumberType numberType;
     private Consumer<Double> consumer;
+    private SettingsScreen screen;
 
     // CONSTRUCTOR
     /**
@@ -41,7 +44,8 @@ public class ContainerSlider extends Element {
      * @param maxValue
      * @param stepValue  Should be >= 1 if numberType is INTEGER
      */
-    public ContainerSlider(NumberType numberType, int minValue, int maxValue, double stepValue) {
+    public ContainerSlider(SettingsScreen screen, NumberType numberType, int minValue, int maxValue, double stepValue) {
+	this.screen = screen;
 	this.numberType = numberType;
 	this.minValue = minValue;
 	this.maxValue = maxValue;
@@ -54,6 +58,7 @@ public class ContainerSlider extends Element {
 	if (mouseButton == 0) {
 	    if (isMouseOver(mouseX, mouseY)) {
 		dragging = true;
+		screen.setDisabledScrolling(true);
 		updateValue(mouseX, mouseY);
 		playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	    }
@@ -122,6 +127,7 @@ public class ContainerSlider extends Element {
 	    if (dragging) {
 		updateValue(mouseX, mouseY);
 		dragging = false;
+		screen.setDisabledScrolling(false);
 	    }
 	}
     }
