@@ -215,7 +215,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	settings.add(title);
 
 	// red
-	ContainerSlider sliderRed = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
+	ContainerSlider sliderRed = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderRed.setValue(ClientConfig.getGuiColor().getRed());
 	sliderRed.setConsumer((d) -> {
 	    colorRed.setDescription("Red: " + sliderRed.getValueString());
@@ -232,7 +232,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	settings.add(colorRed);
 
 	// green
-	ContainerSlider sliderGreen = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
+	ContainerSlider sliderGreen = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderGreen.setValue(ClientConfig.getGuiColor().getGreen());
 	sliderGreen.setConsumer((d) -> {
 	    colorGreen.setDescription("Green: " + sliderGreen.getValueString());
@@ -249,7 +249,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	settings.add(colorGreen);
 
 	// blue
-	ContainerSlider sliderBlue = new ContainerSlider(ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
+	ContainerSlider sliderBlue = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
 	sliderBlue.setValue(ClientConfig.getGuiColor().getBlue());
 	sliderBlue.setConsumer((d) -> {
 	    colorBlue.setDescription("Blue: " + sliderBlue.getValueString());

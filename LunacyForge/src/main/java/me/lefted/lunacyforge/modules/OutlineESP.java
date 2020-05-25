@@ -38,7 +38,7 @@ public class OutlineESP extends Module {
 
     @ContainerInfo(hoverText = "Only applies for Hexception mode")
     @SliderInfo(description = "Line width", min = 1, max = 10, step = 1, numberType = NumberType.INTEGER)
-    private Value<Integer> lineWidth = new Value<Integer>("lineWidth", 2);
+    public Value<Integer> lineWidth = new Value<Integer>("lineWidth", 3);
 
     @CheckboxInfo(description = "Friends have unique color")
     private Value<Boolean> customFriendColor = new Value<Boolean>("customFriendColor", true);

@@ -209,7 +209,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as slider to the settingslist
     private void addSlider(ContainerInfo cInfo, SliderInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
-	final ContainerSlider slider = new ContainerSlider(info.numberType(), info.min(), info.max(), info.step());
+	final ContainerSlider slider = new ContainerSlider(this, info.numberType(), info.min(), info.max(), info.step());
 	slider.setValue(((Number) value.getObject()).doubleValue());
 	container.centerX();
 	slider.setPosX(container.getPosX() + container.getWidth() - slider.WIDTH - 5);

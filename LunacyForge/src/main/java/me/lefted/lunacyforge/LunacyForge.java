@@ -26,7 +26,10 @@ import net.minecraftforge.fml.common.Mod;
  * Grouping for modules
  * Blur for ui
  * Spritze Animation Booststreifen dann
- * ContainerSlider dragging -> disable panel
+ * 
+ * colorpicker als rgba[] floats
+ * outlineutils als rgba[] floats
+ * 
  * */
 
 @Mod(modid = "lunacyforge")
