@@ -43,6 +43,7 @@ public class ContainerColorpicker extends Element {
     private AlphaSlider alphaSlider;
     private Consumer<float[]> hsbaConsumer;
     private Consumer<Color> colorObjConsumer;
+    private Consumer<float[]> rgbaConsumer;
 
     /**
      * hue 0-1, saturation 0-1, brightness 0-1, alpha 0-1
@@ -64,11 +65,25 @@ public class ContainerColorpicker extends Element {
     }
 
     // CONSTRUCTOR
-    public ContainerColorpicker(SettingsScreen screen, float[] hsba) {
+    public ContainerColorpicker(SettingsScreen screen, SettingContainer parent, float[] hsba) {
 	setVisible(true);
 
 	this.screen = screen;
+	this.parent = parent;
 	this.hsba = hsba;
+	spectrum = new Spectrum(screen, this);
+	hueSlider = new HueSlider(screen, this);
+	alphaSlider = new AlphaSlider(screen, this);
+    }
+
+    // CONSTRUCTOR
+    public ContainerColorpicker(SettingsScreen screen, SettingContainer parent, float[] rgba, Object leaveThisNull) {
+	setVisible(true);
+
+	this.screen = screen;
+	this.parent = parent;
+	final float[] hsb = Color.RGBtoHSB((int) (rgba[0] * 255), (int) (rgba[1] * 255), (int) (rgba[2] * 255), null);
+	this.hsba = new float[] { hsb[0], hsb[1], hsb[2], rgba[3] };
 	spectrum = new Spectrum(screen, this);
 	hueSlider = new HueSlider(screen, this);
 	alphaSlider = new AlphaSlider(screen, this);
@@ -258,6 +273,13 @@ public class ContainerColorpicker extends Element {
 
 	    colorObjConsumer.accept(rgba);
 	}
+	if (rgbaConsumer != null) {
+	    final int rgb = Color.HSBtoRGB(this.hsba[0], this.hsba[1], this.hsba[2]);
+	    final float red = ((rgb >> 16) & 0xFF) / 255F;
+	    final float green = ((rgb >> 8) & 0xFF) / 255F;
+	    final float blue = (rgb & 0xFF) / 255F;
+	    rgbaConsumer.accept(new float[] { red, green, blue, this.hsba[3] });
+	}
     }
 
     public void setHSBAConsumer(Consumer<float[]> consumer) {
@@ -268,12 +290,20 @@ public class ContainerColorpicker extends Element {
 	return this.hsbaConsumer;
     }
 
-    public void setRGBAConsumer(Consumer<Color> consumer) {
+    public void setColorObjConsumer(Consumer<Color> consumer) {
 	this.colorObjConsumer = consumer;
     }
 
-    public Consumer<Color> getRGBAConsumer() {
+    public Consumer<Color> getColorObjConsumer() {
 	return this.colorObjConsumer;
+    }
+
+    public void setRGBAConsumer(Consumer<float[]> consumer) {
+	this.rgbaConsumer = consumer;
+    }
+
+    public Consumer<float[]> getRGBAConsumer() {
+	return this.rgbaConsumer;
     }
 
     // USETHIS to disable alpha control

@@ -178,7 +178,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    }
 
 		    // color pickers
-		    if (annotation instanceof ColorInfo && value.getObject() instanceof Number) {
+		    if (annotation instanceof ColorInfo && value.getObject() instanceof float[]) {
 			addColorPicker(info, (ColorInfo) annotation, value, settings);
 		    }
 
@@ -260,13 +260,17 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as colorpicker to the settingslist
     private void addColorPicker(ContainerInfo cInfo, ColorInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
-	final ContainerColorpicker picker = new ContainerColorpicker(this, container, new Color(((Number) value.getObject()).intValue()));
+	final ContainerColorpicker picker = new ContainerColorpicker(this, container, (float[]) value.getObject(), null);
+	// final ContainerColorpicker picker = new ContainerColorpicker(this, container, new Color(((Number) value.getObject()).intValue()));
 	container.centerX();
 	picker.setPosX(container.getPosX() + container.getWidth() - picker.getWidth() - 71);
 	container.setDescription(info.description());
-	
+
 	// TODO do this with int instead of color object
-	picker.setRGBAConsumer(newColor -> consumeIntegerValue(newColor.getRGB(), value));
+	// picker.setColorObjConsumer(newColor -> consumeIntegerValue(newColor.getRGB(), value));
+
+	picker.setRGBAConsumer(rgba -> value.setObject(rgba));
+
 	container.setSettingOffsetY(10);
 	if (cInfo != null) {
 	    container.setHoverText(cInfo.hoverText());

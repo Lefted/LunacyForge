@@ -52,7 +52,7 @@ public class OutlineESP extends Module {
 
     // DEBUG
     @ColorInfo(description = "Outline color", hasAlpha = true)
-    public Value<Integer> outlineColor = new Value<Integer>("outlineColor", 0xffffffff);
+    public Value<float[]> outlineColor = new Value<float[]>("outlineColor", new float[] {0F, 0.5F, 1F, 1F});
     
     // CONSTRUCTOR
     public OutlineESP() {

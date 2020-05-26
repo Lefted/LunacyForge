@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -32,12 +33,12 @@ public class ModuleConfig {
 
     // ACCESS
     public static boolean initDone = false;;
-    
+
     public ModuleConfig() {
 	dir.mkdirs();
     }
 
-    public void saveModules(){
+    public void saveModules() {
 	if (!saveFile.exists()) {
 	    try {
 		saveFile.createNewFile();
@@ -61,6 +62,12 @@ public class ModuleConfig {
 		    moduleJson.addProperty(value.getValueName(), (Boolean) value.getObject());
 		else if (value.getObject() instanceof String)
 		    moduleJson.addProperty(value.getValueName(), (String) value.getObject());
+		else if (value.getObject() instanceof float[]) {
+		    final float[] floatArray = (float[]) value.getObject();
+		    JsonArray array = (JsonArray) gson.toJsonTree(floatArray);
+		    moduleJson.add(value.getValueName(), array);
+
+		}
 	    }
 
 	    jsonObject.add(module.getName(), moduleJson);
@@ -130,6 +137,10 @@ public class ModuleConfig {
 		    value.setObject(moduleJson.get(value.getValueName()).getAsBoolean());
 		else if (value.getObject() instanceof String)
 		    value.setObject(moduleJson.get(value.getValueName()).getAsString());
+		else if (value.getObject() instanceof float[]) {
+		    final float[] floatArray = gson.fromJson(moduleJson.get(value.getValueName()), float[].class);
+		    value.setObject(floatArray);
+		}
 	    }
 	}
 	this.saveModules();
