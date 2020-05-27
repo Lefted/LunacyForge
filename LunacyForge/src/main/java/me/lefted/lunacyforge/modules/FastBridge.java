@@ -28,17 +28,18 @@ public class FastBridge extends Module {
     @SliderInfo(description = "Speed", min = 0, max = 4, step = 1D, numberType = ContainerSlider.NumberType.INTEGER)
     private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
 
-    @ContainerInfo(hoverText = "Time in ticks you keep sneaking in case your blocks go out")
-    @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
-    private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));
-
     @ContainerInfo(hoverText = "Useful for onestacks")
     @CheckboxInfo(description = "Sneak when jumping")
     private Value<Boolean> useOnestackValue = new Value("useOnestack", Boolean.valueOf(false));
 
-    @ContainerInfo(hoverText = "If enabled, you can fall off when you're not holding blocks")
+    // make this change safetime
+    @ContainerInfo(hoverText = "If enabled, you can fall off when you're not holding blocks", groupID = 0)
     @CheckboxInfo(description = "Only sneak when holding blocks")
     private Value<Boolean> useBlockSneakValue = new Value("useBlockSneak", Boolean.valueOf(false));
+    
+    @ContainerInfo(hoverText = "Time in ticks you keep sneaking in case your blocks go out", groupID = 0)
+    @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
+    private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));
 
     // ATTRIBUTES
     public int safeSneakDelay;

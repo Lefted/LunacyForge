@@ -12,5 +12,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ContainerInfo {
 
-    String hoverText();
+    /**
+     * @return the text displayed when the mouse is over this container
+     */
+    String hoverText() default "";
+    
+    int groupID() default -1;
 }

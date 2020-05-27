@@ -12,8 +12,8 @@ public class Reach extends Module {
 
     // ATTRIBUTES
     @ContainerInfo(hoverText = "Default: 3")
-    @SliderInfo(min = 0, max = 6, step = 0.25D, description = "Range in blocks", numberType = NumberType.DECIMAL)
-    private Value<Float> rangeValue = new Value("range", Float.valueOf(3.0F));
+    @SliderInfo(min = 0, max = 6, step = 0.125D, description = "Range in blocks", numberType = NumberType.DECIMAL)
+    private Value<Float> rangeValue = new Value("range", Float.valueOf(3.375F));
 
     // CONSTRUCTOR
     public Reach() {

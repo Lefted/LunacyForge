@@ -3,7 +3,10 @@ package me.lefted.lunacyforge.clickgui.screens;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
 
@@ -23,9 +26,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import scala.actors.threadpool.Arrays;
 
-/* Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
+/**
+ * Abstract class that implements the settings functionality using a scrollable list of custom sized containers. You might like to override some methods like
  * mouseClicked, released, keyTyped, etc to pass the calls to your other elments (which are no settingcontainers). Just don't forget to pass the call via
- * super() to this class */
+ * super() to this class
+ * 
+ * @author Lefted
+ *
+ */
 public abstract class SettingsScreen extends Panel {
 
     // CONSTANTS
@@ -37,7 +45,9 @@ public abstract class SettingsScreen extends Panel {
     private BackButton btnBack;
     private ArrayList<SettingContainer> settings = new ArrayList<SettingContainer>();
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
-    private List<SettingsGroup> groupsList = new ArrayList<SettingsGroup>();
+    private Map<Integer, SettingsGroup> groupIDMap = new HashMap<Integer, SettingsGroup>();
+    // REMOVE
+    // private List<SettingsGroup> groupsList = new ArrayList<SettingsGroup>();
 
     /* should only be called once*/
     // CONSTRUCTOR
@@ -56,7 +66,7 @@ public abstract class SettingsScreen extends Panel {
 	// clear already existing settingslist
 	settings.clear();
 	// clear settings groups
-	groupsList.clear();
+	groupIDMap.clear();
 
 	// readd them
 	addAllSettings(settings);
@@ -128,9 +138,15 @@ public abstract class SettingsScreen extends Panel {
 		}
 	    }
 
+	    // REMOVE
 	    // draw the groups
-	    if (groupsList != null && !groupsList.isEmpty()) {
-		groupsList.forEach(this::drawGroup);
+	    // if (groupsList != null && !groupsList.isEmpty()) {
+	    // groupsList.forEach(this::drawGroup);
+	    // }
+
+	    // draw the groups
+	    if (groupIDMap != null && !groupIDMap.isEmpty()) {
+		groupIDMap.forEach((key, value) -> this.drawGroup(value));
 	    }
 
 	    // draw the containers sorted by their backgroundLevel
@@ -321,17 +337,62 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to add all settings, can also be used to initialize other elements
     public abstract void addAllSettings(ArrayList<SettingContainer> settings);
 
-    // USETHIS to group settings how the background looks
-    public void groupSettings(SettingContainer... settings) {
+    // USETHIS to group settings, changes how the background looks
+    /**
+     * Will add settings to an existing group based on the id or generate a new group and then add the settings to this group<br>
+     * Changes how the background looks
+     * 
+     * @param id       ID of the group, if this is -1 it will generate a new group<br>
+     *                 must be < 200
+     * @param settings the settings you want to add to the group
+     */
+    public void groupSettings(int id, SettingContainer... settings) {
 	// create the group containing all settings
 	final List<SettingContainer> settingsList = Arrays.asList(settings);
 
-	final SettingsGroup group = new SettingsGroup(settingsList);
+	// generate new id
+	if (id < 0) {
+	    final SettingsGroup group = new SettingsGroup(settingsList);
+	    // set the group in every setting
+	    settingsList.forEach(setting -> setting.setGroup(group));
+	    // add it to the map
+	    groupIDMap.put(generateNextGroupId(), group);
+	} else { // add to the already existing group
+	    // get the group
+	    final SettingsGroup group = groupIDMap.get(id);
 
-	// set the group in every settings
-	settingsList.forEach(setting -> setting.setGroup(group));
-	// and add the group
-	groupsList.add(group);
+	    // if the group doesnt exist yet create one
+	    if (group == null) {
+		// create
+		final SettingsGroup newGroup = new SettingsGroup(settingsList);
+		// add it to the map
+		groupIDMap.put(id, newGroup);
+		// set the group in every setting
+		settingsList.forEach(setting -> setting.setGroup(newGroup));
+	    } else {
+		// add settings to the group
+		group.addSettings(settingsList);
+		
+		// set the group in every setting
+		settingsList.forEach(setting -> setting.setGroup(group));
+	    }
+	}
+    }
+
+    /**
+     * @return a group id for the groupIdMap which has no value yet
+     */
+    private int generateNextGroupId() {
+	boolean flag = true;
+	int key = 200;
+	while (flag) {
+	    if (groupIDMap.get(key) == null) {
+		flag = false;
+	    } else {
+		key++;
+	    }
+	}
+	return key;
     }
 
     // USETHIS to initialize other elments

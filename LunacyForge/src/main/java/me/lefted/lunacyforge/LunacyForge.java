@@ -26,10 +26,6 @@ import net.minecraftforge.fml.common.Mod;
  * Grouping for modules
  * Blur for ui
  * Spritze Animation Booststreifen dann
- * 
- * colorpicker als rgba[] floats
- * outlineutils als rgba[] floats
- * 
  * */
 
 @Mod(modid = "lunacyforge")

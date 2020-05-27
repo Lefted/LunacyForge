@@ -33,8 +33,8 @@ public class AimAssist extends Module {
 
     // VALUES
     @ContainerInfo(hoverText = "Intensity the crosshair locks to the target")
-    @SliderInfo(min = 1, max = 8, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
-    private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5.0F));
+    @SliderInfo(min = 1, max = 14, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
+    private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5F));
 
     @CheckboxInfo(description = "Target Animals")
     private Value<Boolean> targetAnimals = new Value<Boolean>("targetAnimals", Boolean.valueOf(true));

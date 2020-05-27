@@ -33,6 +33,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class OutlineESP extends Module {
 
     // VALUES
+    // TODO teams
     @ComboInfo(description = "Mode", entryNames = { "Vanilla", "Hexception" })
     public Value<Integer> mode = new Value<Integer>("mode", 1);
 
@@ -40,39 +41,36 @@ public class OutlineESP extends Module {
     @SliderInfo(description = "Line width", min = 1, max = 10, step = 1, numberType = NumberType.INTEGER)
     public Value<Integer> lineWidth = new Value<Integer>("lineWidth", 3);
 
-    @CheckboxInfo(description = "Friends have unique color")
-    private Value<Boolean> customFriendColor = new Value<Boolean>("customFriendColor", true);
-
-    @SliderInfo(description = "Friend color red", min = 0, max = 255, step = 1, numberType = NumberType.INTEGER)
-    private Value<Integer> friendColorRed = new Value<Integer>("friendColorRed", 255);
-    @SliderInfo(description = "Friend color green", min = 0, max = 255, step = 1, numberType = NumberType.INTEGER)
-    private Value<Integer> friendColorGreen = new Value<Integer>("friendColorGreen", 255);
-    @SliderInfo(description = "Friend color blue", min = 0, max = 255, step = 1, numberType = NumberType.INTEGER)
-    private Value<Integer> friendColorBlue = new Value<Integer>("friendColorBlue", 255);
-
     // DEBUG
-    @ColorInfo(description = "Outline color", hasAlpha = true)
-    public Value<float[]> outlineColor = new Value<float[]>("outlineColor", new float[] {0F, 0.5F, 1F, 1F});
-    
+    @ColorInfo(description = "Default color", hasAlpha = true)
+    public Value<float[]> outlineColor = new Value<float[]>("outlineColor", new float[] { 0F, 0.5F, 1F, 1F });
+
+    // make this affect friend color
+    @CheckboxInfo(description = "Friends have unique color")
+    private Value<Boolean> uniqueFriendColor = new Value<Boolean>("customFriendColor", true);
+
+    @ColorInfo(description = "Friend color", hasAlpha = true)
+    public Value<float[]> friendColor = new Value<float[]>("friendColor", new float[] { 0.5686F, 0F, 0.5882F, 1F });
+
     // CONSTRUCTOR
     public OutlineESP() {
 	super("OutlineEPS", Category.RENDER);
     }
 
-    @SubscribeEvent
-    public void onRender(RenderLivingEvent.Pre<EntityLivingBase> event) {
-	
-    }
+    // @SubscribeEvent
+    // public void onRender(RenderLivingEvent.Pre<EntityLivingBase> event) {
+    //
+    // }
 
     // METHODS
     @Override
     public void onEnable() {
-	MinecraftForge.EVENT_BUS.register(this);
+	// MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void onDisable() {
-	MinecraftForge.EVENT_BUS.unregister(this);
+	// MinecraftForge.EVENT_BUS.unregister(this);
     }
 
 }

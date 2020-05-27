@@ -196,9 +196,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	container.centerX();
 	container.setSettingOffsetY(7);
 	container.setDescription(info.description());
-	if (cInfo != null) {
-	    container.setHoverText(cInfo.hoverText());
-	}
+	addHoverText(cInfo, container);
+	tryGrouping(cInfo, container);
 	final ContainerCheckbox checkbox = new ContainerCheckbox(((Boolean) value.getObject()).booleanValue());
 	checkbox.setPosX(container.getPosX() + container.getWidth() - checkbox.WIDTH - 10);
 	checkbox.setConsumer(newValue -> value.setObject(newValue));
@@ -216,9 +215,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	slider.setConsumer(newValue -> consumSliderValue(newValue, value, slider, container, info));
 	container.setSettingOffsetY(10);
 	container.setDescription(info.description() + ": " + slider.getValueString());
-	if (cInfo != null) {
-	    container.setHoverText(cInfo.hoverText());
-	}
+	addHoverText(cInfo, container);
+	tryGrouping(cInfo, container);
 	container.setSettingElement(slider);
 	settings.add(container);
     }
@@ -233,9 +231,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
 	container.centerX();
 	container.setSettingOffsetY(7);
-	if (cInfo != null) {
-	    container.setHoverText(cInfo.hoverText());
-	}
+	addHoverText(cInfo, container);
+	tryGrouping(cInfo, container);
 	container.setSettingElement(combobox);
 	settings.add(container);
     }
@@ -250,9 +247,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
 
 	keybind.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
 	container.setSettingOffsetY(7);
-	if (cInfo != null) {
-	    container.setHoverText(cInfo.hoverText());
-	}
+	addHoverText(cInfo, container);
+	tryGrouping(cInfo, container);
 	container.setSettingElement(keybind);
 	settings.add(container);
     }
@@ -272,11 +268,25 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	picker.setRGBAConsumer(rgba -> value.setObject(rgba));
 
 	container.setSettingOffsetY(10);
-	if (cInfo != null) {
-	    container.setHoverText(cInfo.hoverText());
-	}
+	addHoverText(cInfo, container);
+	tryGrouping(cInfo, container);
 	container.setSettingElement(picker);
 	settings.add(container);
+    }
+
+    // adds the hover text if possible to the container
+    private void addHoverText(ContainerInfo cInfo, SettingContainer container) {
+	if (cInfo != null && !cInfo.hoverText().isEmpty()) {
+	    container.setHoverText(cInfo.hoverText());
+	}
+    }
+    
+    // tries to group the container if the annotation says to do so
+    private void tryGrouping(ContainerInfo cInfo, SettingContainer container) {
+	// TODO group only if visible
+	if (cInfo != null && cInfo.groupID() >= 0) {
+	    groupSettings(cInfo.groupID(), container);
+	}
     }
 
     private void consumSliderValue(double newValue, Value value, ContainerSlider slider, SettingContainer container, SliderInfo info) {
