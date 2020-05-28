@@ -6,9 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.function.ToIntFunction;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -114,16 +111,22 @@ public abstract class SettingsScreen extends Panel {
 	    final int startY = scissorBox.getY();
 
 	    // update all containers
+	    int containerIndex = 0;
 	    for (int i = 0; i < settings.size(); i++) {
 		final SettingContainer container = settings.get(i);
 
+		// is not available continue
+		if (!container.isAvailable()) {
+		    continue;
+		}
+
 		// update container's y position
 		// if its the first one set it to startY + panels' y
-		if (i == 0) {
+		if (containerIndex == 0) {
 		    container.setPosY(startY + this.getY());
 		} else {
 		    // set it to the y of the previous container + its height + spacing + panely
-		    final SettingContainer prevContainer = settings.get(i - 1);
+		    final SettingContainer prevContainer = settings.get(containerIndex - 1);
 		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING);
 		}
 
@@ -136,6 +139,7 @@ public abstract class SettingsScreen extends Panel {
 		} else {
 		    container.setVisible(true);
 		}
+		containerIndex++;
 	    }
 
 	    // REMOVE
@@ -150,8 +154,8 @@ public abstract class SettingsScreen extends Panel {
 	    }
 
 	    // draw the containers sorted by their backgroundLevel
-	    settings.stream().sorted((o1, o2) -> o1.getBackgroundLevel() - o2.getBackgroundLevel()).forEach(container -> container.draw(mouseX, mouseY,
-		partialTicks));
+	    settings.stream().filter(setting -> setting.isAvailable()).sorted((o1, o2) -> o1.getBackgroundLevel() - o2.getBackgroundLevel()).forEach(
+		container -> container.draw(mouseX, mouseY, partialTicks));
 	}
 
 	// disable scissor test
@@ -180,7 +184,9 @@ public abstract class SettingsScreen extends Panel {
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
-		setting.mouseClicked(mouseX, mouseY, mouseButton);
+		if (setting.isAvailable()) {
+		    setting.mouseClicked(mouseX, mouseY, mouseButton);
+		}
 	    }
 	}
     }
@@ -198,7 +204,9 @@ public abstract class SettingsScreen extends Panel {
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
-		setting.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+		if (setting.isAvailable()) {
+		    setting.mouseClickMove(mouseX, mouseY, mouseButton, timeSinceClick);
+		}
 	    }
 	}
     }
@@ -216,7 +224,9 @@ public abstract class SettingsScreen extends Panel {
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
-		setting.mouseReleased(mouseX, mouseY, mouseButton);
+		if (setting.isAvailable()) {
+		    setting.mouseReleased(mouseX, mouseY, mouseButton);
+		}
 	    }
 	}
     }
@@ -231,7 +241,9 @@ public abstract class SettingsScreen extends Panel {
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
-		setting.keyTyped(typedChar, keyCode);
+		if (setting.isAvailable()) {
+		    setting.keyTyped(typedChar, keyCode);
+		}
 	    }
 	}
 
@@ -253,7 +265,9 @@ public abstract class SettingsScreen extends Panel {
 	// settings
 	if (hasSettingsContainer()) {
 	    for (SettingContainer setting : settings) {
-		setting.updateScreen();
+		if (setting.isAvailable()) {
+		    setting.updateScreen();
+		}
 	    }
 	}
 
@@ -337,6 +351,11 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to add all settings, can also be used to initialize other elements
     public abstract void addAllSettings(ArrayList<SettingContainer> settings);
 
+    // USETHIS to hide/show a setting
+    public void setSettingContainersAvailability(SettingContainer container, boolean available) {
+	container.setAvailable(available);
+    }
+
     // USETHIS to group settings, changes how the background looks
     /**
      * Will add settings to an existing group based on the id or generate a new group and then add the settings to this group<br>
@@ -372,7 +391,7 @@ public abstract class SettingsScreen extends Panel {
 	    } else {
 		// add settings to the group
 		group.addSettings(settingsList);
-		
+
 		// set the group in every setting
 		settingsList.forEach(setting -> setting.setGroup(group));
 	    }

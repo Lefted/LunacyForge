@@ -224,7 +224,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as combobox to the settingslist
     private void addCombobox(ContainerInfo cInfo, ComboInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
-	final ContainerComobox combobox = new ContainerComobox(container, ((Number) value.getObject()).intValue(), info.entryNames());
+	final ContainerComobox combobox = new ContainerComobox(this, container, ((Number) value.getObject()).intValue(), info.entryNames());
 	container.centerX();
 	combobox.setPosX(container.getPosX() + container.getWidth() - combobox.ENTRY_WIDTH - 10);
 	container.setDescription(info.description());

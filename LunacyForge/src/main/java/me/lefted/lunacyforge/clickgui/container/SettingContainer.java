@@ -45,6 +45,7 @@ public class SettingContainer extends Element {
 
     private int offsetY;
     private int backgroundLevel = 0; // determines if this is drawn before other settings or after
+    private boolean available = true; // determine if this container will exist (used for parenting)
 
     private SettingsGroup settingGroup;
     private Predicate<int[]> isMouseOverHoverArea;
@@ -244,6 +245,14 @@ public class SettingContainer extends Element {
 
     public void setHeight(int height) {
 	this.height = height;
+    }
+    
+    public boolean isAvailable() {
+	return available;
+    }
+    
+    public void setAvailable(boolean available) {
+	this.available = available;
     }
 
     public void setIsMouseOverHoverAreaPredicate(Predicate<int[]> predicate) {

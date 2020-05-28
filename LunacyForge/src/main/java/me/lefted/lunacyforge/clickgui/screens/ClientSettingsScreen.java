@@ -87,7 +87,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 
 	// mode
 	SettingContainer modeContainer = new SettingContainer();
-	ContainerComobox modeCombobox = new ContainerComobox(modeContainer, ClientConfig.isShowRageMods() ? 0 : 1, "All", "Invis");
+	ContainerComobox modeCombobox = new ContainerComobox(this, modeContainer, ClientConfig.isShowRageMods() ? 0 : 1, "All", "Invis");
 	modeContainer.centerX();
 	modeCombobox.setPosX(modeContainer.getPosX() + modeContainer.getWidth() - modeCombobox.ENTRY_WIDTH - 10);
 	modeCombobox.setIntConsumer(newValue -> {
@@ -104,7 +104,7 @@ public class ClientSettingsScreen extends SettingsScreen {
 	SettingContainer arraylistBgContainer = new SettingContainer();
 	arraylistBgContainer.centerX();
 	arraylistBgContainer.setDescription("Arraylist Background");
-	ContainerComobox arraylistBgCombobox = new ContainerComobox(arraylistBgContainer, ClientConfig.getArraylistMode(), "None", "Normal", "Shadow",
+	ContainerComobox arraylistBgCombobox = new ContainerComobox(this, arraylistBgContainer, ClientConfig.getArraylistMode(), "None", "Normal", "Shadow",
 	    "Normal+Rect", "Shadow+Rect");
 	arraylistBgCombobox.setPosX(arraylistBgContainer.getPosX() + arraylistBgContainer.getWidth() - arraylistBgCombobox.ENTRY_WIDTH - 10);
 	arraylistBgCombobox.setIntConsumer(newValue -> {
@@ -125,6 +125,8 @@ public class ClientSettingsScreen extends SettingsScreen {
 	chatCheckbox.setConsumer(newValue -> {
 	    ClientConfig.setAnnounceModuleToggle(newValue);
 	    ClientConfig.saveConfig();
+	    // DEBUG
+	    setSettingContainersAvailability(arraylistBgContainer, newValue);
 	});
 	chatContainer.setSettingOffsetY(7);
 	chatContainer.setSettingElement(chatCheckbox);

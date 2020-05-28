@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
+import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.HSLColor;
@@ -42,6 +43,7 @@ public class ContainerComobox extends Element {
     private static final float SCALED_TEX_HEIGHT = TEX_HEIGHT * SCALE;
 
     // ATTRIBUTES
+    private SettingsScreen screen;
     private SettingContainer parent; // needed to extend the container when this is opened
     private int originalHeight;
     private boolean opened;
@@ -54,8 +56,9 @@ public class ContainerComobox extends Element {
     /**
      * @param entries The entries you want to be able to select. Corresponding to the value (first entry = 0)
      */
-    public ContainerComobox(SettingContainer parent, int selectedEntryIndex, String... entries) {
+    public ContainerComobox(SettingsScreen screen, SettingContainer parent, int selectedEntryIndex, String... entries) {
 	this.parent = parent;
+	this.screen = screen;
 
 	entryValueMap = new HashMap<String, Integer>();
 
@@ -324,6 +327,8 @@ public class ContainerComobox extends Element {
 	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
+	screen.setPanelBorders();
+	screen.scrollVerticalByAmount(0);
     }
 
     private void openCombobox() {
@@ -334,6 +339,7 @@ public class ContainerComobox extends Element {
 	parent.setHeight(parent.getHeight() + extraNeeded);
 
 	opened = true;
+	screen.setPanelBorders();
     }
 
     public void playPressSound(SoundHandler soundHandler) {

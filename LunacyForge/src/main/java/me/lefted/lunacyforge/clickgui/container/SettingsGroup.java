@@ -24,7 +24,7 @@ public class SettingsGroup {
 	this.posX = settings.stream().min(Comparator.comparingInt(container -> container.getPosX())).get().getPosX();
 	this.posY = settings.stream().min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
 	this.width = settings.stream().max(Comparator.comparingInt(container -> container.getWidth())).get().getWidth();
-	this.height = settings.stream().mapToInt(container -> container.getHeight()).sum() + settings.size() + SettingsScreen.CONTAINER_SPACING;
+	this.height = settings.stream().mapToInt(container -> container.getHeight()).sum() + (settings.size() - 1) * SettingsScreen.CONTAINER_SPACING;
 
 	// for (SettingContainer container : settings) {
 	// this.height += container.getHeight() + settings.size() * SettingsScreen.CONTAINER_SPACING;
@@ -44,7 +44,7 @@ public class SettingsGroup {
 	this.posX = this.settings.stream().min(Comparator.comparingInt(container -> container.getPosX())).get().getPosX();
 	this.posY = this.settings.stream().min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
 	this.width = this.settings.stream().max(Comparator.comparingInt(container -> container.getWidth())).get().getWidth();
-	this.height = this.settings.stream().mapToInt(container -> container.getHeight()).sum() + this.settings.size() + SettingsScreen.CONTAINER_SPACING;
+	this.height = this.settings.stream().mapToInt(container -> container.getHeight()).sum() + (this.settings.size() - 1) * SettingsScreen.CONTAINER_SPACING;
     }
 
     public List<SettingContainer> getSettings() {
