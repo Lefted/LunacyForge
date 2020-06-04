@@ -18,12 +18,12 @@ public @interface ContainerInfo {
      * @return the text displayed when the mouse is over this container
      */
     String hoverText() default "";
-    
+
     int groupID() default -1;
-    
-    /**
-     * @return the valuenames of the children
-     */
-    // TODO FIXME
-    String[] children() default {};
+
+    // /**
+    // * @return the valuenames of the children
+    // */
+    // // TODO FIXME
+    // String[] children() default {};
 }

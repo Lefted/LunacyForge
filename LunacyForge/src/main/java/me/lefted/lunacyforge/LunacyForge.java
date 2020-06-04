@@ -14,6 +14,7 @@ import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.modules.ModuleManager;
+import me.lefted.lunacyforge.valuesystem.ChildrenManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
@@ -26,6 +27,11 @@ import net.minecraftforge.fml.common.Mod;
  * Grouping for modules
  * Blur for ui
  * Spritze Animation Booststreifen dann
+ * 
+ * make children with configname instead of id
+ * add every value to the children map (config name (string)/ settingscontinaer) no matter if it has the children obj
+ * make proper grouping when changing availibility in parenting (makeChildrenAvailable) (makeChildrenUnavailable)
+ * 
  * */
 
 @Mod(modid = "lunacyforge")
@@ -72,6 +78,7 @@ public final class LunacyForge {
 	ModuleSettingsScreen.instance = new ModuleSettingsScreen();
 	FriendSettingsScreen.instance = new FriendSettingsScreen();
 	AddFriendScreen.instance = new AddFriendScreen();
+	ChildrenManager.instance = new ChildrenManager();
     }
 
     public void stopClient() {

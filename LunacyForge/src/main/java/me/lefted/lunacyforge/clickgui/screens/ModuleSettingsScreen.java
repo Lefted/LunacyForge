@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
+import me.lefted.lunacyforge.clickgui.annotations.ChildrenInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ColorInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ComboInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
@@ -21,6 +22,9 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
+import me.lefted.lunacyforge.utils.Logger;
+import me.lefted.lunacyforge.valuesystem.Children;
+import me.lefted.lunacyforge.valuesystem.ChildrenManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 public class ModuleSettingsScreen extends SettingsScreen {
@@ -38,6 +42,9 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	if (module != null) {
 	    // add module name and description
 	    addModuleInfo(settings);
+
+	    // clear the old children list
+	    ChildrenManager.instance.clearMap();
 
 	    // adds values like sliders, comboboxes, keybinds, checkboxes
 	    addModuleValues(settings);
@@ -157,6 +164,10 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    // get containerinfo
 		    final ContainerInfo info = field.getAnnotation(ContainerInfo.class);
 
+		    // REMOVE
+		    // // get children info
+		    // final ChildrenInfo childInfo = field.getAnnotation(ChildrenInfo.class);
+
 		    // checkboxes
 		    if (annotation instanceof CheckboxInfo && value.getObject() instanceof Boolean) {
 			addCheckbox(info, (CheckboxInfo) annotation, value, settings);
@@ -193,6 +204,10 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as checkbox to the settingslist
     private void addCheckbox(ContainerInfo cInfo, CheckboxInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
+
+	// adds this container to the map if it is necessary
+	addToChildrenMap(value, container);
+
 	container.centerX();
 	container.setSettingOffsetY(7);
 	container.setDescription(info.description());
@@ -200,7 +215,29 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	tryGrouping(cInfo, container);
 	final ContainerCheckbox checkbox = new ContainerCheckbox(((Boolean) value.getObject()).booleanValue());
 	checkbox.setPosX(container.getPosX() + container.getWidth() - checkbox.WIDTH - 10);
-	checkbox.setConsumer(newValue -> value.setObject(newValue));
+
+	// notify children if necessary
+	final Children childrenObj = value.getChildren();
+
+	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length != 0 && childrenObj
+	    .getChildrenAvailability() != null) {
+	    // complex consumer
+	    checkbox.setConsumer(newValue -> {
+		value.setObject(newValue);
+
+		if (childrenObj.getChildrenAvailability().test(newValue)) {
+		    makeChildrenAvailable(value);
+		} else {
+		    makeChildrenUnavailable(value);
+		}
+	    });
+
+	} else {
+	    // simple consumer
+	    checkbox.setConsumer(newValue -> value.setObject(newValue));
+	}
+
+	// checkbox.setConsumer(newValue -> value.setObject(newValue));
 	container.setSettingElement(checkbox);
 	settings.add(container);
     }
@@ -208,6 +245,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as slider to the settingslist
     private void addSlider(ContainerInfo cInfo, SliderInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
+	// adds this container to the map if it is necessary
+	addToChildrenMap(value, container);
 	final ContainerSlider slider = new ContainerSlider(this, info.numberType(), info.min(), info.max(), info.step());
 	slider.setValue(((Number) value.getObject()).doubleValue());
 	container.centerX();
@@ -225,6 +264,9 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addCombobox(ContainerInfo cInfo, ComboInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	final ContainerComobox combobox = new ContainerComobox(this, container, ((Number) value.getObject()).intValue(), info.entryNames());
+	// adds this container to the map if it is necessary
+	addToChildrenMap(value, container);
+
 	container.centerX();
 	combobox.setPosX(container.getPosX() + container.getWidth() - combobox.ENTRY_WIDTH - 10);
 	container.setDescription(info.description());
@@ -241,6 +283,9 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addKeybind(ContainerInfo cInfo, KeybindInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	final ContainerKeybind keybind = new ContainerKeybind(this, 128, 20, ((Number) value.getObject()).intValue());
+	// adds this container to the map if it is necessary
+	addToChildrenMap(value, container);
+
 	container.centerX();
 	keybind.setPosX(container.getPosX() + container.getWidth() - keybind.getWidth() - 10);
 	container.setDescription(info.description());
@@ -257,13 +302,12 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addColorPicker(ContainerInfo cInfo, ColorInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	final ContainerColorpicker picker = new ContainerColorpicker(this, container, (float[]) value.getObject(), null);
-	// final ContainerColorpicker picker = new ContainerColorpicker(this, container, new Color(((Number) value.getObject()).intValue()));
+	// adds this container to the map if it is necessary
+	addToChildrenMap(value, container);
+
 	container.centerX();
 	picker.setPosX(container.getPosX() + container.getWidth() - picker.getWidth() - 71);
 	container.setDescription(info.description());
-
-	// TODO do this with int instead of color object
-	// picker.setColorObjConsumer(newColor -> consumeIntegerValue(newColor.getRGB(), value));
 
 	picker.setRGBAConsumer(rgba -> value.setObject(rgba));
 
@@ -280,12 +324,58 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	    container.setHoverText(cInfo.hoverText());
 	}
     }
-    
+
     // tries to group the container if the annotation says to do so
     private void tryGrouping(ContainerInfo cInfo, SettingContainer container) {
 	// TODO group only if visible
 	if (cInfo != null && cInfo.groupID() >= 0) {
 	    groupSettings(cInfo.groupID(), container);
+	}
+    }
+
+    // adds the container to the children id map if possible
+    private void addToChildrenMap(Value value, SettingContainer container) {
+	final Children childrenObj = value.getChildren();
+	// if it has a children object
+	if (childrenObj != null) {
+	    // register it in the map
+	    ChildrenManager.instance.addContainerToMap(childrenObj.getContainerID(), container);
+	}
+    }
+
+    // makes children available (shown) if possible
+    private void makeChildrenAvailable(Value value) {
+	final Children childrenObj = value.getChildren();
+
+	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length > 0) {
+
+	    for (int id : childrenObj.getChildrenIDs()) {
+
+		final SettingContainer container = ChildrenManager.instance.getContainerByID(id);
+		if (container != null) {
+		    // DEBUG
+		    Logger.logChatMessage("available: " + container.getDescription());
+
+		}
+	    }
+	}
+    }
+
+    // makes children unavailable (hidden) if possible
+    private void makeChildrenUnavailable(Value value) {
+	final Children childrenObj = value.getChildren();
+
+	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length > 0) {
+
+	    for (int id : childrenObj.getChildrenIDs()) {
+
+		final SettingContainer container = ChildrenManager.instance.getContainerByID(id);
+		if (container != null) {
+		    // DEBUG
+		    Logger.logChatMessage("unavailable: " + container.getDescription());
+
+		}
+	    }
 	}
     }
 
