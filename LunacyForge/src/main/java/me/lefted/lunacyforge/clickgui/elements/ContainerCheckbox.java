@@ -110,6 +110,10 @@ public class ContainerCheckbox extends Element {
 	return consumer;
     }
 
+    public boolean getValue() {
+	return checked;
+    }
+    
     public void setConsumer(Consumer<Boolean> consumer) {
 	this.consumer = consumer;
     }

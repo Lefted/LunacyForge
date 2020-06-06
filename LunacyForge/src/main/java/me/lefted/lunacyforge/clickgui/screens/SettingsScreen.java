@@ -16,6 +16,7 @@ import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.clickgui.elements.api.Panel;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.utils.ScissorBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -43,8 +44,6 @@ public abstract class SettingsScreen extends Panel {
     private ArrayList<SettingContainer> settings = new ArrayList<SettingContainer>();
     private ScissorBox scissorBox; // used to cut off rendering when scrolling
     private Map<Integer, SettingsGroup> groupIDMap = new HashMap<Integer, SettingsGroup>();
-    // REMOVE
-    // private List<SettingsGroup> groupsList = new ArrayList<SettingsGroup>();
 
     /* should only be called once*/
     // CONSTRUCTOR
@@ -141,13 +140,6 @@ public abstract class SettingsScreen extends Panel {
 		}
 		containerIndex++;
 	    }
-
-	    // REMOVE
-	    // draw the groups
-	    // if (groupsList != null && !groupsList.isEmpty()) {
-	    // groupsList.forEach(this::drawGroup);
-	    // }
-
 	    // draw the groups
 	    if (groupIDMap != null && !groupIDMap.isEmpty()) {
 		groupIDMap.forEach((key, value) -> this.drawGroup(value));
@@ -289,9 +281,10 @@ public abstract class SettingsScreen extends Panel {
 
     // draws the group
     private void drawGroup(SettingsGroup group) {
-	final int posY = group.getSettings().stream().min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
-
-	DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), posY, group.getWidth(), group.getHeight());
+	if (group.isAvailable()) {
+	    int posY = group.getSettings().stream().filter(container -> container.isAvailable()).min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
+	    DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), posY, group.getWidth(), group.getHeight());
+	}
     }
 
     // fired by the back button
@@ -354,6 +347,10 @@ public abstract class SettingsScreen extends Panel {
     // USETHIS to hide/show a setting
     public void setSettingContainersAvailability(SettingContainer container, boolean available) {
 	container.setAvailable(available);
+	// now update the groups height
+	if (container.getGroup() != null) {
+	    container.getGroup().updateHeight();
+	}
     }
 
     // USETHIS to group settings, changes how the background looks

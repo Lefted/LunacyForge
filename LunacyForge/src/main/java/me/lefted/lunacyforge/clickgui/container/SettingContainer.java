@@ -2,20 +2,12 @@ package me.lefted.lunacyforge.clickgui.container;
 
 import java.util.function.Predicate;
 
-import org.lwjgl.opengl.GL11;
-
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.utils.ScissorBox;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
-import scala.actors.threadpool.Arrays;
 
 /* This class combines the container texture, a description and an element. */
 // TODO mouseClick is not passed to all containers when not a container was clicked
@@ -246,11 +238,11 @@ public class SettingContainer extends Element {
     public void setHeight(int height) {
 	this.height = height;
     }
-    
+
     public boolean isAvailable() {
 	return available;
     }
-    
+
     public void setAvailable(boolean available) {
 	this.available = available;
     }
@@ -265,5 +257,9 @@ public class SettingContainer extends Element {
 
     public void setGroup(SettingsGroup group) {
 	this.settingGroup = group;
+    }
+
+    public SettingsGroup getGroup() {
+	return this.settingGroup;
     }
 }

@@ -1,12 +1,12 @@
 package me.lefted.lunacyforge.clickgui.screens;
 
-import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
-import me.lefted.lunacyforge.clickgui.annotations.ChildrenInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ColorInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ComboInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
@@ -20,11 +20,11 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerColorpicker;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
+import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
-import me.lefted.lunacyforge.utils.Logger;
-import me.lefted.lunacyforge.valuesystem.Children;
-import me.lefted.lunacyforge.valuesystem.ChildrenManager;
+import me.lefted.lunacyforge.valuesystem.Relation;
+import me.lefted.lunacyforge.valuesystem.RelationManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 public class ModuleSettingsScreen extends SettingsScreen {
@@ -36,6 +36,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private Module module;
     private BackButton backButton;
 
+    private HashMap<Element, Relation> elementRelationMap;
+
     // METHODS
     @Override
     public void addAllSettings(ArrayList<SettingContainer> settings) {
@@ -44,10 +46,20 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	    addModuleInfo(settings);
 
 	    // clear the old children list
-	    ChildrenManager.instance.clearMap();
+	    RelationManager.instance.clearMap();
+
+	    // clear the old updateChilrenMap
+	    if (elementRelationMap == null) {
+		elementRelationMap = new HashMap<Element, Relation>();
+	    } else {
+		elementRelationMap.clear();
+	    }
 
 	    // adds values like sliders, comboboxes, keybinds, checkboxes
 	    addModuleValues(settings);
+
+	    // update relations using the element relation map
+	    updateRelations();
 	}
     }
 
@@ -217,20 +229,21 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	checkbox.setPosX(container.getPosX() + container.getWidth() - checkbox.WIDTH - 10);
 
 	// notify children if necessary
-	final Children childrenObj = value.getChildren();
+	final Relation rel = value.getRelation();
 
-	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length != 0 && childrenObj
-	    .getChildrenAvailability() != null) {
+	if (rel != null && rel.getChildrenContainerNames() != null && rel.getChildrenContainerNames().length > 0 && rel.getChildrenAvailability() != null) {
 	    // complex consumer
 	    checkbox.setConsumer(newValue -> {
 		value.setObject(newValue);
 
-		if (childrenObj.getChildrenAvailability().test(newValue)) {
+		if (rel.getChildrenAvailability().test(newValue)) {
 		    makeChildrenAvailable(value);
 		} else {
 		    makeChildrenUnavailable(value);
 		}
 	    });
+	    // add to update map
+	    elementRelationMap.put(checkbox, rel);
 
 	} else {
 	    // simple consumer
@@ -335,27 +348,25 @@ public class ModuleSettingsScreen extends SettingsScreen {
 
     // adds the container to the children id map if possible
     private void addToChildrenMap(Value value, SettingContainer container) {
-	final Children childrenObj = value.getChildren();
+	final Relation childrenObj = value.getRelation();
 	// if it has a children object
 	if (childrenObj != null) {
 	    // register it in the map
-	    ChildrenManager.instance.addContainerToMap(childrenObj.getContainerID(), container);
+	    RelationManager.instance.addContainerToMap(childrenObj.getContainerName(), container);
 	}
     }
 
     // makes children available (shown) if possible
     private void makeChildrenAvailable(Value value) {
-	final Children childrenObj = value.getChildren();
+	final Relation childrenObj = value.getRelation();
 
-	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length > 0) {
+	if (childrenObj != null && childrenObj.getChildrenContainerNames() != null && childrenObj.getChildrenContainerNames().length > 0) {
 
-	    for (int id : childrenObj.getChildrenIDs()) {
+	    for (String name : childrenObj.getChildrenContainerNames()) {
 
-		final SettingContainer container = ChildrenManager.instance.getContainerByID(id);
+		final SettingContainer container = RelationManager.instance.getContainerByName(name);
 		if (container != null) {
-		    // DEBUG
-		    Logger.logChatMessage("available: " + container.getDescription());
-
+		    setSettingContainersAvailability(container, true);
 		}
 	    }
 	}
@@ -363,17 +374,34 @@ public class ModuleSettingsScreen extends SettingsScreen {
 
     // makes children unavailable (hidden) if possible
     private void makeChildrenUnavailable(Value value) {
-	final Children childrenObj = value.getChildren();
+	final Relation childrenObj = value.getRelation();
 
-	if (childrenObj != null && childrenObj.getChildrenIDs() != null && childrenObj.getChildrenIDs().length > 0) {
+	if (childrenObj != null && childrenObj.getChildrenContainerNames() != null && childrenObj.getChildrenContainerNames().length > 0) {
 
-	    for (int id : childrenObj.getChildrenIDs()) {
+	    for (String name : childrenObj.getChildrenContainerNames()) {
 
-		final SettingContainer container = ChildrenManager.instance.getContainerByID(id);
+		final SettingContainer container = RelationManager.instance.getContainerByName(name);
 		if (container != null) {
-		    // DEBUG
-		    Logger.logChatMessage("unavailable: " + container.getDescription());
+		    setSettingContainersAvailability(container, false);
+		}
+	    }
+	}
+    }
 
+    // called one when constructing the containers
+    private void updateRelations() {
+	final Iterator it = elementRelationMap.keySet().iterator();
+
+	while (it.hasNext()) {
+	    final Element element = (Element) it.next();
+
+	    if (element instanceof ContainerCheckbox) {
+		final ContainerCheckbox checkbox = (ContainerCheckbox) element;
+		final Relation rel = elementRelationMap.get(checkbox);
+
+		for (String name : rel.getChildrenContainerNames()) {
+		    final SettingContainer child = RelationManager.instance.getContainerByName(name);
+		    setSettingContainersAvailability(child, rel.getChildrenAvailability().test(checkbox.getValue()));
 		}
 	    }
 	}

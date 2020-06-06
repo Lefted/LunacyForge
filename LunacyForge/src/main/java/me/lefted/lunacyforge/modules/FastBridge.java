@@ -12,15 +12,17 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import java.util.function.Predicate;
 
 /* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
-@ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars", tags = {"Ninjabridge", "Eaglen"})
+@ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars", tags = { "Ninjabridge", "Eaglen" })
 public class FastBridge extends Module {
 
     // VALUES
@@ -32,11 +34,11 @@ public class FastBridge extends Module {
     @CheckboxInfo(description = "Sneak when jumping")
     private Value<Boolean> useOnestackValue = new Value("useOnestack", Boolean.valueOf(false));
 
-    // make this change safetime
     @ContainerInfo(hoverText = "If enabled, you can fall off when you're not holding blocks", groupID = 0)
     @CheckboxInfo(description = "Only sneak when holding blocks")
-    private Value<Boolean> useBlockSneakValue = new Value("useBlockSneak", Boolean.valueOf(false));
-    
+    private Value<Boolean> useBlockSneakValue = new Value<Boolean>("useBlockSneak", Boolean.valueOf(false), new String[] { "safeSneakTime" },
+	newValue -> newValue);
+
     @ContainerInfo(hoverText = "Time in ticks you keep sneaking in case your blocks go out", groupID = 0)
     @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
     private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));

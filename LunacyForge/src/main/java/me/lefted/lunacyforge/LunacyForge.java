@@ -14,23 +14,25 @@ import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.modules.ModuleManager;
-import me.lefted.lunacyforge.valuesystem.ChildrenManager;
+import me.lefted.lunacyforge.valuesystem.RelationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
 /* FEATUREREQUEST
  * 
- * color in sliders add default values to hover tips slider in ios slider umändern color picker mouseclicks
- * should be picked up by keybind buttons
+ * color in sliders add default values to hover tips slider in ios slider umändern color picker mouseclicks should be picked up by keybind buttons
  * 
- * Hotbar
- * Grouping for modules
- * Blur for ui
- * Spritze Animation Booststreifen dann
+ * Hotbar Grouping for modules Blur for ui Spritze Animation Booststreifen dann
  * 
- * make children with configname instead of id
- * add every value to the children map (config name (string)/ settingscontinaer) no matter if it has the children obj
- * make proper grouping when changing availibility in parenting (makeChildrenAvailable) (makeChildrenUnavailable)
+ * make proper grouping when changing availibility in parenting (makeChildrenAvailable) (makeChildrenUnavailable) rename children class to relation or something
+ * make availibilities refresh on gui init 
+ * 
+ * schnellball marker für enderchests (iwann mal trajectories)
+ * chest stealer
+ * inv cleaner
+ * forcefield (no rotations)
+ * 
+ * 
  * 
  * */
 
@@ -78,7 +80,7 @@ public final class LunacyForge {
 	ModuleSettingsScreen.instance = new ModuleSettingsScreen();
 	FriendSettingsScreen.instance = new FriendSettingsScreen();
 	AddFriendScreen.instance = new AddFriendScreen();
-	ChildrenManager.instance = new ChildrenManager();
+	RelationManager.instance = new RelationManager();
     }
 
     public void stopClient() {
