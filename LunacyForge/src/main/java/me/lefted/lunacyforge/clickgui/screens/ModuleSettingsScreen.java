@@ -23,6 +23,7 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Relation;
 import me.lefted.lunacyforge.valuesystem.RelationManager;
 import me.lefted.lunacyforge.valuesystem.Value;
@@ -283,7 +284,31 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	container.centerX();
 	combobox.setPosX(container.getPosX() + container.getWidth() - combobox.ENTRY_WIDTH - 10);
 	container.setDescription(info.description());
-	combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
+
+	// notify children if necessary
+	final Relation rel = value.getRelation();
+
+	if (rel != null && rel.getChildrenContainerNames() != null && rel.getChildrenContainerNames().length > 0 && rel.getChildrenAvailability() != null) {
+	    // complex consumer
+	    combobox.setIntConsumer(newValue -> {
+		value.setObject(newValue);
+
+		if (rel.getChildrenAvailability().test(newValue)) {
+		    makeChildrenAvailable(value);
+		} else {
+		    makeChildrenUnavailable(value);
+		}
+	    });
+
+	    // add to update map
+	    elementRelationMap.put(combobox, rel);
+
+	} else {
+	    // simple consumer
+	    combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
+	}
+
+	// combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
 	container.centerX();
 	container.setSettingOffsetY(7);
 	addHoverText(cInfo, container);
@@ -388,7 +413,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	}
     }
 
-    // called one when constructing the containers
+    // called once when constructing the containers
     private void updateRelations() {
 	final Iterator it = elementRelationMap.keySet().iterator();
 
@@ -402,6 +427,16 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		for (String name : rel.getChildrenContainerNames()) {
 		    final SettingContainer child = RelationManager.instance.getContainerByName(name);
 		    setSettingContainersAvailability(child, rel.getChildrenAvailability().test(checkbox.getValue()));
+		}
+	    }
+	    
+	    if (element instanceof ContainerComobox) {
+		final ContainerComobox combobox = (ContainerComobox) element;
+		final Relation rel = elementRelationMap.get(combobox);
+
+		for (String name : rel.getChildrenContainerNames()) {
+		    final SettingContainer child = RelationManager.instance.getContainerByName(name);
+		    setSettingContainersAvailability(child, rel.getChildrenAvailability().test(combobox.getValue()));
 		}
 	    }
 	}

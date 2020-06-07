@@ -36,26 +36,30 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
 
 	if (esp.isEnabled()) {
-	    if (esp.mode.getObject().intValue() == 1) {
-		GlStateManager.depthMask(true);
-		if (entity instanceof EntityLivingBase) {
-
-		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		    OutlineUtils.renderOne();
-		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		    OutlineUtils.renderTwo();
-		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		    OutlineUtils.renderThree();
-		    OutlineUtils.renderFour(entity);
-
-		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		    OutlineUtils.renderFive();
-		} else {
-		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		}
-	    } else {
-		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-	    }
+	    // REMOVE
+	    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+	    
+	    
+//	    if (esp.mode.getObject().intValue() == 1) {
+//		GlStateManager.depthMask(true);
+//		if (entity instanceof EntityLivingBase) {
+//
+//		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//		    OutlineUtils.renderOne();
+//		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//		    OutlineUtils.renderTwo();
+//		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//		    OutlineUtils.renderThree();
+//		    OutlineUtils.renderFour(entity);
+//
+//		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//		    OutlineUtils.renderFive();
+//		} else {
+//		    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//		}
+//	    } else {
+//		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
+//	    }
 	} else {
 	    this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
 	}

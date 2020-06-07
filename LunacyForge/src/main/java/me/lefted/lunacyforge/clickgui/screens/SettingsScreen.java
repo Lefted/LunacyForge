@@ -282,7 +282,8 @@ public abstract class SettingsScreen extends Panel {
     // draws the group
     private void drawGroup(SettingsGroup group) {
 	if (group.isAvailable()) {
-	    int posY = group.getSettings().stream().filter(container -> container.isAvailable()).min(Comparator.comparingInt(container -> container.getPosY())).get().getPosY();
+	    int posY = group.getSettings().stream().filter(container -> container.isAvailable()).min(Comparator.comparingInt(container -> container.getPosY()))
+		.get().getPosY();
 	    DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), posY, group.getWidth(), group.getHeight());
 	}
     }
@@ -320,6 +321,9 @@ public abstract class SettingsScreen extends Panel {
 
 	if (hasSettingsContainer()) {
 	    for (SettingContainer container : settings) {
+		if (!container.isAvailable()) {
+		    continue;
+		}
 		sumHeight += container.getHeight();
 		sumHeight += CONTAINER_SPACING;
 	    }
@@ -350,6 +354,10 @@ public abstract class SettingsScreen extends Panel {
 	// now update the groups height
 	if (container.getGroup() != null) {
 	    container.getGroup().updateHeight();
+	}
+	if (initDone) {
+	    setPanelBorders();
+	    scrollVerticalByAmount(0);
 	}
     }
 

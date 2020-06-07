@@ -26,7 +26,9 @@ public class OutlineUtils {
 	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
-	GL11.glLineWidth(esp.lineWidth.getObject().intValue());
+	
+	GL11.glLineWidth(3);
+//	GL11.glLineWidth(esp.lineWidth.getObject().intValue());
 	GL11.glEnable(GL11.GL_LINE_SMOOTH);
 	GL11.glEnable(GL11.GL_STENCIL_TEST);
 	GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
@@ -52,11 +54,12 @@ public class OutlineUtils {
 	// TODO add color
 	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
 
-	if (esp.outlineColor.getObject() != null) {
-	    final float[] rgba = esp.outlineColor.getObject();
-	    GL11.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
-	}
-	// setColor(new Color(255, 255, 255));
+//	if (esp.outlineColor.getObject() != null) {
+//	    final float[] rgba = esp.outlineColor.getObject();
+//	    GL11.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+//	}
+	 setColor(new Color(255, 255, 255));
+	
 	GL11.glDepthMask(false);
 	GL11.glDisable(GL11.GL_DEPTH_TEST);
 	GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);

@@ -125,8 +125,6 @@ public class ClientSettingsScreen extends SettingsScreen {
 	chatCheckbox.setConsumer(newValue -> {
 	    ClientConfig.setAnnounceModuleToggle(newValue);
 	    ClientConfig.saveConfig();
-	    // DEBUG
-	    setSettingContainersAvailability(arraylistBgContainer, newValue);
 	});
 	chatContainer.setSettingOffsetY(7);
 	chatContainer.setSettingElement(chatCheckbox);

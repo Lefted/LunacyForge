@@ -52,6 +52,8 @@ public class ContainerComobox extends Element {
     private Consumer<String> stringConsumer;
     private Consumer<Integer> intConsumer;
 
+    private int selectedEntryIndex;
+
     // CONSTRUCTOR
     /**
      * @param entries The entries you want to be able to select. Corresponding to the value (first entry = 0)
@@ -71,6 +73,7 @@ public class ContainerComobox extends Element {
 	this.entries.addAll(Arrays.asList(entries));
 
 	// make sure selected one is first in list
+	this.selectedEntryIndex = selectedEntryIndex;
 	final String selectedEntrySave = this.entries.get(selectedEntryIndex);
 	this.entries.remove(selectedEntryIndex);
 	this.entries.addFirst(selectedEntrySave);
@@ -160,6 +163,7 @@ public class ContainerComobox extends Element {
 	if (intConsumer != null) {
 	    intConsumer.accept(entryValueMap.get(newSelectedEntrySave));
 	}
+	selectedEntryIndex = entryValueMap.get(newSelectedEntrySave);
     }
 
     private void drawClosedEntry(int mouseX, int mouseY, int posX, int posY, String entry) {
@@ -205,7 +209,7 @@ public class ContainerComobox extends Element {
 
 	// text
 	utils.drawStringWithShadow(entry, posX + ENTRY_WIDTH / 2 - utils.getStringWidth(entry) / 2, posY + 4, textColor);
-	
+
 	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
@@ -318,7 +322,7 @@ public class ContainerComobox extends Element {
     public void setStringConsumer(Consumer<String> consumer) {
 	this.stringConsumer = consumer;
     }
-    
+
     public void setIntConsumer(Consumer<Integer> consumer) {
 	this.intConsumer = consumer;
     }
@@ -344,5 +348,9 @@ public class ContainerComobox extends Element {
 
     public void playPressSound(SoundHandler soundHandler) {
 	soundHandler.playSound(PositionedSoundRecord.create(PRESS_SOUND, 1.0F));
+    }
+
+    public int getValue() {
+	return this.selectedEntryIndex;
     }
 }

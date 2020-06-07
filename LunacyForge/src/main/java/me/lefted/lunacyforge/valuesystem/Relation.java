@@ -31,6 +31,14 @@ public class Relation<T> {
     }
 
     // METHODS
+    public void hideThisAndChildren() {
+	if (childrenNames != null && childrenNames.length > 0) {
+	    for (String name : childrenNames) {
+		
+	    }
+	}
+    }
+    
     public String getContainerName() {
 	return name;
     }

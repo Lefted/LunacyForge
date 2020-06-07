@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.Mod;
  * inv cleaner
  * forcefield (no rotations)
  * 
+ * combobox und colorpicker sollten die height der gruppe beim öffnen erhöhen
  * 
  * 
  * */

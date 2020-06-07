@@ -10,6 +10,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import me.lefted.lunacyforge.config.ClientConfig;
+import me.lefted.lunacyforge.implementations.ISetupCameraTransformAccessor;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.modules.Reach;
 import me.lefted.lunacyforge.utils.Logger;
@@ -29,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /* Also see: Reach.java */
 @SideOnly(Side.CLIENT)
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer {
+public abstract class MixinEntityRenderer implements ISetupCameraTransformAccessor {
 
     @Shadow
     private Minecraft mc;
@@ -146,5 +147,14 @@ public class MixinEntityRenderer {
 	    }
 	}
     }
+
+    // USETHIS to access setupCameraTransform
+    @Override
+    public void setupCameraTransformAccessor(float partialTicks, int pass) {
+	this.setupCameraTransform(partialTicks, pass);
+    }
+
+    @Shadow
+    public abstract void setupCameraTransform(float partialTicks, int pass);
 
 }
