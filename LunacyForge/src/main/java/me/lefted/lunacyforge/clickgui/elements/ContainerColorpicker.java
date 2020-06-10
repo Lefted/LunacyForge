@@ -9,7 +9,6 @@ import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -207,6 +206,7 @@ public class ContainerColorpicker extends Element {
 
 	final int extraNeeded = 40;
 	parent.setHeight(parent.getHeight() + extraNeeded);
+	parent.getGroup().updateHeight();
 
 	opened = true;
 	screen.setPanelBorders();
@@ -216,6 +216,7 @@ public class ContainerColorpicker extends Element {
 	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
+	parent.getGroup().updateHeight();
 	screen.setPanelBorders();
 	screen.scrollVerticalByAmount(0);
     }

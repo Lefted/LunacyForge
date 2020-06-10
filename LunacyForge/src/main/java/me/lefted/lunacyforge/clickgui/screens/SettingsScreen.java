@@ -2,7 +2,6 @@ package me.lefted.lunacyforge.clickgui.screens;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import me.lefted.lunacyforge.clickgui.elements.BackButton;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
 import me.lefted.lunacyforge.clickgui.elements.api.Panel;
 import me.lefted.lunacyforge.utils.DrawUtils;
-import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.utils.ScissorBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -111,10 +109,11 @@ public abstract class SettingsScreen extends Panel {
 
 	    // update all containers
 	    int containerIndex = 0;
+	    int lastDrawnIndex = 0;
 	    for (int i = 0; i < settings.size(); i++) {
 		final SettingContainer container = settings.get(i);
 
-		// is not available continue
+		// if it is not available continue
 		if (!container.isAvailable()) {
 		    continue;
 		}
@@ -125,7 +124,7 @@ public abstract class SettingsScreen extends Panel {
 		    container.setPosY(startY + this.getY());
 		} else {
 		    // set it to the y of the previous container + its height + spacing + panely
-		    final SettingContainer prevContainer = settings.get(containerIndex - 1);
+		    final SettingContainer prevContainer = settings.get(lastDrawnIndex);
 		    container.setPosY(prevContainer.getPosY() + prevContainer.getHeight() + CONTAINER_SPACING);
 		}
 
@@ -139,6 +138,7 @@ public abstract class SettingsScreen extends Panel {
 		    container.setVisible(true);
 		}
 		containerIndex++;
+		lastDrawnIndex = i;
 	    }
 	    // draw the groups
 	    if (groupIDMap != null && !groupIDMap.isEmpty()) {
@@ -157,7 +157,7 @@ public abstract class SettingsScreen extends Panel {
 	drawOtherElementsAfter(mouseX, mouseY, partialTicks);
 
 	// draw the hover tips
-	settings.forEach(setting -> setting.drawHoverText(mouseX, mouseY));
+	settings.stream().filter(container -> container.isAvailable()).forEach(setting -> setting.drawHoverText(mouseX, mouseY));
 
 	// disable blending
 	GlStateManager.disableBlend();
@@ -282,9 +282,9 @@ public abstract class SettingsScreen extends Panel {
     // draws the group
     private void drawGroup(SettingsGroup group) {
 	if (group.isAvailable()) {
-	    int posY = group.getSettings().stream().filter(container -> container.isAvailable()).min(Comparator.comparingInt(container -> container.getPosY()))
-		.get().getPosY();
-	    DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), posY, group.getWidth(), group.getHeight());
+	    group.updatePosY();
+	    
+	    DrawUtils.INSTANCE.drawDarkContainer(group.getPosX(), group.getPosY(), group.getWidth(), group.getHeight());
 	}
     }
 
@@ -354,6 +354,7 @@ public abstract class SettingsScreen extends Panel {
 	// now update the groups height
 	if (container.getGroup() != null) {
 	    container.getGroup().updateHeight();
+	    container.getGroup().updatePosY();
 	}
 	if (initDone) {
 	    setPanelBorders();

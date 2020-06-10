@@ -34,16 +34,16 @@ public class AimAssist extends Module {
     // VALUES
     @ContainerInfo(hoverText = "Intensity the crosshair locks to the target")
     @SliderInfo(min = 1, max = 14, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
-    private Value<Float> intensityValue = new Value<Float>("intensity", Float.valueOf(5F));
+    private Value<Float> intensityValue = new Value<Float>(this, "intensity", Float.valueOf(5F));
 
     @CheckboxInfo(description = "Target Animals")
-    private Value<Boolean> targetAnimals = new Value<Boolean>("targetAnimals", Boolean.valueOf(true));
+    private Value<Boolean> targetAnimals = new Value<Boolean>(this, "targetAnimals", Boolean.valueOf(true));
 
     @CheckboxInfo(description = "Target Hostiles")
-    private Value<Boolean> targetHostiles = new Value<Boolean>("targetHostiles", Boolean.valueOf(true));
+    private Value<Boolean> targetHostiles = new Value<Boolean>(this, "targetHostiles", Boolean.valueOf(true));
 
     @CheckboxInfo(description = "Target Players")
-    private Value<Boolean> targetPlayers = new Value<Boolean>("targetPlayers", Boolean.valueOf(true));
+    private Value<Boolean> targetPlayers = new Value<Boolean>(this, "targetPlayers", Boolean.valueOf(true));
 
     // ATTRIBUTES
     private static float maximumRotation = 1.0F;

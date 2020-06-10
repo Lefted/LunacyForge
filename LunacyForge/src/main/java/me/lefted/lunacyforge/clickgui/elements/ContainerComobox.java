@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import javax.annotation.Resource;
-import javax.swing.plaf.ColorUIResource;
-
-import org.lwjgl.opengl.EXTRescaleNormal;
 import org.lwjgl.opengl.GL11;
 
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
@@ -18,7 +14,6 @@ import me.lefted.lunacyforge.clickgui.screens.SettingsScreen;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.utils.DrawUtils;
 import me.lefted.lunacyforge.utils.HSLColor;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -331,6 +326,8 @@ public class ContainerComobox extends Element {
 	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
+	parent.getGroup().updateHeight();
+	
 	screen.setPanelBorders();
 	screen.scrollVerticalByAmount(0);
     }
@@ -341,7 +338,8 @@ public class ContainerComobox extends Element {
 
 	int extraNeeded = (entries.size() - 1) * ENTRY_HEIGHT;
 	parent.setHeight(parent.getHeight() + extraNeeded);
-
+	parent.getGroup().updateHeight();
+	
 	opened = true;
 	screen.setPanelBorders();
     }

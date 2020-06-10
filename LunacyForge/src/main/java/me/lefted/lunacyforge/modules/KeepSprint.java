@@ -18,15 +18,15 @@ public class KeepSprint extends Module {
     // VALUES
     @ContainerInfo(hoverText = "If enabled, it will seem more legit")
     @SliderInfo(description = "Chance KeepSprint fails", min = 0, max = 100, step = 5D, numberType = NumberType.PERCENT)
-    private Value<Integer> randomizerValue = new Value<Integer>("randomizer", Integer.valueOf(30));
+    private Value<Integer> randomizerValue = new Value<Integer>(this, "randomizer", Integer.valueOf(30));
 
     @ContainerInfo(hoverText = "If you have a chance that KeepSprint will fail set\nNomatter the change on the firsthit KeepSprint will work")
     @CheckboxInfo(description = "KeepSprint always works on first hit")
-    private Value<Boolean> firstHitBypassesValue = new Value<Boolean>("firstHitBypasses", Boolean.valueOf(true));
+    private Value<Boolean> firstHitBypassesValue = new Value<Boolean>(this, "firstHitBypasses", Boolean.valueOf(true));
 
     @ContainerInfo(hoverText = "The seconds that need to pass without hitting someone in order for the next hit to count as the firsthit")
     @SliderInfo(min = 1, max = 10, step = 1, description = "What counts as 'firsthit'", numberType = NumberType.SECONDS)
-    private Value<Integer> firstHitDelayValue = new Value<Integer>("firstHitDelay", Integer.valueOf(2));
+    private Value<Integer> firstHitDelayValue = new Value<Integer>(this, "firstHitDelay", Integer.valueOf(2));
 
     // ATTRIBUTES
     private static boolean timerRunning = false;

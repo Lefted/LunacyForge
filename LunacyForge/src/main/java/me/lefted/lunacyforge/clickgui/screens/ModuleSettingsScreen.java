@@ -3,8 +3,6 @@ package me.lefted.lunacyforge.clickgui.screens;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ColorInfo;
@@ -20,12 +18,10 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerColorpicker;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
-import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
-import me.lefted.lunacyforge.utils.Logger;
-import me.lefted.lunacyforge.valuesystem.Relation;
-import me.lefted.lunacyforge.valuesystem.RelationManager;
+import me.lefted.lunacyforge.valuesystem.Node;
+import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 
 public class ModuleSettingsScreen extends SettingsScreen {
@@ -37,8 +33,6 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private Module module;
     private BackButton backButton;
 
-    private HashMap<Element, Relation> elementRelationMap;
-
     // METHODS
     @Override
     public void addAllSettings(ArrayList<SettingContainer> settings) {
@@ -46,21 +40,11 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	    // add module name and description
 	    addModuleInfo(settings);
 
-	    // clear the old children list
-	    RelationManager.instance.clearMap();
-
-	    // clear the old updateChilrenMap
-	    if (elementRelationMap == null) {
-		elementRelationMap = new HashMap<Element, Relation>();
-	    } else {
-		elementRelationMap.clear();
-	    }
-
-	    // adds values like sliders, comboboxes, keybinds, checkboxes
+	    // adds values like sliders, comboboxes, keybinds, checkboxes aswell as nodes to NodeTree
 	    addModuleValues(settings);
 
-	    // update relations using the element relation map
-	    updateRelations();
+	    // // update relations using the element relation map
+	    updateNodes();
 	}
     }
 
@@ -177,10 +161,6 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    // get containerinfo
 		    final ContainerInfo info = field.getAnnotation(ContainerInfo.class);
 
-		    // REMOVE
-		    // // get children info
-		    // final ChildrenInfo childInfo = field.getAnnotation(ChildrenInfo.class);
-
 		    // checkboxes
 		    if (annotation instanceof CheckboxInfo && value.getObject() instanceof Boolean) {
 			addCheckbox(info, (CheckboxInfo) annotation, value, settings);
@@ -217,9 +197,8 @@ public class ModuleSettingsScreen extends SettingsScreen {
     // adds the value as checkbox to the settingslist
     private void addCheckbox(ContainerInfo cInfo, CheckboxInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
-
-	// adds this container to the map if it is necessary
-	addToChildrenMap(value, container);
+	// add this container to the node
+	addContainerToNode(value, container);
 
 	container.centerX();
 	container.setSettingOffsetY(7);
@@ -229,25 +208,25 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	final ContainerCheckbox checkbox = new ContainerCheckbox(((Boolean) value.getObject()).booleanValue());
 	checkbox.setPosX(container.getPosX() + container.getWidth() - checkbox.WIDTH - 10);
 
-	// notify children if necessary
-	final Relation rel = value.getRelation();
-
-	if (rel != null && rel.getChildrenContainerNames() != null && rel.getChildrenContainerNames().length > 0 && rel.getChildrenAvailability() != null) {
+	// notify children
+	final Node node = value.getNode();
+	if (node != null && node.getChildrenNames() != null && node.getChildrenNames().length > 0 && node.getChildren() != null && node.getChildren().length > 0
+	    && node.getChildrenAvailabilityHandler() != null) {
 	    // complex consumer
 	    checkbox.setConsumer(newValue -> {
+		// pass the new value to the value
 		value.setObject(newValue);
 
-		if (rel.getChildrenAvailability().test(newValue)) {
-		    makeChildrenAvailable(value);
-		} else {
-		    makeChildrenUnavailable(value);
+		// handle how the children react using the users set handler
+		try {
+		    node.handleChildren(newValue);
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    });
-	    // add to update map
-	    elementRelationMap.put(checkbox, rel);
 
 	} else {
-	    // simple consumer
+	    // just pass the new value to the value
 	    checkbox.setConsumer(newValue -> value.setObject(newValue));
 	}
 
@@ -260,7 +239,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addSlider(ContainerInfo cInfo, SliderInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	// adds this container to the map if it is necessary
-	addToChildrenMap(value, container);
+	addContainerToNode(value, container);
 	final ContainerSlider slider = new ContainerSlider(this, info.numberType(), info.min(), info.max(), info.step());
 	slider.setValue(((Number) value.getObject()).doubleValue());
 	container.centerX();
@@ -278,37 +257,38 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addCombobox(ContainerInfo cInfo, ComboInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	final ContainerComobox combobox = new ContainerComobox(this, container, ((Number) value.getObject()).intValue(), info.entryNames());
-	// adds this container to the map if it is necessary
-	addToChildrenMap(value, container);
+	// add this container to the node
+	addContainerToNode(value, container);
 
 	container.centerX();
 	combobox.setPosX(container.getPosX() + container.getWidth() - combobox.ENTRY_WIDTH - 10);
 	container.setDescription(info.description());
 
 	// notify children if necessary
-	final Relation rel = value.getRelation();
+	final Node rel = value.getNode();
 
-	if (rel != null && rel.getChildrenContainerNames() != null && rel.getChildrenContainerNames().length > 0 && rel.getChildrenAvailability() != null) {
+	// notify children
+	final Node node = value.getNode();
+	if (node != null && node.getChildrenNames() != null && node.getChildrenNames().length > 0 && node.getChildren() != null && node.getChildren().length > 0
+	    && node.getChildrenAvailabilityHandler() != null) {
 	    // complex consumer
 	    combobox.setIntConsumer(newValue -> {
+		// pass the new value to the value
 		value.setObject(newValue);
 
-		if (rel.getChildrenAvailability().test(newValue)) {
-		    makeChildrenAvailable(value);
-		} else {
-		    makeChildrenUnavailable(value);
+		// handle how the children react using the users set handler
+		try {
+		    node.handleChildren(newValue);
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    });
 
-	    // add to update map
-	    elementRelationMap.put(combobox, rel);
-
 	} else {
-	    // simple consumer
+	    // just pass the new value to the value
 	    combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
 	}
 
-	// combobox.setIntConsumer(newValue -> consumeIntegerValue(newValue, value));
 	container.centerX();
 	container.setSettingOffsetY(7);
 	addHoverText(cInfo, container);
@@ -322,7 +302,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	final SettingContainer container = new SettingContainer();
 	final ContainerKeybind keybind = new ContainerKeybind(this, 128, 20, ((Number) value.getObject()).intValue());
 	// adds this container to the map if it is necessary
-	addToChildrenMap(value, container);
+	addContainerToNode(value, container);
 
 	container.centerX();
 	keybind.setPosX(container.getPosX() + container.getWidth() - keybind.getWidth() - 10);
@@ -341,7 +321,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	final SettingContainer container = new SettingContainer();
 	final ContainerColorpicker picker = new ContainerColorpicker(this, container, (float[]) value.getObject(), null);
 	// adds this container to the map if it is necessary
-	addToChildrenMap(value, container);
+	addContainerToNode(value, container);
 
 	container.centerX();
 	picker.setPosX(container.getPosX() + container.getWidth() - picker.getWidth() - 71);
@@ -371,72 +351,28 @@ public class ModuleSettingsScreen extends SettingsScreen {
 	}
     }
 
-    // adds the container to the children id map if possible
-    private void addToChildrenMap(Value value, SettingContainer container) {
-	final Relation childrenObj = value.getRelation();
-	// if it has a children object
-	if (childrenObj != null) {
-	    // register it in the map
-	    RelationManager.instance.addContainerToMap(childrenObj.getContainerName(), container);
-	}
-    }
-
-    // makes children available (shown) if possible
-    private void makeChildrenAvailable(Value value) {
-	final Relation childrenObj = value.getRelation();
-
-	if (childrenObj != null && childrenObj.getChildrenContainerNames() != null && childrenObj.getChildrenContainerNames().length > 0) {
-
-	    for (String name : childrenObj.getChildrenContainerNames()) {
-
-		final SettingContainer container = RelationManager.instance.getContainerByName(name);
-		if (container != null) {
-		    setSettingContainersAvailability(container, true);
-		}
-	    }
-	}
-    }
-
-    // makes children unavailable (hidden) if possible
-    private void makeChildrenUnavailable(Value value) {
-	final Relation childrenObj = value.getRelation();
-
-	if (childrenObj != null && childrenObj.getChildrenContainerNames() != null && childrenObj.getChildrenContainerNames().length > 0) {
-
-	    for (String name : childrenObj.getChildrenContainerNames()) {
-
-		final SettingContainer container = RelationManager.instance.getContainerByName(name);
-		if (container != null) {
-		    setSettingContainersAvailability(container, false);
-		}
-	    }
-	}
+    // adds the container to node
+    private void addContainerToNode(Value value, SettingContainer container) {
+	value.getNode().setContainer(container);
     }
 
     // called once when constructing the containers
-    private void updateRelations() {
-	final Iterator it = elementRelationMap.keySet().iterator();
+    private void updateNodes() {
 
-	while (it.hasNext()) {
-	    final Element element = (Element) it.next();
+	// skip modules withouth values
+	if (NodeTreeManager.INSTANCE.getTreeMap().get(module) == null) {
+	    return;
+	}
+	// find all nodes without parents
+	for (Node node : NodeTreeManager.INSTANCE.getTreeMap().get(module).getNodeList()) {
 
-	    if (element instanceof ContainerCheckbox) {
-		final ContainerCheckbox checkbox = (ContainerCheckbox) element;
-		final Relation rel = elementRelationMap.get(checkbox);
+	    if (!node.hasParents()) {
 
-		for (String name : rel.getChildrenContainerNames()) {
-		    final SettingContainer child = RelationManager.instance.getContainerByName(name);
-		    setSettingContainersAvailability(child, rel.getChildrenAvailability().test(checkbox.getValue()));
-		}
-	    }
-	    
-	    if (element instanceof ContainerComobox) {
-		final ContainerComobox combobox = (ContainerComobox) element;
-		final Relation rel = elementRelationMap.get(combobox);
-
-		for (String name : rel.getChildrenContainerNames()) {
-		    final SettingContainer child = RelationManager.instance.getContainerByName(name);
-		    setSettingContainersAvailability(child, rel.getChildrenAvailability().test(combobox.getValue()));
+		// update according to handlers
+		try {
+		    node.handleChildren(node.getValue().getObject());
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    }
 	}

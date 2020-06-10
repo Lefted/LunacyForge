@@ -14,7 +14,6 @@ import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.modules.ModuleManager;
-import me.lefted.lunacyforge.valuesystem.RelationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
@@ -25,17 +24,14 @@ import net.minecraftforge.fml.common.Mod;
  * Hotbar Grouping for modules Blur for ui Spritze Animation Booststreifen dann
  * 
  * make proper grouping when changing availibility in parenting (makeChildrenAvailable) (makeChildrenUnavailable) rename children class to relation or something
- * make availibilities refresh on gui init 
+ * make availibilities refresh on gui init
  * 
  * schnellball marker für enderchests (iwann mal trajectories)
  * chest stealer
  * inv cleaner
  * forcefield (no rotations)
  * 
- * combobox und colorpicker sollten die height der gruppe beim öffnen erhöhen
- * 
- * 
- * */
+ * combobox und colorpicker sollten die height der gruppe beim öffnen erhöhen */
 
 @Mod(modid = "lunacyforge")
 public final class LunacyForge {
@@ -81,7 +77,6 @@ public final class LunacyForge {
 	ModuleSettingsScreen.instance = new ModuleSettingsScreen();
 	FriendSettingsScreen.instance = new FriendSettingsScreen();
 	AddFriendScreen.instance = new AddFriendScreen();
-	RelationManager.instance = new RelationManager();
     }
 
     public void stopClient() {

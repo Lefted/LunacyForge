@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.elements.api.Textfield;
 import me.lefted.lunacyforge.utils.DrawUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.utils.ScissorBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

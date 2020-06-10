@@ -13,6 +13,8 @@ import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
 import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.utils.Logger;
+import me.lefted.lunacyforge.valuesystem.NodeTree;
+import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
@@ -28,20 +30,20 @@ public class FastBridge extends Module {
     // VALUES
     @ContainerInfo(hoverText = "Adjusts the rightclick timer")
     @SliderInfo(description = "Speed", min = 0, max = 4, step = 1D, numberType = ContainerSlider.NumberType.INTEGER)
-    private Value<Integer> rightClickDelayValue = new Value("rightClickDelay", Integer.valueOf(3));
+    private Value<Integer> rightClickDelayValue = new Value(this, "rightClickDelay", Integer.valueOf(3));
 
     @ContainerInfo(hoverText = "Useful for onestacks")
     @CheckboxInfo(description = "Sneak when jumping")
-    private Value<Boolean> useOnestackValue = new Value("useOnestack", Boolean.valueOf(false));
+    private Value<Boolean> useOnestackValue = new Value(this, "useOnestack", Boolean.valueOf(false));
 
     @ContainerInfo(hoverText = "If enabled, you can fall off when you're not holding blocks", groupID = 0)
     @CheckboxInfo(description = "Only sneak when holding blocks")
-    private Value<Boolean> useBlockSneakValue = new Value<Boolean>("useBlockSneak", Boolean.valueOf(false), new String[] { "safeSneakTime" },
-	newValue -> newValue);
+    private Value<Boolean> useBlockSneakValue = new Value<Boolean>(this, "useBlockSneak", Boolean.valueOf(false), new String[] { "safeSneakTime" }, newValue -> Value
+	.createHandler(1, newValue));
 
     @ContainerInfo(hoverText = "Time in ticks you keep sneaking in case your blocks go out", groupID = 0)
     @SliderInfo(min = 0, max = 100, step = 5D, description = "Safetime", numberType = NumberType.INTEGER)
-    private Value<Integer> safeSneakTimeValue = new Value("safeSneakTime", Integer.valueOf(20));
+    private Value<Integer> safeSneakTimeValue = new Value(this, "safeSneakTime", Integer.valueOf(20));
 
     // ATTRIBUTES
     public int safeSneakDelay;
@@ -51,6 +53,9 @@ public class FastBridge extends Module {
     // CONSTRUCTOR
     public FastBridge() {
 	super("FastBridge", Category.MOVEMENT);
+	
+	NodeTreeManager.INSTANCE.getTreeMap().get(this).connectNodes();
+//	NodeTree.instance.connectNodes();
     }
 
     // METHODS
