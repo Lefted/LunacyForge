@@ -80,7 +80,6 @@ public class Node<T> {
 		    // hide the child and its children
 		    child.hideItselfAndChildren();
 		} else {
-
 		    // make the child available
 		    SettingsScreen screen = (SettingsScreen) Minecraft.getMinecraft().currentScreen;
 		    screen.setSettingContainersAvailability(child.container, true);

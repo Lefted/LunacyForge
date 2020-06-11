@@ -20,6 +20,7 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
+import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.Node;
 import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
@@ -222,6 +223,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    node.handleChildren(newValue);
 		} catch (Exception e) {
 		    e.printStackTrace();
+		    Logger.logChatMessage(e.getMessage());
 		}
 	    });
 
@@ -281,6 +283,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    node.handleChildren(newValue);
 		} catch (Exception e) {
 		    e.printStackTrace();
+		    Logger.logChatMessage(e.getMessage());
 		}
 	    });
 
@@ -373,6 +376,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
 		    node.handleChildren(node.getValue().getObject());
 		} catch (Exception e) {
 		    e.printStackTrace();
+		    Logger.logChatMessage(e.getMessage());
 		}
 	    }
 	}
