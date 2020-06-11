@@ -2,6 +2,8 @@ package me.lefted.lunacyforge.modules;
 
 import java.awt.Color;
 
+import org.lwjgl.input.Keyboard;
+
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
 
@@ -13,7 +15,10 @@ import me.lefted.lunacyforge.clickgui.annotations.KeybindInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
+import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.Render2DEvent;
+import me.lefted.lunacyforge.events.UpdateEvent;
+import me.lefted.lunacyforge.friends.FriendManager;
 import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.shader.FramebufferShader;
 import me.lefted.lunacyforge.shader.shaders.OutlineShader;
@@ -21,7 +26,13 @@ import me.lefted.lunacyforge.utils.Logger;
 import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 
 @ModuleInfo(description = "Makes entities visible", tags = { "PlayerEPS" })
 public class OutlineESP extends Module {
@@ -29,33 +40,28 @@ public class OutlineESP extends Module {
     // VALUES
     @ContainerInfo(groupID = 0)
     @CheckboxInfo(description = "Players")
-    public Value<Boolean> includePlayers = new Value<Boolean>(this, "includePlayers", true, new String[] { "playerMode", "useTeamColor", "useFriendColor",
-	    "friendColorToggleKeybind" }, newValue -> Value.createHandler(4, newValue));
+    public Value<Boolean> includePlayers = new Value<Boolean>(this, "includePlayers", true, new String[] { "playerMode" }, newValue -> Value.createHandler(1,
+	newValue));
 
     @ContainerInfo(groupID = 0)
-    // TODO change predicate in something with boolean that affect certain children
     @ComboInfo(description = "Mode", entryNames = { "Vanilla", "Hexception", "OutlineShader" })
-    public Value<Integer> playerMode = new Value<Integer>(this, "playerMode", 2, new String[] { "playerHexceptionWidth", "playerOutlineShaderRadius" },
-	newValue -> {
-	    switch (newValue) {
-	    case 0:
-		return new boolean[] { false, false };
-	    case 1:
-		return new boolean[] { true, false };
-	    case 2:
-		return new boolean[] { false, true };
-	    default:
-		return null;
-	    }
-	});
+    public Value<Integer> playerMode = new Value<Integer>(this, "playerMode", 2, new String[] { "playerHexceptionWidth", "useTeamColor", "useFriendColor",
+	    "friendColorToggleKeybind" }, newValue -> {
+		switch (newValue) {
+		case 0:
+		    return new boolean[] { false, true, true, true };
+		case 1:
+		    return new boolean[] { true, true, true, true };
+		case 2:
+		    return new boolean[] { false, false, false, false };
+		default:
+		    return null;
+		}
+	    });
 
     @ContainerInfo(groupID = 0)
     @SliderInfo(description = "Line Width", min = 1, max = 10, step = 0.5D, numberType = NumberType.DECIMAL)
     public Value<Float> playerHexceptionWidth = new Value<Float>(this, "playerHexceptionWidth", 3F);
-
-    @ContainerInfo(groupID = 0)
-    @SliderInfo(description = "Radius", min = 1, max = 5, step = 0.125D, numberType = NumberType.DECIMAL)
-    public Value<Float> playerOutlineShaderRadius = new Value<Float>(this, "playerOutlineShaderRadius", 1.375F);
 
     @ContainerInfo(groupID = 0)
     @CheckboxInfo(description = "Use Teamcolor")
@@ -81,32 +87,27 @@ public class OutlineESP extends Module {
 
     @ContainerInfo(groupID = 1)
     @CheckboxInfo(description = "Hostiles")
-    public Value<Boolean> includeHostiles = new Value<Boolean>(this, "includeHostiles", false, new String[] { "hostileMode", "hostileColor" }, newValue -> Value
-	.createHandler(2, newValue));
+    public Value<Boolean> includeHostiles = new Value<Boolean>(this, "includeHostiles", false, new String[] { "hostileMode" }, newValue -> Value.createHandler(
+	1, newValue));
 
     @ContainerInfo(groupID = 1)
     @ComboInfo(description = "Mode", entryNames = { "Vanilla", "Hexception", "OutlineShader" })
-    public Value<Integer> hostileMode = new Value<Integer>(this, "hostileMode", 1, new String[] { "hostileHexceptionWidth", "hostileOutlineShaderRadius" },
-	newValue -> {
-	    switch (newValue) {
-	    case 0:
-		return new boolean[] { false, false };
-	    case 1:
-		return new boolean[] { true, false };
-	    case 2:
-		return new boolean[] { false, true };
-	    default:
-		return null;
-	    }
-	});
+    public Value<Integer> hostileMode = new Value<Integer>(this, "hostileMode", 1, new String[] { "hostileHexceptionWidth", "hostileColor" }, newValue -> {
+	switch (newValue) {
+	case 0:
+	    return new boolean[] { false, true };
+	case 1:
+	    return new boolean[] { true, true };
+	case 2:
+	    return new boolean[] { false, false };
+	default:
+	    return null;
+	}
+    });
 
     @ContainerInfo(groupID = 1)
     @SliderInfo(description = "Line Width", min = 1, max = 10, step = 0.5D, numberType = NumberType.DECIMAL)
     public Value<Float> hostileHexceptionWidth = new Value<Float>(this, "hostileHexceptionWidth", 3F);
-
-    @ContainerInfo(groupID = 1)
-    @SliderInfo(description = "Radius", min = 1, max = 5, step = 0.125D, numberType = NumberType.DECIMAL)
-    public Value<Float> hostileOutlineShaderRadius = new Value<Float>(this, "hostileOutlineShaderRadius", 1.375F);
 
     @ContainerInfo(groupID = 1)
     @ColorInfo(description = "Color", hasAlpha = true)
@@ -114,32 +115,27 @@ public class OutlineESP extends Module {
 
     @ContainerInfo(groupID = 2)
     @CheckboxInfo(description = "Animals")
-    public Value<Boolean> includeAnimals = new Value<Boolean>(this, "includeAnimals", false, new String[] { "animalMode", "animalColor" }, newValue -> Value
-	.createHandler(2, newValue));
+    public Value<Boolean> includeAnimals = new Value<Boolean>(this, "includeAnimals", false, new String[] { "animalMode" }, newValue -> Value.createHandler(1,
+	newValue));
 
     @ContainerInfo(groupID = 2)
     @ComboInfo(description = "Mode", entryNames = { "Vanilla", "Hexception", "OutlineShader" })
-    public Value<Integer> animalMode = new Value<Integer>(this, "animalMode", 1, new String[] { "animalHexceptionWidth", "animalOutlineShaderRadius" },
-	newValue -> {
-	    switch (newValue) {
-	    case 0:
-		return new boolean[] { false, false };
-	    case 1:
-		return new boolean[] { true, false };
-	    case 2:
-		return new boolean[] { false, true };
-	    default:
-		return null;
-	    }
-	});
+    public Value<Integer> animalMode = new Value<Integer>(this, "animalMode", 1, new String[] { "animalHexceptionWidth", "animalColor" }, newValue -> {
+	switch (newValue) {
+	case 0:
+	    return new boolean[] { false, true };
+	case 1:
+	    return new boolean[] { true, true };
+	case 2:
+	    return new boolean[] { false, false };
+	default:
+	    return null;
+	}
+    });
 
     @ContainerInfo(groupID = 2)
     @SliderInfo(description = "Line Width", min = 1, max = 10, step = 0.5D, numberType = NumberType.DECIMAL)
     public Value<Float> animalHexceptionWidth = new Value<Float>(this, "animalHexceptionWidth", 3F);
-
-    @ContainerInfo(groupID = 2)
-    @SliderInfo(description = "Radius", min = 1, max = 5, step = 0.125D, numberType = NumberType.DECIMAL)
-    public Value<Float> animalOutlineShaderRadius = new Value<Float>(this, "animalOutlineShaderRadius", 1.375F);
 
     @ContainerInfo(groupID = 2)
     @ColorInfo(description = "Color", hasAlpha = true)
@@ -147,16 +143,15 @@ public class OutlineESP extends Module {
 
     @ContainerInfo(groupID = 3)
     @CheckboxInfo(description = "Items")
-    public Value<Boolean> includeItems = new Value<Boolean>(this, "includeItems", false, new String[] { "itemOutlineShaderRadius", "itemColor" },
-	newValue -> Value.createHandler(2, newValue));
+    public Value<Boolean> includeItems = new Value<Boolean>(this, "includeItems", false);
 
-    @ContainerInfo(groupID = 3)
-    @SliderInfo(description = "Radius", min = 1, max = 5, step = 0.125D, numberType = NumberType.DECIMAL)
-    public Value<Float> itemOutlineShaderRadius = new Value<Float>(this, "itemOutlineShaderRadius", 1.375F);
+    @ContainerInfo(groupID = 4)
+    @SliderInfo(description = "OutlineShader Radius", min = 1, max = 3, step = 0.125D, numberType = NumberType.DECIMAL)
+    public Value<Float> outlineShaderRadius = new Value<Float>(this, "outlineShaderRadius", 1.375F);
 
-    @ContainerInfo(groupID = 3)
-    @ColorInfo(description = "Color", hasAlpha = true)
-    public Value<float[]> itemColor = new Value<float[]>(this, "itemColor", new float[] { 1F, 0.5F, 0F, 1F });
+    @ContainerInfo(groupID = 4)
+    @ColorInfo(description = "OutlineShader Color", hasAlpha = true)
+    public Value<float[]> outlineShaderColor = new Value<float[]>(this, "outlineShaderColor", new float[] { 1F, 0.5F, 0F, 1F });
 
     // CONSTRUCTOR
     public OutlineESP() {
@@ -169,21 +164,20 @@ public class OutlineESP extends Module {
     // METHODS
     @EventTarget
     public void onRender2D(final Render2DEvent event) {
-	// final String mode = modeValue.get().toLowerCase();
-	// final FramebufferShader shader = mode.equalsIgnoreCase("shaderoutline") ? OutlineShader.OUTLINE_SHADER
-	// : mode.equalsIgnoreCase("shaderglow") ? GlowShader.GLOW_SHADER : null;
 	final FramebufferShader shader = OutlineShader.OUTLINE_SHADER;
 	if (shader == null) {
 	    return;
 	}
-
 	shader.startDraw(event.getPartialTicks());
-	// boolean renderNameTags = false;
+
 	try {
 	    for (final Entity entity : mc.theWorld.loadedEntityList) {
-
 		// first person fix
 		if (entity instanceof EntityPlayerSP && mc.gameSettings.thirdPersonView == 0) {
+		    continue;
+		}
+
+		if (!outlineShaderShouldRenderEntity(entity)) {
 		    continue;
 		}
 
@@ -193,16 +187,126 @@ public class OutlineESP extends Module {
 	} catch (final Exception ex) {
 	    Logger.logChatMessage("An error occurred while rendering all entities for shader esp" + ex);
 	}
-	// renderNameTags = true;
-	// final float radius = mode.equalsIgnoreCase("shaderoutline") ? shaderOutlineRadius.get()
-	// : mode.equalsIgnoreCase("shaderglow") ? shaderGlowRadius.get() : 1F;
-	final float radius = 1.35F;
-
-	// TODO get Color
-	shader.stopDraw(Color.WHITE, radius, 1F);
+	shader.stopDraw(outlineShaderColor.getObject(), outlineShaderRadius.getObject().floatValue(), 1F);
     }
 
-    // METHODS
+    private boolean wasKeyPressed = false;
+    
+    @EventTarget
+    public void onUpdate(final UpdateEvent event) {
+	if (friendColorToggleKeybind.getObject().intValue() != 0) {
+	    if (wasKeyPressed && !Keyboard.isKeyDown(friendColorToggleKeybind.getObject().intValue())) {
+		useFriendColor.setObject(!useFriendColor.getObject().booleanValue());
+		wasKeyPressed = false;
+		
+		if (useFriendColor.getObject().booleanValue()) {
+		    Logger.logChatMessage("Friends will now have a unique color");
+		} else {
+		    Logger.logChatMessage("Friends will no longer have a different color");
+		}
+	    } else if (Keyboard.isKeyDown(friendColorToggleKeybind.getObject().intValue())){
+		wasKeyPressed = true;
+	    }
+	}
+    }
+    
+    /**
+     * @param entity
+     * @return returns if the entity should be rendered using the outline shader
+     */
+    public boolean outlineShaderShouldRenderEntity(Entity entity) {
+	if (entity instanceof EntityPlayer) {
+	    if (includePlayers.getObject().booleanValue() && playerMode.getObject().intValue() == 2) {
+		return true;
+	    }
+	} else if (entity instanceof EntityMob) {
+	    if (includeHostiles.getObject().booleanValue() && hostileMode.getObject().intValue() == 2) {
+		return true;
+	    }
+	} else if (entity instanceof EntityAnimal) {
+	    if (includeAnimals.getObject().booleanValue() && animalMode.getObject().intValue() == 2) {
+		return true;
+	    }
+	} else if (entity instanceof EntityItem) {
+	    if (includeItems.getObject().booleanValue()) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    /**
+     * @param entity
+     * @return returns if the entity should be rendered using hexception's outline utils
+     */
+    public boolean hexceptionShouldRenderEntity(Entity entity) {
+
+	if (entity instanceof EntityPlayer && includePlayers.getObject().booleanValue() && playerMode.getObject().intValue() == 1) {
+	    return true;
+	} else if (entity instanceof EntityMob && includeHostiles.getObject().booleanValue() && hostileMode.getObject().intValue() == 1) {
+	    return true;
+	} else if (entity instanceof EntityAnimal && includeAnimals.getObject().booleanValue() && animalMode.getObject().intValue() == 1) {
+	    return true;
+	}
+	return false;
+    }
+
+    /**
+     * @param entity
+     * @return retruns the line width for the specific entity when using hexception's outline utils
+     */
+    public float getHexceptionLineWidth(Entity entity) {
+
+	if (entity instanceof EntityPlayer) {
+	    return playerHexceptionWidth.getObject().floatValue();
+	} else if (entity instanceof EntityMob) {
+	    return hostileHexceptionWidth.getObject().floatValue();
+	} else if (entity instanceof EntityAnimal) {
+	    return animalHexceptionWidth.getObject().floatValue();
+	}
+
+	// default value
+	return 3.0F;
+    }
+
+    public float[] getHexceptionColor(Entity entity) {
+
+	if (entity instanceof EntityPlayer) {
+	    final EntityPlayer player = (EntityPlayer) entity;
+
+	    if (useFriendColor.getObject().booleanValue() && FriendManager.instance.isPlayerFriend(player.getGameProfile().getName())) {
+		return friendColor.getObject();
+	    }
+
+	    if (useTeamColor.getObject().booleanValue()) {
+		int i = 16777215;
+		ScorePlayerTeam scoreplayerteam = (ScorePlayerTeam) player.getTeam();
+		if (scoreplayerteam != null) {
+		    String s = FontRenderer.getFormatFromString(scoreplayerteam.getColorPrefix());
+
+		    if (s.length() >= 2) {
+			i = mc.fontRendererObj.getColorCode(s.charAt(1));
+		    }
+		}
+
+		final float f1 = (float) (i >> 16 & 255) / 255.0F;
+		final float f2 = (float) (i >> 8 & 255) / 255.0F;
+		final float f = (float) (i & 255) / 255.0F;
+
+		return new float[] { f1, f2, f, 1.0F };
+	    }
+
+	    return playerColor.getObject();
+	} else if (entity instanceof EntityMob) {
+	    return hostileColor.getObject();
+	} else if (entity instanceof EntityAnimal) {
+	    return animalColor.getObject();
+	}
+
+	// default value white
+	return new float[] { 1F, 1F, 1F, 1F };
+    }
+
     @Override
     public void onEnable() {
 	EventManager.register(this);

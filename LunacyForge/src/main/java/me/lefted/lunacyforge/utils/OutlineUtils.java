@@ -13,10 +13,11 @@ import me.lefted.lunacyforge.modules.OutlineESP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
 public class OutlineUtils {
-    public static void renderOne() {
+    public static void renderOne(Entity entity) {
 	checkSetupFBO();
 	GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 	GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -25,10 +26,7 @@ public class OutlineUtils {
 	GL11.glEnable(GL11.GL_BLEND);
 	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
-	
-	GL11.glLineWidth(3);
-//	GL11.glLineWidth(esp.lineWidth.getObject().intValue());
+	GL11.glLineWidth(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionLineWidth(entity));
 	GL11.glEnable(GL11.GL_LINE_SMOOTH);
 	GL11.glEnable(GL11.GL_STENCIL_TEST);
 	GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
@@ -51,15 +49,8 @@ public class OutlineUtils {
     }
 
     public static void renderFour(EntityLivingBase entityLivingBaseIn) {
-	// TODO add color
-	final OutlineESP esp = (OutlineESP) ModuleManager.getModule(OutlineESP.class);
+	setColor(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionColor(entityLivingBaseIn));
 
-//	if (esp.outlineColor.getObject() != null) {
-//	    final float[] rgba = esp.outlineColor.getObject();
-//	    GL11.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
-//	}
-	 setColor(new Color(255, 255, 255));
-	
 	GL11.glDepthMask(false);
 	GL11.glDisable(GL11.GL_DEPTH_TEST);
 	GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);
@@ -82,8 +73,8 @@ public class OutlineUtils {
 	GL11.glPopAttrib();
     }
 
-    public static void setColor(Color c) {
-	GL11.glColor4d(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+    public static void setColor(float[] color) {
+	GL11.glColor4d(color[0], color[1], color[2], color[3]);
     }
 
     public static void checkSetupFBO() {

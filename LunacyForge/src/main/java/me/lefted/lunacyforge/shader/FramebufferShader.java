@@ -1,8 +1,6 @@
-/*
- * LiquidBounce Hacked Client
+/* LiquidBounce Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/CCBlueX/LiquidBounce/
- */
+ * https://github.com/CCBlueX/LiquidBounce/ */
 package me.lefted.lunacyforge.shader;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -65,16 +63,27 @@ public abstract class FramebufferShader extends Shader {
 	entityRenderer.setupCameraTransformAccessor(partialTicks, 0);
     }
 
-    public void stopDraw(final Color color, final float radius, final float quality) {
+    /**
+     * @param color   r, g, b, a 0-1F
+     * @param radius
+     * @param quality
+     */
+    public void stopDraw(final float[] color, final float radius, final float quality) {
 	mc.gameSettings.entityShadows = entityShadows;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	mc.getFramebuffer().bindFramebuffer(true);
 
-	red = color.getRed() / 255F;
-	green = color.getGreen() / 255F;
-	blue = color.getBlue() / 255F;
-	alpha = color.getAlpha() / 255F;
+	// red = color.getRed() / 255F;
+	// green = color.getGreen() / 255F;
+	// blue = color.getBlue() / 255F;
+	// alpha = color.getAlpha() / 255F;
+
+	red = color[0];
+	green = color[1];
+	blue = color[2];
+	alpha = color[3];
+
 	this.radius = radius;
 	this.quality = quality;
 
