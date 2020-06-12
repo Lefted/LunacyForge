@@ -206,7 +206,9 @@ public class ContainerColorpicker extends Element {
 
 	final int extraNeeded = 40;
 	parent.setHeight(parent.getHeight() + extraNeeded);
-	parent.getGroup().updateHeight();
+	if (parent.getGroup() != null) {
+	    parent.getGroup().updateHeight();
+	}
 
 	opened = true;
 	screen.setPanelBorders();
@@ -216,7 +218,9 @@ public class ContainerColorpicker extends Element {
 	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
-	parent.getGroup().updateHeight();
+	if (parent.getGroup() != null) {
+	    parent.getGroup().updateHeight();
+	}
 	screen.setPanelBorders();
 	screen.scrollVerticalByAmount(0);
     }

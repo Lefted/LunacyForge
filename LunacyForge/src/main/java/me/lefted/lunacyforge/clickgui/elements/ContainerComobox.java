@@ -326,8 +326,9 @@ public class ContainerComobox extends Element {
 	playPressSound(Minecraft.getMinecraft().getSoundHandler());
 	opened = false;
 	parent.setHeight(originalHeight);
-	parent.getGroup().updateHeight();
-	
+	if (parent.getGroup() != null) {
+	    parent.getGroup().updateHeight();
+	}
 	screen.setPanelBorders();
 	screen.scrollVerticalByAmount(0);
     }
@@ -338,8 +339,9 @@ public class ContainerComobox extends Element {
 
 	int extraNeeded = (entries.size() - 1) * ENTRY_HEIGHT;
 	parent.setHeight(parent.getHeight() + extraNeeded);
-	parent.getGroup().updateHeight();
-	
+	if (parent.getGroup() != null) {
+	    parent.getGroup().updateHeight();
+	}
 	opened = true;
 	screen.setPanelBorders();
     }

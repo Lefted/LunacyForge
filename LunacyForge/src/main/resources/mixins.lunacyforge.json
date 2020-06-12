@@ -16,6 +16,8 @@
 		"MixinEntityLivingBase",
 		"MixinRendererLivingEntity",
 		"MixinGuiSpectator",
-		"MixinProfiler"
+		"MixinProfiler",
+		"MixinTileEntityChestRenderer",
+		"MixinTileEntityEnderChestRenderer"
 	]
 }

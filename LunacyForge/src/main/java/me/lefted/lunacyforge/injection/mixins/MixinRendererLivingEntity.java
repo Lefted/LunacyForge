@@ -5,17 +5,14 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import me.lefted.lunacyforge.modules.KeepSprint;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.modules.OutlineESP;
 import me.lefted.lunacyforge.utils.OutlineUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,6 +36,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 	    final EntityLivingBase entityLB = (EntityLivingBase) entity;
 
 	    if (esp.hexceptionShouldRenderEntity(entity)) {
+
 		GlStateManager.depthMask(true);
 		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
 		OutlineUtils.renderOne(entityLB);
