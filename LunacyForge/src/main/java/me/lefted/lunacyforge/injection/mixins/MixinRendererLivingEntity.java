@@ -39,12 +39,12 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
 		GlStateManager.depthMask(true);
 		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
-		OutlineUtils.renderOne(entityLB);
+		OutlineUtils.renderOne(esp.getHexceptionLineWidth(entityLB));
 		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
 		OutlineUtils.renderTwo();
 		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
 		OutlineUtils.renderThree();
-		OutlineUtils.renderFour(entity);
+		OutlineUtils.renderFour(esp.getHexceptionColor(entityLB));
 
 		this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
 		OutlineUtils.renderFive();

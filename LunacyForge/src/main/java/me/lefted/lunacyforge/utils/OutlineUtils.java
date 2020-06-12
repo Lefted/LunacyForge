@@ -4,18 +4,12 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
 
-import me.lefted.lunacyforge.modules.ChestESP;
-import me.lefted.lunacyforge.modules.ModuleManager;
-import me.lefted.lunacyforge.modules.OutlineESP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.tileentity.TileEntityEnderChest;
 
 public class OutlineUtils {
-    public static void renderOne(Entity entity) {
+    public static void renderOne(float lineWidth) {
 	checkSetupFBO();
 	GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 	GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -24,7 +18,8 @@ public class OutlineUtils {
 	GL11.glEnable(GL11.GL_BLEND);
 	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-	GL11.glLineWidth(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionLineWidth(entity));
+	GL11.glLineWidth(lineWidth);
+//	GL11.glLineWidth(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionLineWidth(entity));
 	GL11.glEnable(GL11.GL_LINE_SMOOTH);
 	GL11.glEnable(GL11.GL_STENCIL_TEST);
 	GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
@@ -34,24 +29,24 @@ public class OutlineUtils {
 	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
     }
 
-    public static void renderOneChest() {
-	checkSetupFBO();
-	GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-	GL11.glDisable(GL11.GL_ALPHA_TEST);
-	GL11.glDisable(GL11.GL_TEXTURE_2D);
-	GL11.glDisable(GL11.GL_LIGHTING);
-	GL11.glEnable(GL11.GL_BLEND);
-	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-	GL11.glLineWidth(((ChestESP) ModuleManager.getModule(ChestESP.class)).lineWidth.getObject().floatValue());
-	GL11.glEnable(GL11.GL_LINE_SMOOTH);
-	GL11.glEnable(GL11.GL_STENCIL_TEST);
-	GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
-	GL11.glClearStencil(0xF);
-	GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xF);
-	GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_REPLACE, GL11.GL_REPLACE);
-	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-    }
+//    public static void renderOneChest() {
+//	checkSetupFBO();
+//	GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+//	GL11.glDisable(GL11.GL_ALPHA_TEST);
+//	GL11.glDisable(GL11.GL_TEXTURE_2D);
+//	GL11.glDisable(GL11.GL_LIGHTING);
+//	GL11.glEnable(GL11.GL_BLEND);
+//	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//
+//	GL11.glLineWidth(((ChestESP) ModuleManager.getModule(ChestESP.class)).lineWidth.getObject().floatValue());
+//	GL11.glEnable(GL11.GL_LINE_SMOOTH);
+//	GL11.glEnable(GL11.GL_STENCIL_TEST);
+//	GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
+//	GL11.glClearStencil(0xF);
+//	GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xF);
+//	GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_REPLACE, GL11.GL_REPLACE);
+//	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+//    }
 
     public static void renderTwo() {
 	GL11.glStencilFunc(GL11.GL_NEVER, 0, 0xF);
@@ -65,8 +60,9 @@ public class OutlineUtils {
 	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
     }
 
-    public static void renderFour(EntityLivingBase entityLivingBaseIn) {
-	setColor(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionColor(entityLivingBaseIn));
+    public static void renderFour(float[] color) {
+	setColor(color);
+//	setColor(((OutlineESP) ModuleManager.getModule(OutlineESP.class)).getHexceptionColor(entityLivingBaseIn));
 
 	GL11.glDepthMask(false);
 	GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -75,19 +71,19 @@ public class OutlineUtils {
 	OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
     }
 
-    public static void renderFourChest(boolean isEnderChest) {
-	if (isEnderChest) {
-	    setColor(((ChestESP) ModuleManager.getModule(ChestESP.class)).enderchestColor.getObject());
-	} else {
-	    setColor(((ChestESP) ModuleManager.getModule(ChestESP.class)).chestColor.getObject());
-	}
-
-	GL11.glDepthMask(false);
-	GL11.glDisable(GL11.GL_DEPTH_TEST);
-	GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);
-	GL11.glPolygonOffset(1.0F, -2000000F);
-	OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-    }
+//    public static void renderFourChest(boolean isEnderChest) {
+//	if (isEnderChest) {
+//	    setColor(((ChestESP) ModuleManager.getModule(ChestESP.class)).enderchestColor.getObject());
+//	} else {
+//	    setColor(((ChestESP) ModuleManager.getModule(ChestESP.class)).chestColor.getObject());
+//	}
+//
+//	GL11.glDepthMask(false);
+//	GL11.glDisable(GL11.GL_DEPTH_TEST);
+//	GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);
+//	GL11.glPolygonOffset(1.0F, -2000000F);
+//	OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+//    }
 
     public static void renderFive() {
 	GL11.glPolygonOffset(1.0F, 2000000F);

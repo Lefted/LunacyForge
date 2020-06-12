@@ -18,6 +18,7 @@
 		"MixinGuiSpectator",
 		"MixinProfiler",
 		"MixinTileEntityChestRenderer",
-		"MixinTileEntityEnderChestRenderer"
+		"MixinTileEntityEnderChestRenderer",
+		"MixinRenderArrow"
 	]
 }

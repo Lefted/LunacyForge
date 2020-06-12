@@ -1,7 +1,5 @@
 package me.lefted.lunacyforge.modules;
 
-import java.awt.Color;
-
 import org.lwjgl.input.Keyboard;
 
 import com.darkmagician6.eventapi.EventManager;
@@ -15,7 +13,6 @@ import me.lefted.lunacyforge.clickgui.annotations.KeybindInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
-import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.Render2DEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
 import me.lefted.lunacyforge.friends.FriendManager;
@@ -33,6 +30,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 /**

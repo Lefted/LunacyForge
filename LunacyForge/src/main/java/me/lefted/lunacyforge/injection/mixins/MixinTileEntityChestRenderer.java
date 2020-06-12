@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import me.lefted.lunacyforge.modules.ChestESP;
 import me.lefted.lunacyforge.modules.ModuleManager;
@@ -36,14 +35,15 @@ public abstract class MixinTileEntityChestRenderer extends TileEntitySpecialRend
 
 	ModelChest modelchest = (te.adjacentChestXPos == null && te.adjacentChestZPos == null) ? simpleChest : largeChest;
 
-	if (ModuleManager.getModule(ChestESP.class).isEnabled()) {
+	final ChestESP esp = (ChestESP) ModuleManager.getModule(ChestESP.class);
+	if (esp.isEnabled()) {
 	    modelchest.renderAll();
-	    OutlineUtils.renderOneChest();
+	    OutlineUtils.renderOne(esp.lineWidth.getObject().floatValue());
 	    modelchest.renderAll();
 	    OutlineUtils.renderTwo();
 	    modelchest.renderAll();
 	    OutlineUtils.renderThree();
-	    OutlineUtils.renderFourChest(false);
+	    OutlineUtils.renderFour(esp.chestColor.getObject());
 	    modelchest.renderAll();
 	    OutlineUtils.renderFive();
 	}

@@ -29,14 +29,15 @@ public abstract class MixinTileEntityEnderChestRenderer extends TileEntitySpecia
 	    "log=false" }))
     public void renderTileEntityAtInject(TileEntityEnderChest te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci) {
 
-	if (ModuleManager.getModule(ChestESP.class).isEnabled()) {
+	final ChestESP esp = (ChestESP) ModuleManager.getModule(ChestESP.class);
+	if (esp.isEnabled()) {
 	    field_147521_c.renderAll();
-	    OutlineUtils.renderOneChest();
+	    OutlineUtils.renderOne(esp.lineWidth.getObject().floatValue());
 	    field_147521_c.renderAll();
 	    OutlineUtils.renderTwo();
 	    field_147521_c.renderAll();
 	    OutlineUtils.renderThree();
-	    OutlineUtils.renderFourChest(true);
+	    OutlineUtils.renderFour(esp.enderchestColor.getObject());
 	    field_147521_c.renderAll();
 	    OutlineUtils.renderFive();
 	}
