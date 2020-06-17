@@ -20,8 +20,8 @@ import net.minecraft.util.ResourceLocation;
 public class DrawUtils extends Gui {
 
     // CONSTANTS
-    private static final ResourceLocation CONTAINER_DARK = new ResourceLocation("lunacyforge", "container_dark.png");
-    private static final ResourceLocation CONTAINER_LIGHT = new ResourceLocation("lunacyforge", "container_light.png");
+    private static final ResourceLocation CONTAINER_DARK = new ResourceLocation("lunacyforge" + "/container_dark.png");
+    private static final ResourceLocation CONTAINER_LIGHT = new ResourceLocation("lunacyforge" + "/container_light.png");
     private static final int TEX_WIDTH = 700;
     private static final int TEX_HEIGHT = 60;
     private static final int RADIUS = 8;

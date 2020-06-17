@@ -13,7 +13,7 @@ public class GuiSecurity extends Element {
     // CONSTANTS
     private static final int WIDTH = 48;
     private static final int HEIGHT = 64;
-    private static final ResourceLocation MEME_NIGGA = new ResourceLocation("lunacyforge", "meme_nigga.png");
+    private static final ResourceLocation MEME_NIGGA = new ResourceLocation("lunacyforge" + "/meme_nigga.png");
 
     // ATTRIBUTES
     private ScaledResolution sc;

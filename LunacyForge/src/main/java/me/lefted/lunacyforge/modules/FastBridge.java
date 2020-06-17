@@ -11,9 +11,7 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
 import me.lefted.lunacyforge.events.TickEvent;
 import me.lefted.lunacyforge.events.UpdateEvent;
-import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
-import me.lefted.lunacyforge.utils.Logger;
-import me.lefted.lunacyforge.valuesystem.NodeTree;
+import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.init.Blocks;
@@ -21,7 +19,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import java.util.function.Predicate;
 
 /* Also see: MixinMovementInputFromOptions.java, MixinItemStack.java */
 @ModuleInfo(description = "Sneaks/Unsneaks at the end of a block to build bridges faster\nMade for Bedwars", tags = { "Ninjabridge", "Eaglen" })
@@ -110,7 +107,7 @@ public class FastBridge extends Module {
 					}
 					// if delay is set to 0
 					if ((Integer) this.rightClickDelayValue.getObject() == 0) {
-					    ((IRightClickDelayTimer) this.mc).setRightClickDelayTimer(0);
+					    ((ITimer) this.mc).setRightClickDelayTimer(0);
 					}
 				    }
 				}
@@ -145,7 +142,7 @@ public class FastBridge extends Module {
 			     */
 			    // above diffY == -2.0D && diffX < 0.3D && diffX > -1.3D && diffZ < 0.3D && diffZ > -1.3D
 			    if (diffY <= -2.0D && diffY >= -4.0D && diffX < 1D && diffX > -2.0D && diffZ < 1D && diffZ > -2.0D) {
-				((IRightClickDelayTimer) this.mc).setRightClickDelayTimer(0);
+				((ITimer) this.mc).setRightClickDelayTimer(0);
 			    }
 			}
 		    }
@@ -172,7 +169,7 @@ public class FastBridge extends Module {
 	if (delay > 0) {
 
 	    // works if delay is grater 1
-	    ((IRightClickDelayTimer) this.mc).setRightClickDelayTimer(delay + 2);
+	    ((ITimer) this.mc).setRightClickDelayTimer(delay + 2);
 	}
     }
 

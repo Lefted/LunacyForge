@@ -22,8 +22,8 @@ public class ContainerSlider extends Element {
     // CONSTANTS
     public static final int WIDTH = 128;
     public static final int HEIGHT = 10;
-    public static final ResourceLocation SLIDER_THUMB = new ResourceLocation("lunacyforge", "slider_thumb.png");
-    public static final ResourceLocation SLIDER_TRACK = new ResourceLocation("lunacyforge", "slider_track.png");
+    public static final ResourceLocation SLIDER_THUMB = new ResourceLocation("lunacyforge" + "/slider_thumb.png");
+    public static final ResourceLocation SLIDER_TRACK = new ResourceLocation("lunacyforge" + "/slider_track.png");
 
     // ATTRIBUTES
     private int minValue = 0;

@@ -5,23 +5,25 @@ import java.util.List;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.darkmagician6.eventapi.EventManager;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import me.lefted.lunacyforge.config.ClientConfig;
+import me.lefted.lunacyforge.events.Render3DEvent;
 import me.lefted.lunacyforge.implementations.ISetupCameraTransformAccessor;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.modules.Reach;
-import me.lefted.lunacyforge.utils.Logger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
@@ -146,6 +148,12 @@ public abstract class MixinEntityRenderer implements ISetupCameraTransformAccess
 		this.mc.mcProfiler.endSection();
 	    }
 	}
+    }
+
+    @Inject(method = { "renderWorldPass" }, at = {
+	    @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderHand:Z", shift = At.Shift.BEFORE) })
+    private void renderWorldPass(final int pass, final float partialTicks, final long finishTimeNano, final CallbackInfo callbackInfo) {
+	EventManager.call(new Render3DEvent(partialTicks));
     }
 
     // USETHIS to access setupCameraTransform

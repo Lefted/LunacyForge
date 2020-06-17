@@ -30,7 +30,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 /**
@@ -205,7 +204,7 @@ public class OutlineESP extends Module {
 		}
 
 		final ITimer timer = (ITimer) mc;
-		mc.getRenderManager().renderEntityStatic(entity, timer.getITimer().renderPartialTicks, true);
+		mc.getRenderManager().renderEntityStatic(entity, timer.getMinecraftTimer().renderPartialTicks, true);
 	    }
 	} catch (final Exception ex) {
 	    Logger.logChatMessage("An error occurred while rendering all entities for shader esp" + ex);
@@ -232,7 +231,7 @@ public class OutlineESP extends Module {
 		}
 
 		final ITimer timer = (ITimer) mc;
-		mc.getRenderManager().renderEntityStatic(entity, timer.getITimer().renderPartialTicks, true);
+		mc.getRenderManager().renderEntityStatic(entity, timer.getMinecraftTimer().renderPartialTicks, true);
 	    }
 	} catch (final Exception ex) {
 	    Logger.logChatMessage("An error occurred while rendering all entities for shader esp" + ex);

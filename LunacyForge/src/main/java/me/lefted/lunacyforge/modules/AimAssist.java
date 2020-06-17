@@ -12,7 +12,7 @@ import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider.NumberType;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.friends.FriendManager;
-import me.lefted.lunacyforge.implementations.ILunacyTimer;
+import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.valuesystem.Value;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -33,17 +33,17 @@ public class AimAssist extends Module {
 
     // VALUES
     @ContainerInfo(hoverText = "Intensity the crosshair locks to the target")
-    @SliderInfo(min = 1, max = 14, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
-    private Value<Float> intensityValue = new Value<Float>(this, "intensity", Float.valueOf(5F));
-
+    @SliderInfo(min = 1, max = 8, step = 1D, description = "Intensity", numberType = NumberType.INTEGER)
+    private Value<Float> intensityValue = new Value<Float>(this, "intensity", 5F);
+    
     @CheckboxInfo(description = "Target Animals")
-    private Value<Boolean> targetAnimals = new Value<Boolean>(this, "targetAnimals", Boolean.valueOf(true));
+    private Value<Boolean> targetAnimals = new Value<Boolean>(this, "targetAnimals", true);
 
     @CheckboxInfo(description = "Target Hostiles")
-    private Value<Boolean> targetHostiles = new Value<Boolean>(this, "targetHostiles", Boolean.valueOf(true));
+    private Value<Boolean> targetHostiles = new Value<Boolean>(this, "targetHostiles", true);
 
     @CheckboxInfo(description = "Target Players")
-    private Value<Boolean> targetPlayers = new Value<Boolean>(this, "targetPlayers", Boolean.valueOf(true));
+    private Value<Boolean> targetPlayers = new Value<Boolean>(this, "targetPlayers", true);
 
     // ATTRIBUTES
     private static float maximumRotation = 1.0F;
@@ -56,7 +56,7 @@ public class AimAssist extends Module {
 
 	    @Override
 	    public void accept(Float t) {
-		((ILunacyTimer) Minecraft.getMinecraft()).getAimAssistTimer().timerSpeed = t.floatValue();
+		((ITimer) Minecraft.getMinecraft()).getAimAssistTimer().timerSpeed = t.floatValue() * 2.5F;
 	    }
 	});
     }

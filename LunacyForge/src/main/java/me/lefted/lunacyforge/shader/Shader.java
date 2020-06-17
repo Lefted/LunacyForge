@@ -25,11 +25,11 @@ public abstract class Shader {
 	int vertexShaderID, fragmentShaderID;
 
 	try {
-	    final InputStream vertexStream = getClass().getResourceAsStream("/assets/lunacyforge/shader/vertex.vert");
+	    final InputStream vertexStream = getClass().getResourceAsStream("/assets/minecraft/lunacyforge/shader/vertex.vert");
 	    vertexShaderID = createShader(IOUtils.toString(vertexStream), ARBVertexShader.GL_VERTEX_SHADER_ARB);
 	    IOUtils.closeQuietly(vertexStream);
 
-	    final InputStream fragmentStream = getClass().getResourceAsStream("/assets/lunacyforge/shader/fragment/" + fragmentShader);
+	    final InputStream fragmentStream = getClass().getResourceAsStream("/assets/minecraft/lunacyforge/shader/fragment/" + fragmentShader);
 	    fragmentShaderID = createShader(IOUtils.toString(fragmentStream), ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
 	    IOUtils.closeQuietly(fragmentStream);
 	} catch (final Exception e) {

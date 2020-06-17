@@ -46,6 +46,8 @@ public final class ModuleManager {
 	this.registerModule(new OutlineESP());
 	this.registerModule(new ChestESP());
 	this.registerModule(new ArrowESP());
+	this.registerModule(new BowAimbot());
+	
     }
 
     // listens for key inputs

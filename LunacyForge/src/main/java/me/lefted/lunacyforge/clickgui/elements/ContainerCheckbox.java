@@ -21,21 +21,21 @@ public class ContainerCheckbox extends Element {
     // CONSTANTS
     public static final int WIDTH = 16;
     public static final int HEIGHT = 16;
-    private static final ResourceLocation BUTTON_CHECKED = new ResourceLocation("lunacyforge", "material_checkbox_checked.png");
-    private static final ResourceLocation BUTTON = new ResourceLocation("lunacyforge", "material_checkbox.png");
+    private static final ResourceLocation BUTTON_CHECKED = new ResourceLocation("lunacyforge" + "/material_checkbox_checked.png");
+    private static final ResourceLocation BUTTON = new ResourceLocation("lunacyforge" + "/material_checkbox.png");
 
     // ATTRIBUTES
     private boolean checked;
     private Consumer<Boolean> consumer;
 
-    //  CONSTRUCTOR
+    // CONSTRUCTOR
     public ContainerCheckbox(int x, int y, boolean checked) {
 	posX = x;
 	posY = y;
 	this.checked = checked;
 	this.setVisible(true);
     }
-    
+
     // CONSTRUCTOR
     public ContainerCheckbox(boolean checked) {
 	posX = 0;
@@ -43,7 +43,7 @@ public class ContainerCheckbox extends Element {
 	this.checked = checked;
 	this.setVisible(true);
     }
-    
+
     // METHODS
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
@@ -60,7 +60,7 @@ public class ContainerCheckbox extends Element {
 
 	    // reset color mask
 	    GL11.glColor4f(1F, 1F, 1F, 1F);
-	    
+
 	    // utils.drawRect(this.getPosX(), this.getPosY(), this.getPosX() + 16, this.getPosY() + 16, ColorUtils.toRGB(0, 0, 0, 255));
 	    // utils.drawRect(this.getPosX() + 1, this.getPosY() + 1, this.getPosX() + 16 - 1, this.getPosY() + 16 - 1, ColorUtils.toRGB(170, 170, 170, 255));
 	    // utils.drawRect(this.getPosX() + 2, this.getPosY() + 2, this.getPosX() + 16 - 2, this.getPosY() + 16 - 2, ColorUtils.toRGB(hover ? 100 : 120,
@@ -113,7 +113,7 @@ public class ContainerCheckbox extends Element {
     public boolean getValue() {
 	return checked;
     }
-    
+
     public void setConsumer(Consumer<Boolean> consumer) {
 	this.consumer = consumer;
     }

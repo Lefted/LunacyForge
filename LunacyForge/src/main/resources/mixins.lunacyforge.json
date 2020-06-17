@@ -13,12 +13,12 @@
 		"MixinItemStack",
 		"MixinMovementInputFromOptions",
 		"MixinGuiOptions",
-		"MixinEntityLivingBase",
 		"MixinRendererLivingEntity",
 		"MixinGuiSpectator",
 		"MixinProfiler",
 		"MixinTileEntityChestRenderer",
 		"MixinTileEntityEnderChestRenderer",
 		"MixinRenderArrow"
-	]
+	],
+	"minVersion": "0.6"	
 }

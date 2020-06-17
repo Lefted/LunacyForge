@@ -15,8 +15,8 @@ public class ClientSettingsButton extends Button {
     // CONSTANTS
     private static final int WIDTH = 18;
     private static final int HEIGHT = 18;
-    private static final ResourceLocation SETTINGS_BG = new ResourceLocation("lunacyforge", "btn_settings_bg.png");
-    private static final ResourceLocation SETTINGS_GEAR = new ResourceLocation("lunacyforge", "btn_settings_gear.png");
+    private static final ResourceLocation SETTINGS_BG = new ResourceLocation("lunacyforge" + "/btn_settings_bg.png");
+    private static final ResourceLocation SETTINGS_GEAR = new ResourceLocation("lunacyforge" + "/btn_settings_gear.png");
 
     // ATTRIBUTES
 

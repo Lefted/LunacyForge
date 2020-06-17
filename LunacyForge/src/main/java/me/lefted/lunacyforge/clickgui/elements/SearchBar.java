@@ -20,7 +20,7 @@ public class SearchBar extends Element {
     // CONSTANTS
     public static final int WIDTH = 350;
     public static final int HEIGHT = 30;
-    private static final ResourceLocation SEARCH_ICON = new ResourceLocation("lunacyforge", "search_icon.png");
+    private static final ResourceLocation SEARCH_ICON = new ResourceLocation("lunacyforge" + "/search_icon.png");
 
     // ATTRIBUTES
     private SearchBarTextfield textfield;

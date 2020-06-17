@@ -13,10 +13,9 @@ import com.darkmagician6.eventapi.EventManager;
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.events.AimAssistTimerEvent;
+import me.lefted.lunacyforge.events.BowAimbotTimerEvent;
 import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.TickEvent;
-import me.lefted.lunacyforge.implementations.ILunacyTimer;
-import me.lefted.lunacyforge.implementations.IRightClickDelayTimer;
 import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.ModuleManager;
@@ -31,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /* Also see: LunacyForge.java, AimAssisst.java, */
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
-public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRightClickDelayTimer, ITimer {
+public abstract class MixinMinecraft extends Object implements ITimer {
 
     @Shadow
     public GuiScreen currentScreen;
@@ -44,9 +43,21 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
 
     private Timer aimAssistTimer = new Timer(20.0F);
 
+    private Timer bowAimbotTimer = new Timer(20.0F);
+
+    @Override
+    public Timer getMinecraftTimer() {
+	return this.timer;
+    }
+
     @Override
     public net.minecraft.util.Timer getAimAssistTimer() {
 	return this.aimAssistTimer;
+    }
+
+    @Override
+    public Timer getBowAimbotTimer() {
+	return this.bowAimbotTimer;
     }
 
     @Override
@@ -109,12 +120,16 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
 	float f1 = aimAssistTimer.renderPartialTicks;
 	aimAssistTimer.updateTimer();
 	aimAssistTimer.renderPartialTicks = f1;
+	final float f3 = this.bowAimbotTimer.renderPartialTicks;
+	this.bowAimbotTimer.updateTimer();
+	this.bowAimbotTimer.renderPartialTicks = f3;
     }
 
     /* update custom timers*/
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Timer;updateTimer()V", ordinal = 1, shift = At.Shift.AFTER))
     private void onGameLoop2(CallbackInfo callbackInfo) {
 	aimAssistTimer.updateTimer();
+	bowAimbotTimer.updateTimer();
     }
 
     /* dispatch AimAssistTimerEvent*/
@@ -126,15 +141,11 @@ public abstract class MixinMinecraft extends Object implements ILunacyTimer, IRi
 		final AimAssistTimerEvent event2 = new AimAssistTimerEvent();
 		EventManager.call(event2);
 	    }
-	    // for (int j = 0; j < this.bowTimer.elapsedTicks; ++j) {
-	    // final EventBow event3 = new EventBow();
-	    // EventManager.call(event3);
-	    // }
-	}
-    }
 
-    @Override
-    public Timer getITimer() {
-	return this.timer;
+	    for (int j = 0; j < this.bowAimbotTimer.elapsedTicks; ++j) {
+		final BowAimbotTimerEvent event3 = new BowAimbotTimerEvent();
+		EventManager.call(event3);
+	    }
+	}
     }
 }

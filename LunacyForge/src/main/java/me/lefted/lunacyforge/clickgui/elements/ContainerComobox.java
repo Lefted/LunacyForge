@@ -27,7 +27,7 @@ public class ContainerComobox extends Element {
     // CONSTANTS
     public static final int ENTRY_WIDTH = 128;
     public static final int ENTRY_HEIGHT = 16;
-    public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge", "container_light.png");
+    public static final ResourceLocation COMBOBOX = new ResourceLocation("lunacyforge" + "/container_light.png");
     private static final ResourceLocation PRESS_SOUND = new ResourceLocation("gui.button.press");
 
     private static final int TEX_WIDTH = 700;
