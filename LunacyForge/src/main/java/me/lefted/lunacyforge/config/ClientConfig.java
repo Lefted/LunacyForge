@@ -32,7 +32,7 @@ public final class ClientConfig {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     // SETTINGS AND DEFAULT VALUES
-    private boolean enabled = false;
+    private boolean enabled = true;
     private boolean announceModuleToggle = false;
     /**
      * 0 off, 1 normal, 2 shadow, 3 normal rect, 4 shadow rect
