@@ -3,9 +3,12 @@ package me.lefted.lunacyforge.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.lefted.lunacyforge.command.commands.AutoRewardCommand;
 import me.lefted.lunacyforge.command.commands.BindCommand;
 import me.lefted.lunacyforge.command.commands.ConfigCommand;
 import me.lefted.lunacyforge.command.commands.FriendCommand;
+import me.lefted.lunacyforge.command.commands.LoginCommand;
+import me.lefted.lunacyforge.command.commands.PacketCommand;
 import me.lefted.lunacyforge.command.commands.ToggleCommand;
 import me.lefted.lunacyforge.command.commands.ValueCommand;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,6 +29,9 @@ public class CommandManager {
 	registerCommand(new ToggleCommand());
 	registerCommand(new ConfigCommand());
 	registerCommand(new FriendCommand());
+	registerCommand(new LoginCommand());
+	registerCommand(new AutoRewardCommand());
+	registerCommand(new PacketCommand());
     }
 
     public void registerCommand(final Command command) {

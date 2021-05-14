@@ -18,6 +18,7 @@ import me.lefted.lunacyforge.clickgui.elements.ContainerColorpicker;
 import me.lefted.lunacyforge.clickgui.elements.ContainerComobox;
 import me.lefted.lunacyforge.clickgui.elements.ContainerKeybind;
 import me.lefted.lunacyforge.clickgui.elements.ContainerSlider;
+import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.utils.AnnotationUtils;
 import me.lefted.lunacyforge.utils.Logger;
@@ -155,6 +156,11 @@ public class ModuleSettingsScreen extends SettingsScreen {
 
 		// cast obj to value
 		final Value value = (Value) obj;
+
+		// check if the value should be added
+		if (value.isRage() && !ClientConfig.isShowRageMods()) {
+		    continue;
+		}
 
 		// iterate over annotations
 		for (final Annotation annotation : field.getAnnotations()) {
@@ -323,6 +329,7 @@ public class ModuleSettingsScreen extends SettingsScreen {
     private void addColorPicker(ContainerInfo cInfo, ColorInfo info, Value value, ArrayList<SettingContainer> settings) {
 	final SettingContainer container = new SettingContainer();
 	final ContainerColorpicker picker = new ContainerColorpicker(this, container, (float[]) value.getObject(), null);
+	picker.setHasAlpha(info.hasAlpha());
 	// adds this container to the map if it is necessary
 	addContainerToNode(value, container);
 

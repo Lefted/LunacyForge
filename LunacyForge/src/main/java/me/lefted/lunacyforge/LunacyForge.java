@@ -3,6 +3,7 @@ package me.lefted.lunacyforge;
 import java.io.IOException;
 
 import com.darkmagician6.eventapi.EventManager;
+import com.thealtening.auth.TheAlteningAuthentication;
 
 import me.lefted.lunacyforge.clickgui.screens.AddFriendScreen;
 import me.lefted.lunacyforge.clickgui.screens.ClientSettingsScreen;
@@ -19,20 +20,25 @@ import net.minecraftforge.fml.common.Mod;
 
 /* FEATUREREQUEST
  * 
- * color in sliders add default values to hover tips slider in ios slider umändern color picker mouseclicks should be picked up by keybind buttons
+ * color in sliders
+ * add default values to hover tips
+ * slider in ios slider umändern
+ * mouseclicks should be picked up by keybind buttons
  * 
- * Hotbar Grouping for modules Blur for ui Spritze Animation Booststreifen dann
+ * Hotbar
+ * Blur for ui
+ * Spritze Animation -> Booststreifen
  * 
  * schnellball marker für enderchests (iwann mal trajectories)
  * chest stealer
  * inv cleaner
- * forcefield (no rotations) 
- * 
- * clientconfig enabled auf true
- * clickgui keybind auf rshift
- * Arrays.asList
- * 
- * */
+ * forcefield (no rotations)
+ * fov bei bowaimbot
+ * vanilla esp
+ * outline esp settings (nutzt hexception wenn outline ausgewählt ist) fixen
+ * creative reach
+ * fix sliders with negative values
+ * fix cosmetics not showing when alex model */
 
 @Mod(modid = "lunacyforge")
 public final class LunacyForge {
@@ -81,9 +87,12 @@ public final class LunacyForge {
     }
 
     public void stopClient() {
-	this.moduleConfig.saveModules();
+	if (ModuleConfig.initDone) {
+	    this.moduleConfig.saveModules();
+	}
 	this.clientConfig.save();
 	EventManager.unregister(moduleManager);
+	TheAlteningAuthentication.theAltening().mojang();
     }
 
     // returns the folder location

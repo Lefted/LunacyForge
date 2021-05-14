@@ -14,6 +14,7 @@ import me.lefted.lunacyforge.events.UpdateEvent;
 import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.valuesystem.NodeTreeManager;
 import me.lefted.lunacyforge.valuesystem.Value;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -59,6 +60,10 @@ public class FastBridge extends Module {
     @EventTarget
     public void onUpdate(UpdateEvent event) {
 	if (this.isEnabled()) {
+	    
+	    Minecraft mc = Minecraft.getMinecraft();
+	    
+	    
 	    if (this.mc.gameSettings.keyBindJump.isKeyDown()) {
 		this.inAir = true;
 	    }

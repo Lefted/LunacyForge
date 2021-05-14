@@ -11,6 +11,7 @@ import me.lefted.lunacyforge.clickgui.elements.ClientSettingsButton;
 import me.lefted.lunacyforge.clickgui.elements.FriendSettingsButton;
 import me.lefted.lunacyforge.clickgui.elements.GuiSecurity;
 import me.lefted.lunacyforge.clickgui.elements.SearchBar;
+import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
@@ -66,6 +67,9 @@ public class SearchScreen extends SettingsScreen {
 	    if (module instanceof ClickGui) {
 		continue;
 	    }
+	    if (module.isRage() && !ClientConfig.isShowRageMods()) {
+		continue;
+	    }
 	    // create new container
 	    final ModuleContainer container = new ModuleContainer(module);
 
@@ -79,7 +83,7 @@ public class SearchScreen extends SettingsScreen {
 	// search
 	search.draw(mouseX, mouseY, partialTicks);
 	// security
-	security.draw(mouseX, mouseY, partialTicks);
+//	security.draw(mouseX, mouseY, partialTicks);
 	// settings button
 	btnSettings.draw(mouseX, mouseY, partialTicks);
 	// friends button

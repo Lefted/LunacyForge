@@ -36,10 +36,6 @@ public class ClientSettingsScreen extends SettingsScreen {
     public static ClientSettingsScreen instance;
 
     // ATTRIBUTES
-    private SettingContainer colorRed;
-    private SettingContainer colorGreen;
-    private SettingContainer colorBlue;
-
     private BackButton backButton;
 
     // METHODS
@@ -58,9 +54,6 @@ public class ClientSettingsScreen extends SettingsScreen {
 	enabledContainer.setSettingOffsetY(7);
 	enabledContainer.setSettingElement(enabledCheckbox);
 	settings.add(enabledContainer);
-
-	// adds the settings that determine the client color
-	// addRGBContainer(settings);
 
 	// clickgui keybind
 	SettingContainer keybindContainer = new SettingContainer();
@@ -177,77 +170,5 @@ public class ClientSettingsScreen extends SettingsScreen {
     @Override
     public boolean isUseInventoryMove() {
 	return true;
-    }
-
-    private void addRGBContainer(ArrayList<SettingContainer> settings) {
-	// final ScaledResolution sc = new ScaledResolution(Minecraft.getMinecraft());
-
-	// // description
-	// SettingContainer title = new SettingContainer(350, 20);
-	// title.centerX();
-	// // title.setPosX(sc.getScaledWidth() / 2 - title.getWidth() / 2);
-	// title.setDescription("Colors");
-	// settings.add(title);
-	//
-	// // red
-	// ContainerSlider sliderRed = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
-	// sliderRed.setValue(ClientConfig.getGuiColor().getRed());
-	// sliderRed.setConsumer((d) -> {
-	// colorRed.setDescription("Red: " + sliderRed.getValueString());
-	// updateGuiColor();
-	// });
-	//
-	// colorRed = new SettingContainer(350, 20);
-	// colorRed.setSettingOffsetY(10);
-	// colorRed.setDescription("Red: " + ClientConfig.getGuiColor().getRed());
-	//
-	// colorRed.centerX();
-	// sliderRed.setPosX(colorRed.getPosX() + colorRed.getWidth() - sliderRed.WIDTH - 10);
-	// colorRed.setSettingElement(sliderRed);
-	// settings.add(colorRed);
-	//
-	// // green
-	// ContainerSlider sliderGreen = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
-	// sliderGreen.setValue(ClientConfig.getGuiColor().getGreen());
-	// sliderGreen.setConsumer((d) -> {
-	// colorGreen.setDescription("Green: " + sliderGreen.getValueString());
-	// updateGuiColor();
-	// });
-	//
-	// colorGreen = new SettingContainer(350, 20);
-	// colorGreen.setSettingOffsetY(10);
-	// colorGreen.setDescription("Green: " + ClientConfig.getGuiColor().getGreen());
-	//
-	// colorGreen.centerX();
-	// sliderGreen.setPosX(colorGreen.getPosX() + colorGreen.getWidth() - sliderGreen.WIDTH - 10);
-	// colorGreen.setSettingElement(sliderGreen);
-	// settings.add(colorGreen);
-	//
-	// // blue
-	// ContainerSlider sliderBlue = new ContainerSlider(this, ContainerSlider.NumberType.INTEGER, 0, 255, 1D);
-	// sliderBlue.setValue(ClientConfig.getGuiColor().getBlue());
-	// sliderBlue.setConsumer((d) -> {
-	// colorBlue.setDescription("Blue: " + sliderBlue.getValueString());
-	// updateGuiColor();
-	// });
-	//
-	// colorBlue = new SettingContainer();
-	// colorBlue.setSettingOffsetY(10);
-	// colorBlue.setDescription("Blue: " + ClientConfig.getGuiColor().getBlue());
-	//
-	// colorBlue.centerX();
-	// sliderBlue.setPosX(colorBlue.getPosX() + colorBlue.getWidth() - sliderBlue.WIDTH - 10);
-	// colorBlue.setSettingElement(sliderBlue);
-	// settings.add(colorBlue);
-	//
-	// groupSettings(title, colorRed, colorGreen, colorBlue);
-    }
-
-    private void updateGuiColor() {
-	final int red = (int) ((ContainerSlider) colorRed.getSettingElement()).getValue();
-	final int green = (int) ((ContainerSlider) colorGreen.getSettingElement()).getValue();
-	final int blue = (int) ((ContainerSlider) colorBlue.getSettingElement()).getValue();
-
-	ClientConfig.setGuiColor(new Color(red, green, blue));
     }
 }

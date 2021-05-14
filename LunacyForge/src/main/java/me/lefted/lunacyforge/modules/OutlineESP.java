@@ -179,9 +179,12 @@ public class OutlineESP extends Module {
     // METHODS
     @EventTarget
     public void onRender2D(final Render2DEvent event) {
-	renderOutlineShader(event.getPartialTicks());
-	if (includePlayers.getObject().booleanValue() && playerMode.getObject().intValue() != 0 && useFriendColor.getObject().booleanValue()) {
-	    renderFriendOutlineShader(event.getPartialTicks());
+	// only go through entites if any uses outline shader
+	if (isUsingOutlineShader()) {
+	    renderOutlineShader(event.getPartialTicks());
+	    if (includePlayers.getObject().booleanValue() && playerMode.getObject().intValue() != 0 && useFriendColor.getObject().booleanValue()) {
+		renderFriendOutlineShader(event.getPartialTicks());
+	    }
 	}
     }
 
@@ -376,6 +379,33 @@ public class OutlineESP extends Module {
 
 	// default value white
 	return new float[] { 1F, 1F, 1F, 1F };
+    }
+
+    // returns if any shader should render
+    public boolean isUsingOutlineShader() {
+
+	// if players are on and (if mode is (hex or spec) and friend is out)
+	if (includePlayers.getObject().booleanValue() && (playerMode.getObject() <= 2 && useFriendColor.getObject().booleanValue() && friendMode
+	    .getObject() == 1)) {
+	    return true;
+	}
+
+	// if hostiles are on and hostile mode is out
+	if (includeHostiles.getObject().booleanValue() && hostileMode.getObject().intValue() == 2) {
+	    return true;
+	}
+
+	// if animals are on and animal mode is out
+	if (includeAnimals.getObject().booleanValue() && animalMode.getObject().intValue() == 2) {
+	    return true;
+	}
+
+	// items (currently only in out mode available)
+	if (includeItems.getObject().booleanValue()) {
+	    return true;
+	}
+
+	return false;
     }
 
     @Override

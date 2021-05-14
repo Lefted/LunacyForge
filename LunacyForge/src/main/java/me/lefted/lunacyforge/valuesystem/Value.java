@@ -3,6 +3,7 @@ package me.lefted.lunacyforge.valuesystem;
 import java.util.function.Consumer;
 
 import me.lefted.lunacyforge.LunacyForge;
+import me.lefted.lunacyforge.config.ModuleConfig;
 import me.lefted.lunacyforge.modules.Module;
 import scala.actors.threadpool.Arrays;
 
@@ -18,6 +19,8 @@ public class Value<T> {
 
     private Node<T> node;
 
+    private boolean rage;
+    
     // CONSTRUCTOR
     /**
      * Constructor with no children
@@ -82,7 +85,9 @@ public class Value<T> {
 
     public void setObject(T valueObject) {
 	this.valueObject = valueObject;
-	LunacyForge.instance.moduleConfig.saveModules();
+	if (ModuleConfig.initDone) {
+	    LunacyForge.instance.moduleConfig.saveModules();
+	}
 	if (this.consumer != null) {
 	    this.consumer.accept(this.valueObject);
 	}
@@ -90,5 +95,13 @@ public class Value<T> {
 
     public Node<T> getNode() {
 	return node;
+    }
+    
+    public boolean isRage() {
+	return rage;
+    }
+    
+    public void setRage() {
+	rage = true;
     }
 }

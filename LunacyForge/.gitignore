@@ -1,2 +1,9 @@
 /build/
 /run/
+/.gradle/
+/radle-version/
+/bin/
+/.settings/
+/LunacyForge_Server.launch
+/LunacyForge_Client.launch
+/LunacyForge.launch

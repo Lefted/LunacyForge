@@ -1,14 +1,18 @@
 package me.lefted.lunacyforge.injection.mixins;
 
+import org.apache.logging.log4j.LogManager;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.darkmagician6.eventapi.EventManager;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
 
 import me.lefted.lunacyforge.LunacyForge;
 import me.lefted.lunacyforge.config.ClientConfig;
@@ -16,13 +20,22 @@ import me.lefted.lunacyforge.events.AimAssistTimerEvent;
 import me.lefted.lunacyforge.events.BowAimbotTimerEvent;
 import me.lefted.lunacyforge.events.KeyPressEvent;
 import me.lefted.lunacyforge.events.TickEvent;
+import me.lefted.lunacyforge.implementations.ISession;
 import me.lefted.lunacyforge.implementations.ITimer;
 import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.ModuleManager;
+import me.lefted.lunacyforge.modules.NoLeftClickDelay;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Session;
 import net.minecraft.util.Timer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,8 +43,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /* Also see: LunacyForge.java, AimAssisst.java, */
 @Mixin(Minecraft.class)
 @SideOnly(Side.CLIENT)
-public abstract class MixinMinecraft extends Object implements ITimer {
-
+public abstract class MixinMinecraft extends Object implements ITimer, ISession {
+    
     @Shadow
     public GuiScreen currentScreen;
 
@@ -44,6 +57,29 @@ public abstract class MixinMinecraft extends Object implements ITimer {
     private Timer aimAssistTimer = new Timer(20.0F);
 
     private Timer bowAimbotTimer = new Timer(20.0F);
+
+    @Shadow
+    private int leftClickCounter;
+
+    @Shadow
+    public EntityPlayerSP thePlayer;
+
+    @Shadow
+    public MovingObjectPosition objectMouseOver;
+
+    @Shadow
+    public PlayerControllerMP playerController;
+
+    @Shadow
+    public WorldClient theWorld;
+
+    @Shadow
+    private Session session;
+
+    @Override
+    public void setSession(Session session) {
+	this.session = session;
+    }
 
     @Override
     public Timer getMinecraftTimer() {
@@ -145,6 +181,46 @@ public abstract class MixinMinecraft extends Object implements ITimer {
 	    for (int j = 0; j < this.bowAimbotTimer.elapsedTicks; ++j) {
 		final BowAimbotTimerEvent event3 = new BowAimbotTimerEvent();
 		EventManager.call(event3);
+	    }
+	}
+    }
+
+    // NoLeftClickDelay
+    @Overwrite
+    private void clickMouse() {
+	if (this.leftClickCounter <= 0) {
+	    this.thePlayer.swingItem();
+
+	    if (this.objectMouseOver == null) {
+		LogManager.getLogger().error("Null returned as \'hitResult\', this shouldn\'t happen!");
+
+		if (this.playerController.isNotCreative()) {
+		    this.leftClickCounter = 10;
+		}
+	    } else {
+		switch (this.objectMouseOver.typeOfHit) {
+		case ENTITY:
+		    this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+		    break;
+
+		case BLOCK:
+		    BlockPos blockpos = this.objectMouseOver.getBlockPos();
+
+		    if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
+			this.playerController.clickBlock(blockpos, this.objectMouseOver.sideHit);
+			break;
+		    }
+
+		case MISS:
+		    // Credits Tenebrous, Lunar Client, 16_
+		    if (ModuleManager.getModule(NoLeftClickDelay.class).isEnabled()) {
+			break;
+		    }
+		default:
+		    if (this.playerController.isNotCreative()) {
+			this.leftClickCounter = 10;
+		    }
+		}
 	    }
 	}
     }

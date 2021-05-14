@@ -18,7 +18,13 @@
 		"MixinProfiler",
 		"MixinTileEntityChestRenderer",
 		"MixinTileEntityEnderChestRenderer",
-		"MixinRenderArrow"
+		"MixinRenderArrow",
+		"MixinItemRenderer",
+		"MixinNetHandlerPlayClient",
+		"MixinModelBiped",
+		"MixinRenderManager",
+		"MixinRenderPlayer",
+		"MixinGuiMainMenu"
 	],
 	"minVersion": "0.6"	
 }

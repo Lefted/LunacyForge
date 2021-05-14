@@ -19,6 +19,16 @@ soon™™:
 -Strafe
 -Tower
 
+b4:
+-addded Animations module with StaticBow and NoHurtcam
+-added NoSwing (ClientSide)
+-added option to mark modules and values as 'rage'
+
+b3:
+-dont know (a lot)
+-fixed outlineesp performance issues
+-default keybind for clickgui now is r_shift
+-fixed color bug in arraylist
 
 b2:
 -made element methods non abstract

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.lwjgl.opengl.GL11;
 
 import com.darkmagician6.eventapi.EventManager;
 import com.darkmagician6.eventapi.EventTarget;
@@ -47,7 +51,10 @@ public final class ModuleManager {
 	this.registerModule(new ChestESP());
 	this.registerModule(new ArrowESP());
 	this.registerModule(new BowAimbot());
-	
+	this.registerModule(new Velocity());
+	this.registerModule(new Animations());
+	this.registerModule(new NoLeftClickDelay());
+	this.registerModule(new Cosmetics());
     }
 
     // listens for key inputs
@@ -103,7 +110,10 @@ public final class ModuleManager {
 		return 0;
 	    }
 	});
-
+	
+//	ArrayList<Module> display = new ArrayList<Module>(ModuleManager.getModuleList());
+//	display.stream().sorted((m1, m2) -> fr.getStringWidth(m2.getName()) - fr.getStringWidth(m1.getName())).collect(Collectors.toList());
+	
 	// RENDER
 	int i = 0;
 	for (String string : display) {
@@ -126,6 +136,7 @@ public final class ModuleManager {
 	    i++;
 	}
 	display.clear();
+	GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
     private void registerModule(Module module) {

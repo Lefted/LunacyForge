@@ -1,5 +1,6 @@
 package me.lefted.lunacyforge.modules;
 
+import me.lefted.lunacyforge.clickgui.annotations.CheckboxInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ContainerInfo;
 import me.lefted.lunacyforge.clickgui.annotations.ModuleInfo;
 import me.lefted.lunacyforge.clickgui.annotations.SliderInfo;
@@ -15,9 +16,14 @@ public class Reach extends Module {
     @SliderInfo(min = 0, max = 6, step = 0.125D, description = "Range in blocks", numberType = NumberType.DECIMAL)
     private Value<Float> rangeValue = new Value(this, "range", Float.valueOf(3.375F));
 
+    @ContainerInfo(hoverText = "This extends your reach even further")
+    @CheckboxInfo(description = "Use creative reach")
+    private Value<Boolean> useCreativeRange = new Value(this, "useCreativeRange", false);
+    
     // CONSTRUCTOR
     public Reach() {
 	super("Reach", Category.COMBAT);
+	useCreativeRange.setRage();
     }
 
     // METHODS

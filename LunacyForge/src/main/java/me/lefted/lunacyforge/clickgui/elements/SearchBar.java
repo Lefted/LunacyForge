@@ -8,6 +8,7 @@ import me.lefted.lunacyforge.clickgui.container.ModuleContainer;
 import me.lefted.lunacyforge.clickgui.container.SettingContainer;
 import me.lefted.lunacyforge.clickgui.elements.api.Element;
 import me.lefted.lunacyforge.clickgui.screens.SearchScreen;
+import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.DrawUtils;
@@ -51,7 +52,7 @@ public class SearchBar extends Element {
 	utils.drawDarkContainer(posX, posY, 350, 30);
 
 	GL11.glEnable(GL11.GL_BLEND);
-	
+
 	utils.bindTexture(SEARCH_ICON);
 
 	final int offX = 13;
@@ -124,6 +125,10 @@ public class SearchBar extends Element {
 	// for all modules
 	moduleLoop: for (Module module : ModuleManager.getModuleList()) {
 
+	    if (module.isRage() && !ClientConfig.isShowRageMods()) {
+		continue moduleLoop;
+	    }
+
 	    // check inputTags
 	    for (String inputTag : inputTags) {
 		// if one tag matches modulename
@@ -164,6 +169,8 @@ public class SearchBar extends Element {
 
 	// update scroll borders
 	parent.setPanelBorders();
+	// update scroll height
+	parent.scrollVerticalByAmount(0);
     }
 
     @Override

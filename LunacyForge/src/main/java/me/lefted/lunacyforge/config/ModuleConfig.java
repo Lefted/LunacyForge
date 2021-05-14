@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -15,6 +17,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import me.lefted.lunacyforge.LunacyForge;
+import me.lefted.lunacyforge.modules.ClickGui;
 import me.lefted.lunacyforge.modules.Module;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.utils.Logger;
@@ -30,14 +33,16 @@ public class ModuleConfig {
     private final File dir = new File(Minecraft.getMinecraft().mcDataDir, LunacyForge.CLIENT_NAME);
     private final File saveFile = new File(dir, "moduleconfig.json");
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+    
     // ACCESS
     public static boolean initDone = false;;
 
+    // CONSTRUCTOR
     public ModuleConfig() {
 	dir.mkdirs();
     }
 
+    // METHODS
     public void saveModules() {
 	if (!saveFile.exists()) {
 	    try {

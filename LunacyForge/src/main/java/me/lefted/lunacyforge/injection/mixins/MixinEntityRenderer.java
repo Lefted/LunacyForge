@@ -16,14 +16,17 @@ import com.google.common.base.Predicates;
 import me.lefted.lunacyforge.config.ClientConfig;
 import me.lefted.lunacyforge.events.Render3DEvent;
 import me.lefted.lunacyforge.implementations.ISetupCameraTransformAccessor;
+import me.lefted.lunacyforge.modules.Animations;
 import me.lefted.lunacyforge.modules.ModuleManager;
 import me.lefted.lunacyforge.modules.Reach;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
@@ -147,6 +150,15 @@ public abstract class MixinEntityRenderer implements ISetupCameraTransformAccess
 
 		this.mc.mcProfiler.endSection();
 	    }
+	}
+    }
+
+    @Inject(method = "hurtCameraEffect", at = @At("HEAD"), cancellable = true)
+    public void hurtCameraEffectProxy(float partialTicks, CallbackInfo ci) {
+	final Animations animations = (Animations) ModuleManager.getModule(Animations.class);
+	if (animations.isEnabled() && animations.useNoHurtcam.getObject().booleanValue()) {
+	    ci.cancel();
+	    return;
 	}
     }
 

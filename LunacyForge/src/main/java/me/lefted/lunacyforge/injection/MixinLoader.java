@@ -1,5 +1,6 @@
 package me.lefted.lunacyforge.injection;
 
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
